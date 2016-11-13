@@ -1,19 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
 <nta>
-	<declaration>// Place global declarations here.</declaration>
+	<declaration>// Place global declarations here.
+clock heartClock;
+// channels to interface with pacemaker
+chan Aget, Vget, Apace, Vpace;
+//channels internal to heart system
+chan Asense, Vsense;
+</declaration>
 	<template>
 		<name x="5" y="5">Generator</name>
-		<declaration>// Place local declarations here.</declaration>
+		<declaration>int minwait_V = 1;
+int minwait_A = 1;</declaration>
 		<location id="id0" x="0" y="0">
 		</location>
 		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="153" y="-17">Vsignal?</label>
+			<label kind="assignment" x="127" y="0">heartClock := 0</label>
+			<nail x="68" y="51"/>
+			<nail x="119" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-25" y="110">Asignal?</label>
+			<label kind="assignment" x="-51" y="127">heartClock := 0</label>
+			<nail x="-42" y="59"/>
+			<nail x="0" y="110"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-289" y="-42">heartClock &gt;= minwait_A</label>
+			<label kind="synchronisation" x="-221" y="-25">Aget!</label>
+			<label kind="assignment" x="-255" y="-8">heartClock := 0</label>
+			<nail x="-59" y="-51"/>
+			<nail x="-119" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-76" y="-170">heartClock &gt;= minwait_V</label>
+			<label kind="synchronisation" x="-17" y="-153">Vget!</label>
+			<label kind="assignment" x="-42" y="-136">heartClock := 0</label>
+			<nail x="51" y="-59"/>
+			<nail x="0" y="-119"/>
+		</transition>
 	</template>
 	<template>
 		<name>Responder</name>
-		<location id="id1" x="0" y="0">
+		<location id="id1" x="-153" y="0">
+			<urgent/>
 		</location>
-		<init ref="id1"/>
+		<location id="id2" x="144" y="0">
+			<urgent/>
+		</location>
+		<location id="id3" x="0" y="0">
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-102" y="-59">Vsignal!</label>
+			<nail x="-76" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-102" y="0">Vpace?</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="42" y="-59">Asignal!</label>
+			<nail x="68" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="51" y="0">Apace?</label>
+		</transition>
 	</template>
 	<system>// Place template instantiations here.
 Process = Template();
