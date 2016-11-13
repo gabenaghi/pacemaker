@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>// Place global declarations here.
 clock clk;
-int TLRI = 25;
-int TURI = 10;
-int TAVI = 4;
-int TPVARP = 3;
-int TVRP = 4;
-int minwait_A = 10;
-int minwait_V = 10;
+int TLRI = 10;
+int TURI = 5; //10;
+int TAVI = 2; //4;
+int TPVARP = 10; //3;
+int TVRP = 10; //4;
+int minwait_A = 1;
+int minwait_V = 1;
 
 // Heart sensing signals
 chan Asense;
@@ -77,7 +77,8 @@ led_vget = LED(LED_VGET);
 led_asense = LED(LED_ASENSE);
 led_aget = LED(LED_AGET);
 heart = Heart();
+keyboard = Keyboard();
 
 // List one or more processes to be composed into a system.
-system lri, avi, uri, pvarp, vrp, led_vsense, led_vget, led_asense, led_aget, heart;
+system lri, avi, uri, pvarp, vrp, led_vsense, led_vget, led_asense, led_aget, heart, keyboard;
 </system></nta>
