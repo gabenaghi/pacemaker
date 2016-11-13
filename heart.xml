@@ -5,9 +5,10 @@
 clock heartClock;
 // channels to interface with pacemaker
 chan Aget, Vget, Apace, Vpace;
-//channels internal to heart system
-chan Asense, Vsense;
-</declaration>
+// channels internal to heart system
+chan Asignal, Vsignal;
+// keypress signal
+chan keypressA, keypressV;</declaration>
 	<template>
 		<name x="5" y="5">Responder</name>
 		<declaration>int minwait_V = 1;
@@ -16,7 +17,7 @@ int minwait_A = 1;</declaration>
 		</location>
 		<location id="id1" x="-93" y="-280">
 		</location>
-		<location id="id2" x="-306" y="93">
+		<location id="id2" x="-306" y="102">
 		</location>
 		<location id="id3" x="-229" y="221">
 		</location>
@@ -69,21 +70,25 @@ int minwait_A = 1;</declaration>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id5"/>
-			<nail x="-238" y="85"/>
+			<label kind="synchronisation" x="-272" y="68">Vsignal!</label>
+			<nail x="-246" y="93"/>
 		</transition>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id2"/>
+			<label kind="synchronisation" x="-280" y="119">keypressV?</label>
 			<nail x="-246" y="119"/>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id5"/>
+			<label kind="synchronisation" x="-272" y="153">Asignal!</label>
 			<nail x="-212" y="153"/>
 		</transition>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id3"/>
+			<label kind="synchronisation" x="-178" y="153">keypressA?</label>
 			<nail x="-187" y="170"/>
 		</transition>
 		<transition>
@@ -118,37 +123,43 @@ int minwait_A = 1;</declaration>
 		</transition>
 	</template>
 	<template>
+		<name>Keyboard</name>
+		<location id="id7" x="0" y="0">
+		</location>
+		<init ref="id7"/>
+	</template>
+	<template>
 		<name>Generator</name>
-		<location id="id7" x="-136" y="0">
+		<location id="id8" x="-136" y="0">
 			<urgent/>
 		</location>
-		<location id="id8" x="136" y="0">
+		<location id="id9" x="136" y="0">
 			<urgent/>
 		</location>
-		<location id="id9" x="0" y="0">
+		<location id="id10" x="0" y="0">
 		</location>
-		<init ref="id9"/>
+		<init ref="id10"/>
 		<transition>
-			<source ref="id8"/>
-			<target ref="id9"/>
+			<source ref="id9"/>
+			<target ref="id10"/>
 			<label kind="synchronisation" x="51" y="34">Aget!</label>
 			<nail x="68" y="34"/>
 		</transition>
 		<transition>
-			<source ref="id7"/>
-			<target ref="id9"/>
+			<source ref="id8"/>
+			<target ref="id10"/>
 			<label kind="synchronisation" x="-85" y="34">Vget!</label>
 			<nail x="-68" y="34"/>
 		</transition>
 		<transition>
-			<source ref="id9"/>
-			<target ref="id7"/>
+			<source ref="id10"/>
+			<target ref="id8"/>
 			<label kind="synchronisation" x="-102" y="-59">Vsignal?</label>
 			<nail x="-68" y="-42"/>
 		</transition>
 		<transition>
-			<source ref="id9"/>
-			<target ref="id8"/>
+			<source ref="id10"/>
+			<target ref="id9"/>
 			<label kind="synchronisation" x="42" y="-51">Asignal?</label>
 			<nail x="68" y="-34"/>
 		</transition>
