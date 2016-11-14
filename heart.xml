@@ -350,39 +350,47 @@ int minwait_A = 1;</declaration>
 	<template>
 		<name>LEDheart</name>
 		<parameter>const int id</parameter>
+		<declaration>clock ledClock;</declaration>
 		<location id="id23" x="8" y="-64">
-			<name x="-2" y="-94">on</name>
+			<name x="25" y="-76">on</name>
+			<urgent/>
 		</location>
 		<location id="id24" x="-144" y="-64">
-			<name x="-154" y="-94">off</name>
+			<name x="-178" y="-76">off</name>
 		</location>
 		<init ref="id24"/>
 		<transition>
 			<source ref="id23"/>
 			<target ref="id24"/>
-			<label kind="synchronisation" x="-80" y="0">LED_heart_off[id]?</label>
-			<nail x="-48" y="-16"/>
+			<label kind="guard" x="-110" y="-68">ledClock &gt; 1</label>
+			<label kind="assignment" x="-110" y="-85">ledClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="-93" y="-17">LED_heart_off[id]?</label>
+			<nail x="-68" y="-17"/>
 		</transition>
 		<transition>
 			<source ref="id23"/>
 			<target ref="id23"/>
-			<label kind="synchronisation" x="40" y="-208">LED_heart_on[id]?</label>
-			<nail x="120" y="-152"/>
-			<nail x="-16" y="-144"/>
+			<label kind="synchronisation" x="-42" y="-204">LED_heart_on[id]?</label>
+			<nail x="34" y="-187"/>
+			<nail x="-8" y="-187"/>
 		</transition>
 		<transition>
 			<source ref="id24"/>
 			<target ref="id23"/>
-			<label kind="synchronisation" x="-128" y="-144">LED_heart_on[id]?</label>
-			<nail x="-96" y="-120"/>
-			<nail x="8" y="-88"/>
+			<label kind="synchronisation" x="-144" y="-136">LED_heart_on[id]?</label>
+			<nail x="-68" y="-119"/>
+			<nail x="-8" y="-76"/>
 		</transition>
 		<transition>
 			<source ref="id24"/>
 			<target ref="id24"/>
-			<label kind="synchronisation" x="-160" y="64">LED_heart_off[id]?</label>
-			<nail x="-192" y="24"/>
-			<nail x="-104" y="16"/>
+			<label kind="synchronisation" x="-204" y="51">LED_heart_off[id]?</label>
+			<nail x="-170" y="42"/>
+			<nail x="-119" y="42"/>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
@@ -405,5 +413,11 @@ system responder, keyboard, generator, pacemaker, led_Apace, led_Vpace, led_HApa
 
     </system>
 	<queries>
+		<query>
+			<formula>A[] not deadlock
+			</formula>
+			<comment>
+			</comment>
+		</query>
 	</queries>
 </nta>
