@@ -1,263 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
-<nta>
-	<declaration>// Place global declarations here.
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>// Place global declarations here.
 clock heartClock;
 // channels to interface with pacemaker
 chan Aget, Vget, Apace, Vpace;
 // channels internal to heart system
 chan Asignal, Vsignal;
 // keypress signals
-chan keypressR, keypressM, keypressT, keypressA, keypressV;</declaration>
-	<template>
-		<name x="5" y="5">Responder</name>
-		<declaration>int minwait_V = 1;
-int minwait_A = 1;</declaration>
-		<location id="id0" x="76" y="-280">
-		</location>
-		<location id="id1" x="-93" y="-280">
-		</location>
-		<location id="id2" x="-306" y="102">
-		</location>
-		<location id="id3" x="-229" y="221">
-		</location>
-		<location id="id4" x="204" y="110">
-			<name x="153" y="85">Test</name>
-		</location>
-		<location id="id5" x="-178" y="110">
-			<name x="-153" y="85">Manual</name>
-		</location>
-		<location id="id6" x="0" y="-179">
-			<name x="-25" y="-161">Random</name>
-		</location>
-		<init ref="id6"/>
-		<transition>
-			<source ref="id0"/>
-			<target ref="id6"/>
-			<label kind="synchronisation" x="8" y="-306">Asignal!</label>
-			<label kind="assignment" x="8" y="-323">heartClock := 0</label>
-			<nail x="8" y="-280"/>
-		</transition>
-		<transition>
-			<source ref="id1"/>
-			<target ref="id6"/>
-			<label kind="synchronisation" x="-76" y="-306">Vsignal!</label>
-			<label kind="assignment" x="-119" y="-323">heartClock := 0</label>
-			<nail x="-25" y="-280"/>
-		</transition>
-		<transition>
-			<source ref="id6"/>
-			<target ref="id1"/>
-			<label kind="guard" x="-212" y="-187">heartClock &gt;= minwait_V</label>
-			<nail x="-93" y="-195"/>
-		</transition>
-		<transition>
-			<source ref="id6"/>
-			<target ref="id1"/>
-			<label kind="synchronisation" x="-75" y="-246">Vpace?</label>
-		</transition>
-		<transition>
-			<source ref="id6"/>
-			<target ref="id0"/>
-			<label kind="guard" x="34" y="-195">heartClock &gt;= minwait_A</label>
-			<nail x="85" y="-212"/>
-		</transition>
-		<transition>
-			<source ref="id6"/>
-			<target ref="id0"/>
-			<label kind="synchronisation" x="18" y="-246">Apace?</label>
-		</transition>
-		<transition>
-			<source ref="id2"/>
-			<target ref="id5"/>
-			<label kind="synchronisation" x="-272" y="68">Vsignal!</label>
-			<label kind="assignment" x="-297" y="51">heartClock := 0</label>
-			<nail x="-246" y="93"/>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id2"/>
-			<label kind="synchronisation" x="-280" y="119">keypressV?</label>
-			<nail x="-246" y="119"/>
-		</transition>
-		<transition>
-			<source ref="id3"/>
-			<target ref="id5"/>
-			<label kind="synchronisation" x="-280" y="170">Asignal!</label>
-			<label kind="assignment" x="-331" y="153">heartClock := 0</label>
-			<nail x="-212" y="153"/>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id3"/>
-			<label kind="synchronisation" x="-178" y="153">keypressA?</label>
-			<nail x="-187" y="170"/>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id6"/>
-			<label kind="synchronisation" x="-170" y="-51">keypressR?</label>
-			<nail x="-110" y="-51"/>
-		</transition>
-		<transition>
-			<source ref="id6"/>
-			<target ref="id5"/>
-			<label kind="synchronisation" x="-85" y="-51">keypressM?</label>
-			<nail x="-68" y="-34"/>
-		</transition>
-		<transition>
-			<source ref="id5"/>
-			<target ref="id4"/>
-			<label kind="synchronisation" x="-34" y="136">keypressT?</label>
-			<nail x="0" y="136"/>
-		</transition>
-		<transition>
-			<source ref="id4"/>
-			<target ref="id5"/>
-			<label kind="synchronisation" x="-34" y="68">keypressM?</label>
-			<nail x="0" y="85"/>
-		</transition>
-		<transition>
-			<source ref="id6"/>
-			<target ref="id4"/>
-			<label kind="synchronisation" x="25" y="-51">keypressT?</label>
-			<nail x="76" y="-34"/>
-		</transition>
-		<transition>
-			<source ref="id4"/>
-			<target ref="id6"/>
-			<label kind="synchronisation" x="110" y="-51">keypressR?</label>
-			<nail x="119" y="-68"/>
-		</transition>
-	</template>
-	<template>
-		<name>FakePM</name>
-		<location id="id7" x="0" y="0">
-		</location>
-		<init ref="id7"/>
-		<transition>
-			<source ref="id7"/>
-			<target ref="id7"/>
-			<label kind="synchronisation" x="-110" y="-17">Aget?</label>
-			<nail x="-8" y="-8"/>
-			<nail x="-68" y="-51"/>
-			<nail x="-68" y="34"/>
-		</transition>
-		<transition>
-			<source ref="id7"/>
-			<target ref="id7"/>
-			<label kind="synchronisation" x="68" y="-17">Vget?</label>
-			<nail x="59" y="-51"/>
-			<nail x="59" y="42"/>
-		</transition>
-	</template>
-	<template>
-		<name>Keyboard</name>
-		<location id="id8" x="153" y="178">
-			<name x="127" y="195">Test</name>
-		</location>
-		<location id="id9" x="-144" y="170">
-			<name x="-153" y="187">Manual</name>
-		</location>
-		<location id="id10" x="0" y="0">
-			<name x="-25" y="-34">Random</name>
-		</location>
-		<init ref="id10"/>
-		<transition>
-			<source ref="id9"/>
-			<target ref="id9"/>
-			<label kind="synchronisation" x="-314" y="195">keypressV!</label>
-			<nail x="-238" y="187"/>
-			<nail x="-212" y="229"/>
-		</transition>
-		<transition>
-			<source ref="id9"/>
-			<target ref="id9"/>
-			<label kind="synchronisation" x="-323" y="119">keypressA!</label>
-			<nail x="-221" y="110"/>
-			<nail x="-246" y="144"/>
-		</transition>
-		<transition>
-			<source ref="id10"/>
-			<target ref="id8"/>
-			<label kind="synchronisation" x="59" y="51">keypressT!</label>
-			<nail x="93" y="59"/>
-		</transition>
-		<transition>
-			<source ref="id8"/>
-			<target ref="id10"/>
-			<label kind="synchronisation" x="8" y="85">keypressR!</label>
-			<nail x="34" y="85"/>
-		</transition>
-		<transition>
-			<source ref="id8"/>
-			<target ref="id9"/>
-			<label kind="synchronisation" x="-34" y="187">keypressM!</label>
-			<nail x="0" y="204"/>
-		</transition>
-		<transition>
-			<source ref="id9"/>
-			<target ref="id8"/>
-			<label kind="synchronisation" x="-34" y="144">keypressT!</label>
-			<nail x="0" y="144"/>
-		</transition>
-		<transition>
-			<source ref="id10"/>
-			<target ref="id9"/>
-			<label kind="synchronisation" x="-93" y="76">keypressM!</label>
-			<nail x="-51" y="85"/>
-		</transition>
-		<transition>
-			<source ref="id9"/>
-			<target ref="id10"/>
-			<label kind="synchronisation" x="-136" y="42">keypressR!</label>
-			<nail x="-93" y="51"/>
-		</transition>
-	</template>
-	<template>
-		<name>Generator</name>
-		<location id="id11" x="-136" y="0">
-			<urgent/>
-		</location>
-		<location id="id12" x="136" y="0">
-			<urgent/>
-		</location>
-		<location id="id13" x="0" y="0">
-		</location>
-		<init ref="id13"/>
-		<transition>
-			<source ref="id12"/>
-			<target ref="id13"/>
-			<label kind="synchronisation" x="51" y="34">Aget!</label>
-			<nail x="68" y="34"/>
-		</transition>
-		<transition>
-			<source ref="id11"/>
-			<target ref="id13"/>
-			<label kind="synchronisation" x="-85" y="34">Vget!</label>
-			<nail x="-68" y="34"/>
-		</transition>
-		<transition>
-			<source ref="id13"/>
-			<target ref="id11"/>
-			<label kind="synchronisation" x="-102" y="-59">Vsignal?</label>
-			<nail x="-68" y="-42"/>
-		</transition>
-		<transition>
-			<source ref="id13"/>
-			<target ref="id12"/>
-			<label kind="synchronisation" x="42" y="-51">Asignal?</label>
-			<nail x="68" y="-34"/>
-		</transition>
-	</template>
-	<system>// Place template instantiations here.
+chan keypressR, keypressM, keypressT, keypressA, keypressV;
+
+chan LED_heart_on[4];
+chan LED_heart_off[4];
+
+const int LED_APACE = 0;
+const int LED_VPACE = 1;
+const int LED_APACE_HEART = 2;
+const int LED_VPACE_HEART= 3;
+</declaration><template><name x="5" y="5">Responder</name><declaration>int minwait_V = 1;
+int minwait_A = 1;</declaration><location id="id0" x="48" y="232"></location><location id="id1" x="-352" y="240"><urgent/></location><location id="id2" x="-144" y="-288"><urgent/></location><location id="id3" x="120" y="-288"><urgent/></location><location id="id4" x="40" y="-248"><urgent/></location><location id="id5" x="-40" y="-240"><urgent/></location><location id="id6" x="-256" y="256"></location><location id="id7" x="-384" y="-8"></location><location id="id8" x="288" y="-256"></location><location id="id9" x="-240" y="-256"></location><location id="id10" x="-392" y="112"></location><location id="id11" x="-96" y="264"></location><location id="id12" x="204" y="110"><name x="153" y="85">Test</name></location><location id="id13" x="-178" y="110"><name x="-153" y="85">Manual</name></location><location id="id14" x="0" y="-179"><name x="-25" y="-161">Random</name></location><init ref="id14"/><transition><source ref="id0"/><target ref="id11"/><label kind="synchronisation" x="-32" y="264">LED_heart_on[LED_APACE]!</label></transition><transition><source ref="id1"/><target ref="id10"/><label kind="synchronisation" x="-432" y="161">LED_heart_on[LED_VPACE]!</label></transition><transition><source ref="id13"/><target ref="id0"/><label kind="synchronisation" x="-104" y="152">Apace?</label></transition><transition><source ref="id13"/><target ref="id1"/><label kind="synchronisation" x="-328" y="176">Vpace?</label></transition><transition><source ref="id6"/><target ref="id13"/><label kind="synchronisation" x="-416" y="344">LED_heart_on[LED_APACE_HEART]!</label></transition><transition><source ref="id7"/><target ref="id13"/><label kind="synchronisation" x="-400" y="-88">LED_heart_on[LED_VPACE_HEART]!</label></transition><transition><source ref="id3"/><target ref="id14"/><label kind="synchronisation" x="0" y="-304">LED_heart_on[LED_APACE_HEART]!</label><nail x="8" y="-256"/></transition><transition><source ref="id2"/><target ref="id14"/><label kind="synchronisation" x="-120" y="-360">LED_heart_on[LED_VPACE_HEART]!</label><nail x="-16" y="-256"/></transition><transition><source ref="id4"/><target ref="id8"/><label kind="synchronisation" x="104" y="-267">LED_heart_on[LED_APACE]!</label></transition><transition><source ref="id5"/><target ref="id9"/><label kind="synchronisation" x="-504" y="-248">LED_heart_on[LED_VPACE]!</label></transition><transition><source ref="id8"/><target ref="id3"/><label kind="synchronisation" x="152" y="-304">Asignal!</label><label kind="assignment" x="144" y="-315">heartClock := 0</label><nail x="280" y="-280"/></transition><transition><source ref="id9"/><target ref="id2"/><label kind="synchronisation" x="-240" y="-296">Vsignal!</label><label kind="assignment" x="-256" y="-312">heartClock := 0</label></transition><transition><source ref="id14"/><target ref="id9"/><label kind="guard" x="-240" y="-176">heartClock &gt;= minwait_V</label><nail x="-240" y="-184"/></transition><transition><source ref="id14"/><target ref="id5"/><label kind="synchronisation" x="-72" y="-216">Vpace?</label></transition><transition><source ref="id14"/><target ref="id8"/><label kind="guard" x="48" y="-176">heartClock &gt;= minwait_A</label><nail x="296" y="-176"/></transition><transition><source ref="id14"/><target ref="id4"/><label kind="synchronisation" x="24" y="-216">Apace?</label></transition><transition><source ref="id10"/><target ref="id7"/><label kind="synchronisation" x="-472" y="56">Vsignal!</label><label kind="assignment" x="-512" y="32">heartClock := 0</label></transition><transition><source ref="id13"/><target ref="id10"/><label kind="synchronisation" x="-344" y="88">keypressV?</label></transition><transition><source ref="id11"/><target ref="id6"/><label kind="synchronisation" x="-184" y="272">Asignal!</label><label kind="assignment" x="-208" y="256">heartClock := 0</label></transition><transition><source ref="id13"/><target ref="id11"/><label kind="synchronisation" x="-152" y="192">keypressA?</label></transition><transition><source ref="id13"/><target ref="id14"/><label kind="synchronisation" x="-170" y="-51">keypressR?</label><nail x="-110" y="-51"/></transition><transition><source ref="id14"/><target ref="id13"/><label kind="synchronisation" x="-85" y="-51">keypressM?</label><nail x="-68" y="-34"/></transition><transition><source ref="id13"/><target ref="id12"/><label kind="synchronisation" x="-34" y="136">keypressT?</label><nail x="0" y="136"/></transition><transition><source ref="id12"/><target ref="id13"/><label kind="synchronisation" x="-34" y="68">keypressM?</label><nail x="0" y="85"/></transition><transition><source ref="id14"/><target ref="id12"/><label kind="synchronisation" x="25" y="-51">keypressT?</label><nail x="76" y="-34"/></transition><transition><source ref="id12"/><target ref="id14"/><label kind="synchronisation" x="110" y="-51">keypressR?</label><nail x="119" y="-68"/></transition></template><template><name>FakePM</name><location id="id15" x="0" y="0"></location><init ref="id15"/><transition><source ref="id15"/><target ref="id15"/><label kind="synchronisation" x="-110" y="-17">Aget?</label><nail x="-8" y="-8"/><nail x="-68" y="-51"/><nail x="-68" y="34"/></transition><transition><source ref="id15"/><target ref="id15"/><label kind="synchronisation" x="68" y="-17">Vget?</label><nail x="59" y="-51"/><nail x="59" y="42"/></transition></template><template><name>Keyboard</name><location id="id16" x="153" y="178"><name x="127" y="195">Test</name></location><location id="id17" x="-144" y="170"><name x="-153" y="187">Manual</name></location><location id="id18" x="0" y="0"><name x="-25" y="-34">Random</name></location><init ref="id18"/><transition><source ref="id17"/><target ref="id17"/><label kind="synchronisation" x="-314" y="195">keypressV!</label><nail x="-238" y="187"/><nail x="-212" y="229"/></transition><transition><source ref="id17"/><target ref="id17"/><label kind="synchronisation" x="-323" y="119">keypressA!</label><nail x="-221" y="110"/><nail x="-246" y="144"/></transition><transition><source ref="id18"/><target ref="id16"/><label kind="synchronisation" x="59" y="51">keypressT!</label><nail x="93" y="59"/></transition><transition><source ref="id16"/><target ref="id18"/><label kind="synchronisation" x="8" y="85">keypressR!</label><nail x="34" y="85"/></transition><transition><source ref="id16"/><target ref="id17"/><label kind="synchronisation" x="-34" y="187">keypressM!</label><nail x="0" y="204"/></transition><transition><source ref="id17"/><target ref="id16"/><label kind="synchronisation" x="-34" y="144">keypressT!</label><nail x="0" y="144"/></transition><transition><source ref="id18"/><target ref="id17"/><label kind="synchronisation" x="-93" y="76">keypressM!</label><nail x="-51" y="85"/></transition><transition><source ref="id17"/><target ref="id18"/><label kind="synchronisation" x="-136" y="42">keypressR!</label><nail x="-93" y="51"/></transition></template><template><name>Generator</name><location id="id19" x="-136" y="0"><urgent/></location><location id="id20" x="136" y="0"><urgent/></location><location id="id21" x="0" y="0"></location><init ref="id21"/><transition><source ref="id20"/><target ref="id21"/><label kind="synchronisation" x="51" y="34">Aget!</label><nail x="68" y="34"/></transition><transition><source ref="id19"/><target ref="id21"/><label kind="synchronisation" x="-85" y="34">Vget!</label><nail x="-68" y="34"/></transition><transition><source ref="id21"/><target ref="id19"/><label kind="synchronisation" x="-102" y="-59">Vsignal?</label><nail x="-68" y="-42"/></transition><transition><source ref="id21"/><target ref="id20"/><label kind="synchronisation" x="42" y="-51">Asignal?</label><nail x="68" y="-34"/></transition></template><template><name>Display</name><location id="id22" x="0" y="0"></location><init ref="id22"/></template><template><name>LEDheart</name><parameter>const int id</parameter><location id="id23" x="8" y="-64"><name x="-2" y="-94">on</name></location><location id="id24" x="-144" y="-64"><name x="-154" y="-94">off</name></location><init ref="id24"/><transition><source ref="id23"/><target ref="id24"/><label kind="synchronisation" x="-80" y="0">LED_heart_off[id]?</label><nail x="-48" y="-16"/></transition><transition><source ref="id23"/><target ref="id23"/><label kind="synchronisation" x="40" y="-208">LED_heart_on[id]?</label><nail x="120" y="-152"/><nail x="-16" y="-144"/></transition><transition><source ref="id24"/><target ref="id23"/><label kind="synchronisation" x="-128" y="-144">LED_heart_on[id]?</label><nail x="-96" y="-120"/><nail x="8" y="-88"/></transition><transition><source ref="id24"/><target ref="id24"/><label kind="synchronisation" x="-160" y="64">LED_heart_off[id]?</label><nail x="-192" y="24"/><nail x="-104" y="16"/></transition></template><system>// Place template instantiations here.
 responder = Responder();
 keyboard = Keyboard();
 generator = Generator();
 pacemaker = FakePM();
+
+//led lights on and off for internal and external pacing
+led_Apace = LEDheart(LED_APACE);
+led_Vpace = LEDheart(LED_VPACE);
+led_HApace = LEDheart(LED_APACE_HEART);
+led_HVpace = LEDheart(LED_VPACE_HEART);
+
 // List one or more processes to be composed into a system.
-system responder, keyboard, generator, pacemaker;
-    </system>
-	<queries>
-	</queries>
-</nta>
+system responder, keyboard, generator, pacemaker, led_Apace, led_Vpace, led_HApace, led_HVpace;
+
+
+
+
+    </system></nta>
