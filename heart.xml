@@ -10,8 +10,7 @@ chan Asignal, Vsignal;
 // keypress signals
 chan keypressR, keypressM, keypressT, keypressA, keypressV;
 
-chan LED_heart_on[4];
-chan LED_heart_off[4];
+chan LED_heart_toggle[4];
 
 const int LED_APACE = 0;
 const int LED_VPACE = 1;
@@ -64,12 +63,12 @@ int minwait_A = 1;</declaration>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id11"/>
-			<label kind="synchronisation" x="-323" y="357">LED_heart_on[LED_APACE]!</label>
+			<label kind="synchronisation" x="-323" y="357">LED_heart_toggle[LED_APACE]!</label>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id10"/>
-			<label kind="synchronisation" x="-663" y="161">LED_heart_on[LED_VPACE]!</label>
+			<label kind="synchronisation" x="-663" y="161">LED_heart_toggle[LED_VPACE]!</label>
 		</transition>
 		<transition>
 			<source ref="id13"/>
@@ -84,34 +83,34 @@ int minwait_A = 1;</declaration>
 		<transition>
 			<source ref="id6"/>
 			<target ref="id13"/>
-			<label kind="synchronisation" x="-136" y="161">LED_heart_on[LED_APACE_HEART]!</label>
+			<label kind="synchronisation" x="-136" y="161">LED_heart_toggle[LED_APACE_HEART]!</label>
 		</transition>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id13"/>
-			<label kind="synchronisation" x="-348" y="68">LED_heart_on[LED_VPACE_HEART]!</label>
+			<label kind="synchronisation" x="-348" y="68">LED_heart_toggle[LED_VPACE_HEART]!</label>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id14"/>
-			<label kind="synchronisation" x="0" y="-331">LED_heart_on[LED_APACE_HEART]!</label>
+			<label kind="synchronisation" x="17" y="-331">LED_heart_toggle[LED_APACE_HEART]!</label>
 			<nail x="8" y="-256"/>
 		</transition>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id14"/>
-			<label kind="synchronisation" x="-255" y="-331">LED_heart_on[LED_VPACE_HEART]!</label>
+			<label kind="synchronisation" x="-280" y="-331">LED_heart_toggle[LED_VPACE_HEART]!</label>
 			<nail x="-16" y="-256"/>
 		</transition>
 		<transition>
 			<source ref="id4"/>
 			<target ref="id8"/>
-			<label kind="synchronisation" x="59" y="-238">LED_heart_on[LED_APACE]!</label>
+			<label kind="synchronisation" x="59" y="-238">LED_heart_toggle[LED_APACE]!</label>
 		</transition>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id9"/>
-			<label kind="synchronisation" x="-238" y="-238">LED_heart_on[LED_VPACE]!</label>
+			<label kind="synchronisation" x="-238" y="-238">LED_heart_toggle[LED_VPACE]!</label>
 		</transition>
 		<transition>
 			<source ref="id8"/>
@@ -350,39 +349,26 @@ int minwait_A = 1;</declaration>
 	<template>
 		<name>LEDheart</name>
 		<parameter>const int id</parameter>
+		<declaration>clock ledClock;</declaration>
 		<location id="id23" x="8" y="-64">
-			<name x="-2" y="-94">on</name>
+			<name x="25" y="-76">on</name>
 		</location>
 		<location id="id24" x="-144" y="-64">
-			<name x="-154" y="-94">off</name>
+			<name x="-178" y="-76">off</name>
 		</location>
 		<init ref="id24"/>
 		<transition>
 			<source ref="id23"/>
 			<target ref="id24"/>
-			<label kind="synchronisation" x="-80" y="0">LED_heart_off[id]?</label>
-			<nail x="-48" y="-16"/>
-		</transition>
-		<transition>
-			<source ref="id23"/>
-			<target ref="id23"/>
-			<label kind="synchronisation" x="40" y="-208">LED_heart_on[id]?</label>
-			<nail x="120" y="-152"/>
-			<nail x="-16" y="-144"/>
+			<label kind="synchronisation" x="-136" y="-8">LED_heart_toggle[id]?</label>
+			<nail x="-76" y="-8"/>
 		</transition>
 		<transition>
 			<source ref="id24"/>
 			<target ref="id23"/>
-			<label kind="synchronisation" x="-128" y="-144">LED_heart_on[id]?</label>
-			<nail x="-96" y="-120"/>
-			<nail x="8" y="-88"/>
-		</transition>
-		<transition>
-			<source ref="id24"/>
-			<target ref="id24"/>
-			<label kind="synchronisation" x="-160" y="64">LED_heart_off[id]?</label>
-			<nail x="-192" y="24"/>
-			<nail x="-104" y="16"/>
+			<label kind="synchronisation" x="-144" y="-136">LED_heart_toggle[id]?</label>
+			<nail x="-68" y="-119"/>
+			<nail x="-8" y="-76"/>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
@@ -405,5 +391,11 @@ system responder, keyboard, generator, pacemaker, led_Apace, led_Vpace, led_HApa
 
     </system>
 	<queries>
+		<query>
+			<formula>A[] not deadlock
+			</formula>
+			<comment>
+			</comment>
+		</query>
 	</queries>
 </nta>
