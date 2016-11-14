@@ -99,4 +99,44 @@ A<> (vrp.VRP and not signals_received.r_Vpace)
 /*
 
 */
+A<> (H_led_HVpace.off and H_signals_received.r_Vsignal) imply H_led_HVpace.on
+
+/*
+
+*/
+A<> (H_led_HVpace.on and H_signals_received.r_Vsignal) imply H_led_HVpace.off
+
+/*
+
+*/
+A<> (H_led_HApace.on and H_signals_received.r_Asignal) imply H_led_HApace.off
+
+/*
+
+*/
+A<> (H_led_HApace.off and H_signals_received.r_Asignal) imply H_led_HApace.on
+
+/*
+
+*/
+A<> (H_led_Vpace.on and signals_received.r_Vpace) imply H_led_Vpace.off
+
+/*
+
+*/
+A<> (H_led_Vpace.off and signals_received.r_Vpace) imply H_led_Vpace.on
+
+/*
+
+*/
+A<> (H_led_Apace.on and signals_received.r_Apace) imply H_led_Apace.off
+
+/*
+
+*/
+A<> (H_led_Apace.off and signals_received.r_Apace) imply H_led_Apace.on
+
+/*
+
+*/
 A[] not deadlock
