@@ -352,11 +352,9 @@ int minwait_A = 1;</declaration>
 		<declaration>clock ledClock;</declaration>
 		<location id="id23" x="8" y="-64">
 			<name x="25" y="-76">on</name>
-			<urgent/>
 		</location>
 		<location id="id24" x="-144" y="-64">
 			<name x="-178" y="-76">off</name>
-			<urgent/>
 		</location>
 		<init ref="id24"/>
 		<transition>
