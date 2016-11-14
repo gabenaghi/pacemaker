@@ -10,8 +10,7 @@ chan Asignal, Vsignal;
 // keypress signals
 chan keypressR, keypressM, keypressT, keypressA, keypressV;
 
-chan LED_heart_on[4];
-chan LED_heart_off[4];
+chan LED_heart_toggle[4];
 
 const int LED_APACE = 0;
 const int LED_VPACE = 1;
@@ -64,12 +63,12 @@ int minwait_A = 1;</declaration>
 		<transition>
 			<source ref="id0"/>
 			<target ref="id11"/>
-			<label kind="synchronisation" x="-323" y="357">LED_heart_on[LED_APACE]!</label>
+			<label kind="synchronisation" x="-323" y="357">LED_heart_toggle[LED_APACE]!</label>
 		</transition>
 		<transition>
 			<source ref="id1"/>
 			<target ref="id10"/>
-			<label kind="synchronisation" x="-663" y="161">LED_heart_on[LED_VPACE]!</label>
+			<label kind="synchronisation" x="-663" y="161">LED_heart_toggle[LED_VPACE]!</label>
 		</transition>
 		<transition>
 			<source ref="id13"/>
@@ -84,34 +83,34 @@ int minwait_A = 1;</declaration>
 		<transition>
 			<source ref="id6"/>
 			<target ref="id13"/>
-			<label kind="synchronisation" x="-136" y="161">LED_heart_on[LED_APACE_HEART]!</label>
+			<label kind="synchronisation" x="-136" y="161">LED_heart_toggle[LED_APACE_HEART]!</label>
 		</transition>
 		<transition>
 			<source ref="id7"/>
 			<target ref="id13"/>
-			<label kind="synchronisation" x="-348" y="68">LED_heart_on[LED_VPACE_HEART]!</label>
+			<label kind="synchronisation" x="-348" y="68">LED_heart_toggle[LED_VPACE_HEART]!</label>
 		</transition>
 		<transition>
 			<source ref="id3"/>
 			<target ref="id14"/>
-			<label kind="synchronisation" x="0" y="-331">LED_heart_on[LED_APACE_HEART]!</label>
+			<label kind="synchronisation" x="17" y="-331">LED_heart_toggle[LED_APACE_HEART]!</label>
 			<nail x="8" y="-256"/>
 		</transition>
 		<transition>
 			<source ref="id2"/>
 			<target ref="id14"/>
-			<label kind="synchronisation" x="-255" y="-331">LED_heart_on[LED_VPACE_HEART]!</label>
+			<label kind="synchronisation" x="-280" y="-331">LED_heart_toggle[LED_VPACE_HEART]!</label>
 			<nail x="-16" y="-256"/>
 		</transition>
 		<transition>
 			<source ref="id4"/>
 			<target ref="id8"/>
-			<label kind="synchronisation" x="59" y="-238">LED_heart_on[LED_APACE]!</label>
+			<label kind="synchronisation" x="59" y="-238">LED_heart_toggle[LED_APACE]!</label>
 		</transition>
 		<transition>
 			<source ref="id5"/>
 			<target ref="id9"/>
-			<label kind="synchronisation" x="-238" y="-238">LED_heart_on[LED_VPACE]!</label>
+			<label kind="synchronisation" x="-238" y="-238">LED_heart_toggle[LED_VPACE]!</label>
 		</transition>
 		<transition>
 			<source ref="id8"/>
@@ -357,40 +356,21 @@ int minwait_A = 1;</declaration>
 		</location>
 		<location id="id24" x="-144" y="-64">
 			<name x="-178" y="-76">off</name>
+			<urgent/>
 		</location>
 		<init ref="id24"/>
 		<transition>
 			<source ref="id23"/>
 			<target ref="id24"/>
-			<label kind="guard" x="-110" y="-68">ledClock &gt; 1</label>
-			<label kind="assignment" x="-110" y="-85">ledClock := 0</label>
-		</transition>
-		<transition>
-			<source ref="id23"/>
-			<target ref="id24"/>
-			<label kind="synchronisation" x="-93" y="-17">LED_heart_off[id]?</label>
-			<nail x="-68" y="-17"/>
-		</transition>
-		<transition>
-			<source ref="id23"/>
-			<target ref="id23"/>
-			<label kind="synchronisation" x="-42" y="-204">LED_heart_on[id]?</label>
-			<nail x="34" y="-187"/>
-			<nail x="-8" y="-187"/>
+			<label kind="synchronisation" x="-136" y="-8">LED_heart_toggle[id]?</label>
+			<nail x="-76" y="-8"/>
 		</transition>
 		<transition>
 			<source ref="id24"/>
 			<target ref="id23"/>
-			<label kind="synchronisation" x="-144" y="-136">LED_heart_on[id]?</label>
+			<label kind="synchronisation" x="-144" y="-136">LED_heart_toggle[id]?</label>
 			<nail x="-68" y="-119"/>
 			<nail x="-8" y="-76"/>
-		</transition>
-		<transition>
-			<source ref="id24"/>
-			<target ref="id24"/>
-			<label kind="synchronisation" x="-204" y="51">LED_heart_off[id]?</label>
-			<nail x="-170" y="42"/>
-			<nail x="-119" y="42"/>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
