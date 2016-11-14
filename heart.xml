@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+clock heartClock, keyboardClock;
+// channels to interface with pacemaker
+chan Aget, Vget, Apace, Vpace;
+// channels internal to heart system
+chan Asignal, Vsignal;
+// keypress signals
+chan keypressR, keypressM, keypressT, keypressA, keypressV;
+
+chan LED_heart_toggle[4];
+
+const int LED_APACE = 0;
+const int LED_VPACE = 1;
+const int LED_APACE_HEART = 2;
+const int LED_VPACE_HEART= 3;
+
+int [0,1000] Acount = 0;
+int [0,1000] Vcount = 0;</declaration>
+	<template>
+		<name x="5" y="5">Responder</name>
+		<declaration>int minwait_V = 1;
+int minwait_A = 2;
+clock testClock;</declaration>
+		<location id="id0" x="204" y="263">
+			<urgent/>
+		</location>
+		<location id="id1" x="340" y="263">
+			<urgent/>
+		</location>
+		<location id="id2" x="476" y="263">
+			<urgent/>
+		</location>
+		<location id="id3" x="586" y="263">
+			<urgent/>
+		</location>
+		<location id="id4" x="586" y="187">
+			<urgent/>
+		</location>
+		<location id="id5" x="586" y="110">
+			<urgent/>
+		</location>
+		<location id="id6" x="348" y="110">
+		</location>
+		<location id="id7" x="476" y="110">
+			<urgent/>
+		</location>
+		<location id="id8" x="-272" y="340">
+		</location>
+		<location id="id9" x="-442" y="187">
+			<urgent/>
+		</location>
+		<location id="id10" x="-144" y="-288">
+			<urgent/>
+		</location>
+		<location id="id11" x="120" y="-288">
+			<urgent/>
+		</location>
+		<location id="id12" x="34" y="-238">
+			<urgent/>
+		</location>
+		<location id="id13" x="-40" y="-240">
+			<urgent/>
+		</location>
+		<location id="id14" x="-110" y="212">
+		</location>
+		<location id="id15" x="-314" y="42">
+		</location>
+		<location id="id16" x="280" y="-238">
+		</location>
+		<location id="id17" x="-272" y="-238">
+		</location>
+		<location id="id18" x="-442" y="110">
+		</location>
+		<location id="id19" x="-187" y="340">
+		</location>
+		<location id="id20" x="204" y="110">
+			<name x="153" y="85">Test</name>
+		</location>
+		<location id="id21" x="-178" y="110">
+			<name x="-153" y="85">Manual</name>
+		</location>
+		<location id="id22" x="0" y="-179">
+			<name x="-25" y="-161">Random</name>
+		</location>
+		<init ref="id22"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id20"/>
+			<label kind="guard" x="204" y="195">testClock &gt; 1000</label>
+			<label kind="synchronisation" x="204" y="178">Vsignal!</label>
+			<label kind="assignment" x="204" y="161">heartClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="guard" x="221" y="272">testclock &gt; 1000</label>
+			<label kind="synchronisation" x="246" y="246">Asignal!</label>
+			<label kind="assignment" x="229" y="229">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="357" y="272">testClock &gt; 100</label>
+			<label kind="synchronisation" x="374" y="238">Vsignal!</label>
+			<label kind="assignment" x="357" y="221">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="484" y="272">testClock &gt; 100</label>
+			<label kind="synchronisation" x="510" y="238">Asignal!</label>
+			<label kind="assignment" x="484" y="221">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="guard" x="586" y="195">testClock &gt; 100</label>
+			<label kind="synchronisation" x="586" y="229">Vsignal!</label>
+			<label kind="assignment" x="586" y="212">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="guard" x="586" y="119">testClock &gt; 500</label>
+			<label kind="synchronisation" x="586" y="153">Asignal!</label>
+			<label kind="assignment" x="586" y="136">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id5"/>
+			<label kind="guard" x="467" y="119">testClock &gt; 100</label>
+			<label kind="synchronisation" x="501" y="93">Vsignal!</label>
+			<label kind="assignment" x="484" y="76">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="382" y="93">Asignal!</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="221" y="93">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-323" y="357">LED_heart_toggle[LED_APACE]!</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="-663" y="161">LED_heart_toggle[LED_VPACE]!</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-280" y="221">Apace?</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-331" y="153">Vpace?</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-136" y="161">LED_heart_toggle[LED_APACE_HEART]!</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-348" y="68">LED_heart_toggle[LED_VPACE_HEART]!</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="17" y="-331">LED_heart_toggle[LED_APACE_HEART]!</label>
+			<nail x="8" y="-256"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="-280" y="-331">LED_heart_toggle[LED_VPACE_HEART]!</label>
+			<nail x="-16" y="-256"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="59" y="-238">LED_heart_toggle[LED_APACE]!</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-238" y="-238">LED_heart_toggle[LED_VPACE]!</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="212" y="-280">Asignal!</label>
+			<label kind="assignment" x="187" y="-297">heartClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-272" y="-280">Vsignal!</label>
+			<label kind="assignment" x="-297" y="-297">heartClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id17"/>
+			<label kind="guard" x="-240" y="-176">heartClock &gt;= minwait_V</label>
+			<nail x="-272" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-68" y="-212">Vpace?</label>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id16"/>
+			<label kind="guard" x="48" y="-176">heartClock &gt;= minwait_A</label>
+			<nail x="280" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="24" y="-216">Apace?</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-433" y="51">Vsignal!</label>
+			<label kind="assignment" x="-467" y="34">heartClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="-348" y="110">keypressV?</label>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-119" y="255">Asignal!</label>
+			<label kind="assignment" x="-144" y="272">heartClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-212" y="221">keypressA?</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="-170" y="-51">keypressR?</label>
+			<nail x="-110" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-85" y="-51">keypressM?</label>
+			<nail x="-68" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="-34" y="136">keypressT?</label>
+			<nail x="0" y="136"/>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-34" y="68">keypressM?</label>
+			<nail x="0" y="85"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id20"/>
+			<label kind="synchronisation" x="25" y="-51">keypressT?</label>
+			<nail x="76" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="110" y="-51">keypressR?</label>
+			<nail x="119" y="-68"/>
+		</transition>
+	</template>
+	<template>
+		<name>FakePM</name>
+		<location id="id23" x="0" y="0">
+		</location>
+		<init ref="id23"/>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-110" y="-17">Aget?</label>
+			<nail x="-8" y="-8"/>
+			<nail x="-68" y="-51"/>
+			<nail x="-68" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="68" y="-17">Vget?</label>
+			<nail x="59" y="-51"/>
+			<nail x="59" y="42"/>
+		</transition>
+	</template>
+	<template>
+		<name>Keyboard</name>
+		<declaration>void clearClock(){
+    keyboardClock = 0;
+}</declaration>
+		<location id="id24" x="229" y="238">
+			<name x="246" y="238">Test</name>
+		</location>
+		<location id="id25" x="-212" y="229">
+			<name x="-195" y="238">Manual</name>
+		</location>
+		<location id="id26" x="0" y="-68">
+			<name x="-25" y="-102">Random</name>
+		</location>
+		<init ref="id26"/>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-246" y="323">keypressV!</label>
+			<nail x="-238" y="314"/>
+			<nail x="-178" y="314"/>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-374" y="289">keypressA!</label>
+			<nail x="-306" y="263"/>
+			<nail x="-280" y="306"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id24"/>
+			<label kind="guard" x="17" y="-68">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="127" y="34">keypressT!</label>
+			<label kind="assignment" x="127" y="51">clearClock()</label>
+			<nail x="119" y="59"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id26"/>
+			<label kind="guard" x="221" y="204">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="8" y="76">keypressR!</label>
+			<label kind="assignment" x="8" y="93">clearClock()</label>
+			<nail x="85" y="85"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id25"/>
+			<label kind="guard" x="204" y="255">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="-34" y="263">keypressM!</label>
+			<label kind="assignment" x="-42" y="280">clearClock()</label>
+			<nail x="0" y="263"/>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id24"/>
+			<label kind="guard" x="-365" y="195">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="-34" y="204">keypressT!</label>
+			<label kind="assignment" x="-34" y="221">clearClock()</label>
+			<nail x="0" y="195"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id25"/>
+			<label kind="guard" x="-178" y="-68">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="-93" y="93">keypressM!</label>
+			<label kind="assignment" x="-93" y="110">clearClock()</label>
+			<nail x="-76" y="76"/>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id26"/>
+			<label kind="guard" x="-365" y="178">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="-204" y="25">keypressR!</label>
+			<label kind="assignment" x="-204" y="42">clearClock()</label>
+			<nail x="-119" y="59"/>
+		</transition>
+	</template>
+	<template>
+		<name>Generator</name>
+		<location id="id27" x="-136" y="0">
+			<urgent/>
+		</location>
+		<location id="id28" x="136" y="0">
+			<urgent/>
+		</location>
+		<location id="id29" x="0" y="0">
+		</location>
+		<init ref="id29"/>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id29"/>
+			<label kind="synchronisation" x="51" y="34">Aget!</label>
+			<nail x="68" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id29"/>
+			<label kind="synchronisation" x="-85" y="34">Vget!</label>
+			<nail x="-68" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="-102" y="-59">Vsignal?</label>
+			<nail x="-68" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id28"/>
+			<label kind="synchronisation" x="42" y="-59">Asignal?</label>
+			<nail x="68" y="-42"/>
+		</transition>
+	</template>
+	<template>
+		<name>Display</name>
+		<declaration>int printInterval = 100;
+int Arate, Vrate;
+clock printClock;
+
+void printRate(){
+//print these values to screen
+Arate = Acount / printInterval;
+Vrate = Vcount / printInterval;
+Acount = 0;
+Vcount = 0;
+}
+
+</declaration>
+		<location id="id30" x="0" y="0">
+		</location>
+		<init ref="id30"/>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id30"/>
+			<label kind="guard" x="0" y="-127">printClock &gt; printInterval</label>
+			<label kind="assignment" x="110" y="-25">printRate(),
+printClock := 0</label>
+			<nail x="102" y="-102"/>
+			<nail x="102" y="93"/>
+		</transition>
+	</template>
+	<template>
+		<name>LEDheart</name>
+		<parameter>const int id</parameter>
+		<declaration>clock ledClock;</declaration>
+		<location id="id31" x="8" y="-64">
+			<name x="25" y="-76">on</name>
+		</location>
+		<location id="id32" x="-144" y="-64">
+			<name x="-178" y="-76">off</name>
+		</location>
+		<init ref="id32"/>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id32"/>
+			<label kind="synchronisation" x="-136" y="-8">LED_heart_toggle[id]?</label>
+			<nail x="-76" y="-8"/>
+		</transition>
+		<transition>
+			<source ref="id32"/>
+			<target ref="id31"/>
+			<label kind="synchronisation" x="-144" y="-136">LED_heart_toggle[id]?</label>
+			<nail x="-68" y="-119"/>
+			<nail x="-8" y="-76"/>
+		</transition>
+	</template>
+	<system>// Core heart automata
+responder = Responder();
+keyboard = Keyboard();
+generator = Generator();
+pacemaker = FakePM();
+
+// display automata
+display = Display();
+
+//led lights on and off for internal and external pacing
+led_Apace = LEDheart(LED_APACE);
+led_Vpace = LEDheart(LED_VPACE);
+led_HApace = LEDheart(LED_APACE_HEART);
+led_HVpace = LEDheart(LED_VPACE_HEART);
+
+// List one or more processes to be composed into a system.
+system responder, keyboard, generator, pacemaker, led_Apace, led_Vpace, led_HApace, led_HVpace, display;
+
+
+
+
+    </system>
+	<queries>
+		<query>
+			<formula>A[] not deadlock
+			</formula>
+			<comment>
+			</comment>
+		</query>
+	</queries>
+</nta>
