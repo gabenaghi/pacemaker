@@ -1233,12 +1233,16 @@ clock testClock;</declaration>
 		<location id="id63" x="476" y="110">
 		</location>
 		<location id="id64" x="280" y="-238">
+			<name x="297" y="-246">Random_A</name>
 		</location>
 		<location id="id65" x="-272" y="-238">
+			<name x="-365" y="-246">Random_V</name>
 		</location>
 		<location id="id66" x="-442" y="110">
+			<name x="-527" y="102">Manual_V</name>
 		</location>
 		<location id="id67" x="-187" y="340">
+			<name x="-221" y="357">Manual_A</name>
 		</location>
 		<location id="id68" x="204" y="110">
 			<name x="153" y="85">Test</name>
@@ -1260,20 +1264,20 @@ clock testClock;</declaration>
 		<transition>
 			<source ref="id69"/>
 			<target ref="id67"/>
-			<label kind="synchronisation" x="-304" y="272">Apace?</label>
+			<label kind="synchronisation" x="-323" y="246">Apace?</label>
 			<nail x="-272" y="256"/>
 		</transition>
 		<transition>
 			<source ref="id69"/>
 			<target ref="id66"/>
-			<label kind="synchronisation" x="-370" y="95">Vpace?</label>
+			<label kind="synchronisation" x="-365" y="212">Vpace?</label>
 			<nail x="-352" y="208"/>
 		</transition>
 		<transition>
 			<source ref="id66"/>
 			<target ref="id69"/>
-			<label kind="synchronisation" x="-304" y="24">Vsignal!</label>
-			<label kind="assignment" x="-368" y="8">heartClock = 0</label>
+			<label kind="synchronisation" x="-357" y="17">Vsignal!</label>
+			<label kind="assignment" x="-374" y="0">heartClock = 0</label>
 			<nail x="-328" y="32"/>
 		</transition>
 		<transition>
@@ -1374,7 +1378,7 @@ clock testClock;</declaration>
 		<transition>
 			<source ref="id69"/>
 			<target ref="id66"/>
-			<label kind="synchronisation" x="-348" y="110">keypressV?</label>
+			<label kind="synchronisation" x="-365" y="110">keypressV?</label>
 		</transition>
 		<transition>
 			<source ref="id69"/>
