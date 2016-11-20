@@ -12,5 +12,6 @@
 extern Thread threads[];
 #define NUM_THREADS 10
 #define T_GENERATOR 0
+#define T_RESPONDER 1
 
 #endif //heart_common_h
