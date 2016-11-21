@@ -6,16 +6,18 @@
 #include "vrp.h"
 #include "keyboard.h"
 #include "heart_rate_display.h"
+#include "external_signals.h"
 
 Thread threads[NUM_THREADS];
 
 int main() {
-	threads[T_LRI].start(generator_thread);
-    threads[T_AVI].start(responder_thread);
-    threads[T_URI].start(generator_thread);
-    threads[T_PVARP].start(responder_thread);
-    threads[T_VRP].start(generator_thread);
-    threads[T_KEYBOARD].start(responder_thread);
-    threads[T_HEART_RATE_DISPLAY].start(generator_thread);
+	threads[T_LRI].start(lri_thread);
+    threads[T_AVI].start(avi_thread);
+    threads[T_URI].start(uri_thread);
+    threads[T_PVARP].start(pvarp_thread);
+    threads[T_VRP].start(vrp_thread);
+    threads[T_KEYBOARD].start(keyboard_thread);
+    threads[T_HEART_RATE_DISPLAY].start(heart_rate_display_thread);
+    threads[T_EXTERNAL_SIGNALS].start(external_signals_thread);
 	return 0;
 }

@@ -7,8 +7,13 @@
 // signal difinitions
 #define SIG_VSENSE 0
 #define SIG_ASENSE 1
+#define SIG_AGET 2
+#define SIG_VGET 3
+#define SIG_APACE 4
+#define SIG_VPACE 5
 
-
+// Serial communication with PC
+Serial pc(USBTX, USBRX);
 
 // External pin interface.
 // Can be changed later. Refer to mBed pinout.
@@ -32,6 +37,10 @@ DigitalOut leds[NUM_LEDS] = {
 	DigitalOut(LED3),
 	DigitalOut(LED4),
 };
+
+// Pacemaker timing criteria
+// TODO: add more and change values later
+#define TIME_VRP 100;
 
 // threads
 extern Thread threads[];
