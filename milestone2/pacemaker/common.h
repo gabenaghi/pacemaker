@@ -1,6 +1,9 @@
 #include <mbed.h>
 #include <rtos.h>
 
+#ifndef COMMON_H
+#define COMMON_H
+
 // signal difinitions
 #define SIG_VSENSE 0
 #define SIG_ASENSE 1
@@ -16,4 +19,4 @@ extern Thread threads[];
 #define T_KEYBOARD 5
 #define T_HEART_RATE_DISPLAY 6
 
-#endif //heart_common_h
+#endif // COMMON_H
