@@ -14,6 +14,6 @@ extern Thread threads[];
 #define T_PVARP 3
 #define T_VRP 4
 #define T_KEYBOARD 5
-#define T_HEART_RATE_DISP 6
+#define T_HEART_RATE_DISPLAY 6
 
 #endif //heart_common_h
