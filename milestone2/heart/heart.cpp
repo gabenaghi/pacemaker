@@ -1,6 +1,6 @@
 #include "common.h"
 #include "generator.h"
-#include "common.h"
+#include "responder.h"
 
 Thread threads[NUM_THREADS]; //default osPriority Normal
 

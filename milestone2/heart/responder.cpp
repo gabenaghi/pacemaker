@@ -1,5 +1,9 @@
 #include "responder.h"
 
+DigitalIn Vpace(VPACE_PIN);
+DigitalIn Apace(APACE_PIN);
+
+
 enum responder_state{
     Random, Random_A, Random_V, Manual, Manual_A, Manual_V, Test 
 };

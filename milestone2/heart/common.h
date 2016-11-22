@@ -5,13 +5,19 @@
 #include <rtos.h>
 
 // signal difinitions
-#define SIG_VSIGNAL 0
-#define SIG_ASIGNAL 1
+#define SIG_VSIGNAL 0x1 << 0
+#define SIG_ASIGNAL 0x1 << 1
 
 // threads
 extern Thread threads[];
 #define NUM_THREADS 10
 #define T_GENERATOR 0
 #define T_RESPONDER 1
+
+//pin allocations
+#define VPACE_PIN p10
+#define APACE_PIN p11
+#define AGET_PIN p12
+#define VGET_PIN p13
 
 #endif //heart_common_h

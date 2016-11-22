@@ -5,12 +5,12 @@
 #define COMMON_H
 
 // signal difinitions
-#define SIG_VSENSE 1
-#define SIG_ASENSE 2
-#define SIG_AGET 4
-#define SIG_VGET 8
-#define SIG_APACE 16
-#define SIG_VPACE 32
+#define SIG_VSENSE 0x1 << 1
+#define SIG_ASENSE 0x1 << 2
+#define SIG_AGET 0x1 << 3
+#define SIG_VGET 0x1 << 4
+#define SIG_APACE 0x1 << 5
+#define SIG_VPACE 0x1 << 6
 
 // Serial communication with PC
 Serial pc(USBTX, USBRX);

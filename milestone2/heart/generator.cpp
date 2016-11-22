@@ -5,9 +5,8 @@ enum generator_state{
 };
 
 //AGET AND VGET
-//pins are entirely arbitrary
-DigitalOut Aget(p15);
-DigitalOut Vget(p16);
+DigitalOut Aget(AGET_PIN);
+DigitalOut Vget(VGET_PIN);
 
 void generator_thread()
 {
