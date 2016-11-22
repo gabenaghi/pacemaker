@@ -41,6 +41,7 @@ DigitalOut leds[NUM_LEDS] = {
 // Pacemaker timing criteria
 // TODO: add more and change values later
 #define TIME_VRP 100;
+#define TIME_PVARP 100;
 
 // threads
 extern Thread* threads[];
