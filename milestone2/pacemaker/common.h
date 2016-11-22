@@ -5,12 +5,12 @@
 #define COMMON_H
 
 // signal difinitions
-#define SIG_VSENSE 0
-#define SIG_ASENSE 1
-#define SIG_AGET 2
-#define SIG_VGET 3
-#define SIG_APACE 4
-#define SIG_VPACE 5
+#define SIG_VSENSE 1
+#define SIG_ASENSE 2
+#define SIG_AGET 4
+#define SIG_VGET 8
+#define SIG_APACE 16
+#define SIG_VPACE 32
 
 // Serial communication with PC
 Serial pc(USBTX, USBRX);
@@ -43,7 +43,7 @@ DigitalOut leds[NUM_LEDS] = {
 #define TIME_VRP 100;
 
 // threads
-extern Thread threads[];
+extern Thread* threads[];
 #define NUM_THREADS 10
 #define T_LRI 0
 #define T_AVI 1
@@ -53,5 +53,14 @@ extern Thread threads[];
 #define T_KEYBOARD 5
 #define T_HEART_RATE_DISPLAY 6
 #define T_INPUT_SIGNALS 7
+
+// Global signal setting/clearing
+void global_signal_set(int32_t signals);
+void global_signal_clear(int32_t signals);
+
+// randomness
+uint16_t lfsr_value;
+void seed_lfsr(void);
+uint16_t lfsr(void);
 
 #endif // COMMON_H
