@@ -4,7 +4,6 @@
 
 enum vrp_state {
 	idle,
-	inter,
 	vrp,
 };
 
@@ -21,20 +20,18 @@ void vrp_thread(void)
 			case idle:
 				event = Thread::signal_wait(SIG_VGET | SIG_VPACE);
 				if (event.value.signals & SIG_VGET) {
-					state = inter;
+					state = vrp;
+					vrp_timer.reset();
+					global_signal_set(SIG_VSENSE);
 				} else if (event.value.signals & SIG_VPACE) {
 					state = vrp;
 					vrp_timer.reset();
 				}
 				break;
-			case inter:
-				state = vrp;
-				vrp_timer.reset();
-				global_signal_set(SIG_VSENSE);
-				break;
 			case vrp:
-				while (vrp_timer.read_ms <= TIME_VRP); // wait until t > TVRP
-				state = idle;
+				if (vrp_timer.read_ms > TIME_VRP) {
+					state = idle;
+				}
 				break;
 			default: // illegal state
 				pc.printf("Illegal VRP state: %d\r\n", state);

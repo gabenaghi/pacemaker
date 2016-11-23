@@ -3,7 +3,6 @@
 
 enum pvarp_state {
 	idle,
-	inter,
 	pvarp,
 };
 
@@ -19,21 +18,18 @@ void pvarp_thread(void)
 		event = Thread::signal_wait(SIG_VSENSE | SIG_VPACE | SIG_AGET);
 		switch (state) {
 			case idle:
-				if (event.value.signals == SIG_VSENSE || 
-						event.value.signals == SIG_VPACE) {
+				if (event.value.signals & SIG_VSENSE || 
+						event.value.signals & SIG_VPACE) {
 					state = pvarp;
 					pvarp_timer.reset();
-				} else if (event.value.signals == SIG_AGET) {
-					state = inter;
+				} else if (event.value.signals & SIG_AGET) {
+					global_signal_set(SIG_ASENSE);
 				}
 				break;
-			case inter:
-				state = idle;
-				global_signal_set(SIG_ASENSE);
-				break;
 			case pvarp:
-				while (pvarp_timer.read_ms() <= TIME_PVARP);
-				state = idle;
+				if (pvarp_timer.read_ms() > TIME_PVARP) {
+					state = idle;
+				}
 				break;
 			default:
 				pc.printf("Illegal PVARP state: %d\r\n", state);
