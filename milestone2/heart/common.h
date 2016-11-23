@@ -14,10 +14,13 @@ extern Thread threads[];
 #define T_GENERATOR 0
 #define T_RESPONDER 1
 
-//pin allocations
+//pin allocations- arbitrary
 #define VPACE_PIN p10
 #define APACE_PIN p11
 #define AGET_PIN p12
 #define VGET_PIN p13
+
+//timing parameters
+#define ATOMIC_TIME 1 //ms
 
 #endif //heart_common_h
