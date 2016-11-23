@@ -78,4 +78,7 @@ uint16_t lfsr_value;
 void seed_lfsr(void);
 uint16_t lfsr(void);
 
+// Heart rate display
+uint8_t obs_interval = 10; // in s
+
 #endif // COMMON_H
