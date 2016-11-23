@@ -4,8 +4,7 @@
 
 void clear_own_signals()
 {
-	threads[T_URI]->signal_clr(SIG_VSENSE);
-	threads[T_URI]->signal_clr(SIG_VPACE);
+	threads[T_URI]->signal_clr(0xFFFFFFFF);
 }
 
 void uri_thread(void)

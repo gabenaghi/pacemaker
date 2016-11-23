@@ -10,10 +10,7 @@ enum avi_state {
 
 void clear_own_signals()
 {
-	threads[T_AVI]->signal_clr(SIG_ASENSE);
-	threads[T_AVI]->signal_clr(SIG_VSENSE);
-	threads[T_AVI]->signal_clr(SIG_APACE);
-	threads[T_AVI]->signal_clr(SIG_VPACE);
+	threads[T_AVI]->signal_clr(0xFFFFFFFF);
 }
 
 void avi_thread(void)
