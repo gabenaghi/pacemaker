@@ -7,6 +7,15 @@
 Ticker vpace_timer;
 Ticker apace_timer;
 
+void flip_led(uint8_t led)
+{
+	if (led < 0 || led >= NUM_LEDS) {
+		pc.printf("Invalid LED: %d\r\n", led);
+		while (true);
+	}
+	leds[led] = !leds[led];
+}
+
 /*
  * Interrupts for receiving Vget and Aget from the heart.
  */
@@ -14,11 +23,13 @@ Ticker apace_timer;
 void vget_received(void)
 {
 	global_signal_set(SIG_VGET);
+	flip_led(LED_VGET);
 }
 
 void aget_received(void)
 {
 	global_signal_set(SIG_AGET);
+	flip_led(LED_AGET);
 }
 
 /*
@@ -37,6 +48,20 @@ void reset_apace(void)
 	apace_timer.attach(NULL, 0.0);
 }
 
+void set_vpace(void)
+{
+	Vpace = 1;
+	vpace_timer.attach(&reset_vpace, RESET_TIMEOUT);
+	flip_led(LED_VPACE);
+}
+
+void set_apace(void)
+{
+	Apace = 1;
+	apace_timer.attach(&reset_apace, RESET_TIMEOUT);
+	flip_led(LED_APACE);
+}
+
 void external_signals_thread(void) 
 {
 	osEvent event;
@@ -46,11 +71,9 @@ void external_signals_thread(void)
 	while (true) {
 		event = Thread::signal_wait(SIG_VPACE | SIG_APACE);
 		if (event.value.signals & SIG_VPACE) {
-			Vpace = 1;
-			vpace_timer.attach(&reset_vpace, RESET_TIMEOUT);
+			set_vpace();
 		} else if (event.value.signals & SIG_APACE) {
-			Apace = 1;
-			apace_timer.attach(&reset_apace, RESET_TIMEOUT);
+			set_apace();
 		}
 		threads[T_EXTERNAL_SIGNALS]->signal_clr(0xFFFFFFFF);
 	}
