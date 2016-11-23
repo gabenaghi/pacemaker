@@ -63,6 +63,16 @@ extern Thread* threads[];
 void global_signal_set(int32_t signals);
 void global_signal_clear(int32_t signals);
 
+// Global clock
+extern Timer clk;
+
+// Functions for controlling speaker/buzzer
+// TODO: implement these
+void speaker_play_high(void);
+void speaker_stop_high(void);
+void speaker_play_low(void);
+void speaker_stop_low(void);
+
 // randomness
 uint16_t lfsr_value;
 void seed_lfsr(void);

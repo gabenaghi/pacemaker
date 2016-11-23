@@ -19,6 +19,8 @@ int main() {
 		threads[i] = new Thread();
 	}
 
+    clk.start();
+
 	threads[T_LRI]->start(lri_thread);
     threads[T_AVI]->start(avi_thread);
     threads[T_URI]->start(uri_thread);
