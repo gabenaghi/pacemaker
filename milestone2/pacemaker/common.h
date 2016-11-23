@@ -17,10 +17,10 @@ Serial pc(USBTX, USBRX);
 
 // External pin interface.
 // Can be changed later. Refer to mBed pinout.
-DigitalOut Aget(p15);
-DigitalOut Vget(p16);
-DigitalOut Asense(p17);
-DigitalOut Vsense(p18);
+InterruptIn Aget(p15);
+InterruptIn Vget(p16);
+DigitalOut Apace(p17);
+DigitalOut Vpace(p18);
 PwmOut speaker(p26);
 
 // heart sensing/pacing LEDs
@@ -53,7 +53,7 @@ extern Thread* threads[];
 #define T_VRP 4
 #define T_KEYBOARD 5
 #define T_HEART_RATE_DISPLAY 6
-#define T_INPUT_SIGNALS 7
+#define T_EXTERNAL_SIGNALS 7
 
 // Global signal setting/clearing
 void global_signal_set(int32_t signals);

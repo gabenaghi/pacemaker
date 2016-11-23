@@ -20,9 +20,9 @@ void vrp_thread(void)
 		switch (state) {
 			case idle:
 				event = Thread::signal_wait(SIG_VGET | SIG_VPACE);
-				if (event.value.signals == SIG_VGET) {
+				if (event.value.signals & SIG_VGET) {
 					state = inter;
-				} else if (event.value.signals == SIG_VPACE) {
+				} else if (event.value.signals & SIG_VPACE) {
 					state = vrp;
 					vrp_timer.reset();
 				}
