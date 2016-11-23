@@ -2,9 +2,6 @@
 #include "common.h"
 #include "avi.h"
 
-// idle and avi states "done"
-// TODO: wait_uri, and other TODOs below
-
 enum avi_state {
 	idle,
 	avi,
@@ -40,21 +37,19 @@ void avi_thread(void)
 				break;
 						
 			case avi:
-				if (avi_timer.read() <= TAVI) {
+				if (avi_timer.read() <= TIME_AVI) {
 					if (event.value.signals & (SIG_FORCEVPACE)) {
-						// send VPACE
-						// TODO
+						global_signal_set(SIG_VPACE);
 						state = idle;
 						clear_own_signals();
 					}
 				}
 				else {
-					if (clk < TURI) {
+					if (clk < TIME_URI) {
 						state = wait_uri;
 					}
 					else {
-						// send VPACE
-						// TODO
+						global_signal_set(SIG_VPACE);
 						state = idle;
 					}
 					clear_own_signals();
@@ -62,6 +57,110 @@ void avi_thread(void)
 				break;
 
 			case wait_uri:
+				// use randomness, but each case is a permutation
+				// of the order in which we check each transition
+				// to see if we can take it. if we just check one
+				// transition in each case, we could potentially
+				// not take a transition when we should
+				// e.g. we receive SIG_FORCEVPACE but don't check it
+				switch (lsfr % 6) {
+					case 0: 
+						if (event.value.signals & SIG_FORCEVPACE) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signal();
+						}
+						else if (event.value.signals & SIG_VSENSE) {
+							state = idle;
+							clear_own_signal();
+						}
+						else if (clk >= TIME_URI) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signals();
+						}
+						break;
+					case 1: 
+						if (event.value.signals & SIG_FORCEVPACE) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signal();
+						}
+						else if (clk >= TIME_URI) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signals();
+						}
+						else if (event.value.signals & SIG_VSENSE) {
+							state = idle;
+							clear_own_signal();
+						}
+						break;
+					case 2: 
+						if (event.value.signals & SIG_VSENSE) {
+							state = idle;
+							clear_own_signal();
+						}
+						else if (event.value.signals & SIG_FORCEVPACE) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signal();
+						}
+						else if (clk >= TIME_URI) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signals();
+						}
+						break;
+					case 3: 
+						if (event.value.signals & SIG_VSENSE) {
+							state = idle;
+							clear_own_signal();
+						}
+						else if (clk >= TIME_URI) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signals();
+						}
+						else if (event.value.signals & SIG_FORCEVPACE) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signal();
+						}
+						break;
+					case 4: 
+						if (clk >= TIME_URI) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signals();
+						}
+						else if (event.value.signals & SIG_FORCEVPACE) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signal();
+						}
+						else if (event.value.signals & SIG_VSENSE) {
+							state = idle;
+							clear_own_signal();
+						}
+						break;
+					case 5: 
+						if (clk >= TIME_URI) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signals();
+						}
+						else if (event.value.signals & SIG_VSENSE) {
+							state = idle;
+							clear_own_signal();
+						}
+						else if (event.value.signals & SIG_FORCEVPACE) {
+							global_signal_set(SIG_VPACE);
+							state = idle;
+							clear_own_signal();
+						}
+						break;
+				}
 				break;
 		}
 	}

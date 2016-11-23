@@ -11,6 +11,8 @@
 #define SIG_VGET 0x1 << 4
 #define SIG_APACE 0x1 << 5
 #define SIG_VPACE 0x1 << 6
+#define SIG_FORCEAPACE 0x1 << 7
+#define SIG_FORCEVPACE 0x1 << 8
 
 // Serial communication with PC
 Serial pc(USBTX, USBRX);
@@ -42,6 +44,8 @@ DigitalOut leds[NUM_LEDS] = {
 // TODO: add more and change values later
 #define TIME_VRP 100;
 #define TIME_PVARP 100;
+#define TIME_URI 100;
+#define TIME_AVI 100;
 
 // threads
 extern Thread* threads[];
