@@ -33,6 +33,7 @@ void lri_thread(void)
 				// NOTE: the below is different from milestone1 UPPAAL model.
 				// in that model, transition with Vpace? doesn't update speaker
 				// but i figure it should. so i changed it here
+                // and in UPPAAL
 				else if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
 					if (clk.read() < TIME_LRI) {
 						speaker_play_low();
@@ -40,6 +41,7 @@ void lri_thread(void)
 					else {
 						speaker_stop_low();
 					}
+          lri_timer.reset();
 					clear_own_signals();
 				}
 				else if (event.value.signals & SIG_ASENSE) {
@@ -63,6 +65,7 @@ void lri_thread(void)
 				// NOTE: the below is different from milestone1 UPPAAL model.
 				// in that model, transition with Vpace? doesn't update speaker
 				// but i figure it should. so i changed it here
+                // and in UPPAAL
 				else if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
 					if (clk.read() < TIME_LRI) {
 						speaker_play_low();
