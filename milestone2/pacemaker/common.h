@@ -1,8 +1,10 @@
+#ifndef COMMON_H
+#define COMMON_H
+
 #include <mbed.h>
 #include <rtos.h>
 
-#ifndef COMMON_H
-#define COMMON_H
+#define DEBUG // enable printf
 
 // signal difinitions
 #define SIG_VSENSE 0x1 << 1
@@ -14,31 +16,33 @@
 #define SIG_FORCEAPACE 0x1 << 7
 #define SIG_FORCEVPACE 0x1 << 8
 
+// pin definitions
+#define AGET_PIN
+
 // Serial communication with PC
-Serial pc(USBTX, USBRX);
+extern Serial pc;
+extern Mutex printf_mutex;
+void safe_print(char const* fmt...);
+void safe_endl(void);
+void safe_println(char const* fmt...);
 
 // External pin interface.
 // Can be changed later. Refer to mBed pinout.
-InterruptIn Aget(p15);
-InterruptIn Vget(p16);
-DigitalOut Apace(p17);
-DigitalOut Vpace(p18);
-PwmOut speaker(p26);
+extern InterruptIn Aget;
+extern InterruptIn Vget;
+extern DigitalOut Apace;
+extern DigitalOut Vpace;
+extern PwmOut speaker;
 
 // heart sensing/pacing LEDs
 #define LED_AGET 0
 #define LED_VGET 1
-#define LED_ASENSE 2
-#define LED_VSENSE 3
+#define LED_APACE 2
+#define LED_VPACE 3
 
 #define NUM_LEDS 4
 
-DigitalOut leds[NUM_LEDS] = {
-	DigitalOut(LED1),
-	DigitalOut(LED2),
-	DigitalOut(LED3),
-	DigitalOut(LED4),
-};
+extern DigitalOut leds[NUM_LEDS];
 
 // Pacemaker timing criteria
 // TODO: add more and change values later
@@ -49,7 +53,7 @@ DigitalOut leds[NUM_LEDS] = {
 #define TIME_AVI 100
 
 // threads
-extern Thread* threads[];
+extern Thread threads[];
 #define NUM_THREADS 10
 #define T_LRI 0
 #define T_AVI 1
@@ -60,26 +64,30 @@ extern Thread* threads[];
 #define T_HEART_RATE_DISPLAY 6
 #define T_EXTERNAL_SIGNALS 7
 
-// Global signal setting/clearing
-void global_signal_set(int32_t signals);
-void global_signal_clear(int32_t signals);
+// signal setting/clearing
+void global_signal_set(uint32_t signals);
+void global_signal_clear(uint32_t signals);
+void clear_own_signals(uint8_t pid);
+extern Mutex signals_mutex;
 
 // Global clock
 extern Timer clk;
 
 // Functions for controlling speaker/buzzer
-// TODO: implement these
 void speaker_play_high(void);
 void speaker_stop_high(void);
 void speaker_play_low(void);
 void speaker_stop_low(void);
 
+#define SPEAKER_LOW_PERIOD 2000 // 500 us
+#define SPEAKER_HIGH_PERIOD 800 // 800 us
+
 // randomness
-uint16_t lfsr_value;
+extern uint16_t lfsr_value;
 void seed_lfsr(void);
 uint16_t lfsr(void);
 
 // Heart rate display
-uint8_t obs_interval = 10; // in s
+extern uint8_t obs_interval;
 
 #endif // COMMON_H

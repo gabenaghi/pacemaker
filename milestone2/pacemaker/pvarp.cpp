@@ -1,5 +1,6 @@
 // pvarp.cpp
 #include "pvarp.h"
+#include "common.h"
 
 enum pvarp_state {
 	idle,
@@ -35,6 +36,6 @@ void pvarp_thread(void)
 				pc.printf("Illegal PVARP state: %d\r\n", state);
 				while (true); // halt VRP thread
 		}
-		threads[T_PVARP]->signal_clr(0xFFFFFFFF);
+		clear_own_signals(T_PVARP);
 	}
 }

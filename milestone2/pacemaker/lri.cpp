@@ -5,16 +5,11 @@
 enum lri_state {
 	lri,
 	ASed,
-}
-
-void clear_own_signals()
-{
-	threads[T_LRI]->signal_clr(0xFFFFFFFF);
-}
+};
 
 void lri_thread(void)
 {
-	lri_state state = idle;
+	lri_state state = lri;
 	osEvent event;
 	Timer lri_timer;
 
@@ -26,9 +21,9 @@ void lri_thread(void)
 
 			case lri:
 				if (event.value.signals & SIG_FORCEAPACE) {
-					global_signal_set(SIG_APACE)
+					global_signal_set(SIG_APACE);
 					lri_timer.reset();
-					clear_own_signals();
+					clear_own_signals(T_LRI);
 				}
 				// NOTE: the below is different from milestone1 UPPAAL model.
 				// in that model, transition with Vpace? doesn't update speaker
@@ -42,25 +37,25 @@ void lri_thread(void)
 						speaker_stop_low();
 					}
           lri_timer.reset();
-					clear_own_signals();
+					clear_own_signals(T_LRI);
 				}
 				else if (event.value.signals & SIG_ASENSE) {
 					state = ASed;
-					clear_own_signals();
+					clear_own_signals(T_LRI);
 				}
 				else if (lri_timer.read() > TIME_LRI - TIME_AVI) {
 					global_signal_set(SIG_APACE);
 					lri_timer.reset();
-					clear_own_signals();
+					clear_own_signals(T_LRI);
 				}
 				break;
 
 			case ASed:
 				if (event.value.signals & SIG_FORCEAPACE) {
-					global_signal_set(SIG_APACE)
+					global_signal_set(SIG_APACE);
 					lri_timer.reset();
-					state = idle;
-					clear_own_signals();
+					state = lri;
+					clear_own_signals(T_LRI);
 				}
 				// NOTE: the below is different from milestone1 UPPAAL model.
 				// in that model, transition with Vpace? doesn't update speaker
@@ -73,8 +68,8 @@ void lri_thread(void)
 					else {
 						speaker_stop_low();
 					}
-					state = idle;
-					clear_own_signals();
+					state = lri;
+					clear_own_signals(T_LRI);
 				}
 				break;
 		}

@@ -2,11 +2,6 @@
 #include "common.h"
 #include "uri.h"
 
-void clear_own_signals()
-{
-	threads[T_URI]->signal_clr(0xFFFFFFFF);
-}
-
 void uri_thread(void)
 {
 	osEvent event;
@@ -25,7 +20,7 @@ void uri_thread(void)
                 speaker_stop_high(); 
             }
             clk.reset();
-            clear_own_signals();
+            clear_own_signals(T_URI);
         }
     }
 }

@@ -6,12 +6,7 @@ enum avi_state {
 	idle,
 	avi,
 	wait_uri,
-}
-
-void clear_own_signals()
-{
-	threads[T_AVI]->signal_clr(0xFFFFFFFF);
-}
+};
 
 void avi_thread(void)
 {
@@ -26,10 +21,10 @@ void avi_thread(void)
 		switch (state) {
 
 			case idle:
-				if (event.value.signals & (SIG_APACE | SIG_ASENSE) {
+				if (event.value.signals & (SIG_APACE | SIG_ASENSE)) {
 					avi_timer.reset();
 					state = avi;
-					clear_own_signals();	
+					clear_own_signals(T_AVI);	
 				}
 				break;
 						
@@ -41,11 +36,11 @@ void avi_thread(void)
 				if (event.value.signals & (SIG_FORCEVPACE)) {
 					global_signal_set(SIG_VPACE);
 					state = idle;
-					clear_own_signals();
+					clear_own_signals(T_AVI);
 				}
         else if (event.value.signals & SIG_VSENSE) {
           state = idle;
-          clear_own_signals;
+          clear_own_signals(T_AVI);
         }
 				else if (avi_timer.read() > TIME_AVI) {
 					if (clk.read() < TIME_URI) {
@@ -55,7 +50,7 @@ void avi_thread(void)
 						global_signal_set(SIG_VPACE);
 						state = idle;
 					}
-					clear_own_signals();
+					clear_own_signals(T_AVI);
 				}
 				break;
 
@@ -63,18 +58,18 @@ void avi_thread(void)
 				if (event.value.signals & (SIG_FORCEVPACE)) {
 					global_signal_set(SIG_VPACE);
 					state = idle;
-					clear_own_signals();
+					clear_own_signals(T_AVI);
 				}
         else if (event.value.signals & SIG_VSENSE) {
           state = idle;
-          clear_own_signals;
+          clear_own_signals(T_AVI);
         }
 				else if (clk.read() >= TIME_URI) {
 					global_signal_set(SIG_VPACE);
 					state = idle;
-					clear_own_signals();
+					clear_own_signals(T_AVI);
 				}
         break;
-		}
 	}
+}
 }

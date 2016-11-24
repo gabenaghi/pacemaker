@@ -29,14 +29,14 @@ void vrp_thread(void)
 				}
 				break;
 			case vrp:
-				if (vrp_timer.read_ms > TIME_VRP) {
+				if (vrp_timer.read_ms() > TIME_VRP) {
 					state = idle;
 				}
 				break;
 			default: // illegal state
-				pc.printf("Illegal VRP state: %d\r\n", state);
+				safe_println("Illegal VRP state: %d", state);
 				while (true); // halt VRP thread
 		}
-		threads[T_VRP]->signal_clr(0xFFFFFFFF);
+		clear_own_signals(T_VRP);
 	}
 }

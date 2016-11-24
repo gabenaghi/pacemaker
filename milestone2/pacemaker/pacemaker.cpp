@@ -9,29 +9,27 @@
 #include "heart_rate_display.h"
 #include "external_signals.h"
 
-Thread* threads[NUM_THREADS];
+Thread threads[NUM_THREADS] = {Thread()};
 
 int main() {
 
 	seed_lfsr();
+	clk.start();
 
-	for (int i = 0; i < NUM_THREADS; i++) {
-		threads[i] = new Thread();
-	}
+	safe_println("Starting threads...");
 
-    clk.start();
+	//threads[T_LRI].start(lri_thread);
+    //threads[T_AVI].start(avi_thread);
+    //threads[T_URI].start(uri_thread);
+    //threads[T_PVARP].start(pvarp_thread);
+    //threads[T_VRP].start(vrp_thread);
+    //threads[T_KEYBOARD].start(keyboard_thread);
+    threads[T_HEART_RATE_DISPLAY].start(heart_rate_display_thread);
+    threads[T_EXTERNAL_SIGNALS].start(external_signals_thread);
 
-	threads[T_LRI]->start(lri_thread);
-    threads[T_AVI]->start(avi_thread);
-    threads[T_URI]->start(uri_thread);
-    threads[T_PVARP]->start(pvarp_thread);
-    threads[T_VRP]->start(vrp_thread);
-    threads[T_KEYBOARD]->start(keyboard_thread);
-    threads[T_HEART_RATE_DISPLAY]->start(heart_rate_display_thread);
-    threads[T_EXTERNAL_SIGNALS]->start(external_signals_thread);
+    safe_println("All threads started successfully!");
 
-    for (int i = 0; i < NUM_THREADS; i++) {
-    	delete(threads[i]);
-    }
+    while (true);
+
 	return 0;
 }
