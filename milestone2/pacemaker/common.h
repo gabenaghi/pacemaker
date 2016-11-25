@@ -82,6 +82,11 @@ void speaker_stop_low(void);
 #define SPEAKER_LOW_PERIOD 2000 // 500 us
 #define SPEAKER_HIGH_PERIOD 800 // 800 us
 
+// for maintaining speaker status
+#define NOT_PLAYING 0
+#define PLAYING_HIGH 1
+#define PLAYING_LOW 2
+
 // randomness
 extern uint16_t lfsr_value;
 void seed_lfsr(void);

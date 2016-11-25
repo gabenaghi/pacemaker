@@ -25,6 +25,10 @@ uint8_t obs_interval = 10; // ms
 Mutex printf_mutex;
 Mutex signals_mutex;
 
+// don't think this needs to be global, so not declared in common.h
+// feel free to change if necessary
+uint8_t speaker_status;
+
 void global_signal_set(uint32_t signals)
 {
 	signals_mutex.lock();
@@ -59,30 +63,43 @@ uint16_t lfsr(void) {
 
 void clear_own_signals(uint8_t pid)
 {
-	if (pid > NUM_THREADS) return;
+	// assuming indices are 0-indexed, this should be >=, not >
+	if (pid >= NUM_THREADS) return;
+
+	// probably good to grab mutex to ensure signal changes happen in order
+	signals_mutex.lock();
 	threads[pid].signal_clr(0xFFFFFFFF);
+	signals_mutex.unlock();
 }
 
 void speaker_play_low(void)
 {
 	speaker.period_ms(SPEAKER_LOW_PERIOD);
 	speaker.write(0.50f); // 50% duty cycle
+    speaker_status = PLAYING_LOW;
 }	
 
 void speaker_stop_low(void)
 {
-	speaker.write(0.0f); // 0% duty cycle
+	if (speaker_status == PLAYING_LOW) {
+		speaker.write(0.0f); // 0% duty cycle
+		speaker_status = NOT_PLAYING;
+	}
 }
 
 void speaker_play_high(void)
 {
 	speaker.period_ms(SPEAKER_HIGH_PERIOD);
 	speaker.write(0.50f); // 50% duty cycle
+	speaker_status = PLAYING_HIGH;
 }
 
 void speaker_stop_high(void)
 {
-	speaker.write(0.0f); // 0% duty cycle
+	if (speaker_status == PLAYING_HIGH) {
+		speaker.write(0.0f); // 0% duty cycle
+		speaker_status = NOT_PLAYING;
+	}
 }
 
 void safe_print(char const* fmt...)
