@@ -30,7 +30,7 @@ void lri_thread(void)
 				// but i figure it should. so i changed it here
                 // and in UPPAAL
 				else if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
-					if (clk.read() < TIME_LRI) {
+					if (clk.read_ms() < TIME_LRI) {
 						speaker_play_low();
 					}
 					else {
@@ -43,7 +43,7 @@ void lri_thread(void)
 					state = ASed;
 					clear_own_signals(T_LRI);
 				}
-				else if (lri_timer.read() > TIME_LRI - TIME_AVI) {
+				else if (lri_timer.read_ms() > TIME_LRI - TIME_AVI) {
 					global_signal_set(SIG_APACE);
 					lri_timer.reset();
 					clear_own_signals(T_LRI);
@@ -62,7 +62,7 @@ void lri_thread(void)
 				// but i figure it should. so i changed it here
                 // and in UPPAAL
 				else if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
-					if (clk.read() < TIME_LRI) {
+					if (clk.read_ms() < TIME_LRI) {
 						speaker_play_low();
 					}
 					else {

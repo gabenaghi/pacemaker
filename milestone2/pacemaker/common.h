@@ -45,12 +45,13 @@ extern PwmOut speaker;
 extern DigitalOut leds[NUM_LEDS];
 
 // Pacemaker timing criteria
+// defined in ms
 // TODO: add more and change values later
-#define TIME_VRP 100
-#define TIME_PVARP 100
-#define TIME_LRI 500
-#define TIME_URI 100
-#define TIME_AVI 100
+#define TIME_VRP 200
+#define TIME_PVARP 300
+#define TIME_LRI 1000
+#define TIME_URI 100 // which value should we use?
+#define TIME_AVI 150
 
 // threads
 extern Thread threads[];

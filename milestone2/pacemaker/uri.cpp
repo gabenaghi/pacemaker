@@ -13,7 +13,7 @@ void uri_thread(void)
             if (just_started) {
                 just_started = false;
             }
-            else if (clk.read() < TIME_URI) {
+            else if (clk.read_ms() < TIME_URI) {
                 speaker_play_high();
             }
             else {

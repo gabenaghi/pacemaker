@@ -42,8 +42,8 @@ void avi_thread(void)
           state = idle;
           clear_own_signals(T_AVI);
         }
-				else if (avi_timer.read() > TIME_AVI) {
-					if (clk.read() < TIME_URI) {
+				else if (avi_timer.read_ms() > TIME_AVI) {
+					if (clk.read_ms() < TIME_URI) {
 						state = wait_uri;
 					}
 					else {
@@ -64,7 +64,7 @@ void avi_thread(void)
           state = idle;
           clear_own_signals(T_AVI);
         }
-				else if (clk.read() >= TIME_URI) {
+				else if (clk.read_ms() >= TIME_URI) {
 					global_signal_set(SIG_VPACE);
 					state = idle;
 					clear_own_signals(T_AVI);
