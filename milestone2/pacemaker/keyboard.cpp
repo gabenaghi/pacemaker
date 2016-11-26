@@ -39,7 +39,7 @@ void keyboard_thread(void)
 					obs_interval = (uint8_t)converted;
 				}
 
-                setting_obs_interval = false;
+				setting_obs_interval = false;
 			}
 		}
 		else {
