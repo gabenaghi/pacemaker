@@ -154,15 +154,33 @@ void responder_thread()
                 break;
                 
             case Manual_A:
-            
+                switch (rand() % 2)
+                {
+                    case 0:
+                        threads[T_GENERATOR].signal_set(SIG_ASIGNAL);
+                        heartClock.reset();
+                        break;
+                    case 1:  
+                        //do nothing
+                        break; 
+                }
                 break;
             
             case Manual_V:
-            
+                switch (rand() % 2)
+                {
+                    case 0:
+                        threads[T_GENERATOR].signal_set(SIG_VSIGNAL);
+                        heartClock.reset();
+                        break;
+                    case 1:  
+                        //do nothing
+                        break; 
+                }
                 break;
                 
             case Test:
-            
+                // ??? put tests here
                 break;
             
             default:
