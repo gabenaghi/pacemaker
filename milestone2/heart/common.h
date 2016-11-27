@@ -6,7 +6,9 @@
 
 // signal difinitions
 #define SIG_VSIGNAL 0x1 << 0
-#define SIG_ASIGNAL 0x1 << 1
+#define SIG_VSIGNAL_RES 0x1 << 1
+#define SIG_ASIGNAL 0x1 << 2
+#define SIG_ASIGNAL_RES 0x1 << 3
 
 // threads
 extern Thread threads[];

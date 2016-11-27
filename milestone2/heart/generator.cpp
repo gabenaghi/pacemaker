@@ -17,23 +17,25 @@ void generator_thread()
     {
         switch (state)
         {
-            //should these be urgent signals??
             case waiting:
-                evt = Thread::signal_wait(0);
-                if (evt.value.signals == SIG_VSIGNAL)
+                switch (rand() % 3)
                 {
-                    state = gotA;
+                case 0:
+                    evt = Thread::signal_wait(0, ATOMIC_TIME);
+                    if (evt.value.signals & SIG_VSIGNAL)
+                        state = gotA;
+                    break;
+                
+                case 1:
+                    evt = Thread::signal_wait(0, ATOMIC_TIME);
+                    if (evt.value.signals & SIG_ASIGNAL)
+                        state = gotV;
+                    break;
+                    
+                case 2:
+                    // do nothing
                     break;
                 }
-                if (evt.value.signals == SIG_ASIGNAL)
-                {
-                    state = gotV;
-                    break;
-                }
-                //invalid signal
-                printf("invalid signal %d in generator->waiting\n", evt.value.signals);
-                break;
-            
             case gotV:
                 Vget = 1 - Vget;
                 state = waiting;
@@ -42,11 +44,6 @@ void generator_thread()
             case gotA:
                 Aget = 1 - Aget;
                 state = waiting;
-                break;
-                
-            default:
-                // illegal state.
-                printf("Illegal generator state\n");
                 break;
             
         }
