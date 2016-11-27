@@ -1,51 +1,32 @@
 #include "responder.h"
 
-/* 
-input toggle implementation
-bool Vpace = false;
-bool Apace = false;
-
-void resetVpace(void const * n){Vpace = false;}
-void resetApace(void const * n){Apace = false;}
-
-InterruptIn VpaceIn(VPACE_PIN);
-InterruptIn ApaceIn(APACE_PIN);
-RtosTimer VpaceResetTimer( resetVpace, osTimerOnce);
-RtosTimer ApaceResetTimer( resetApace, osTimerOnce);
-*/
-
 DigitalIn Vpace(VPACE_PIN);
 DigitalIn Apace(APACE_PIN);
 Timer heartClock;
 osEvent evt;
 Serial pc(USBTX, USBRX);
-/*
-void setVpace()
-{
-    Vpace = true;
-    VpaceResetTimer.start(ATOMIC_TIME);
-}
 
-void setApace()
-{
-    Apace = true;
-    ApaceResetTimer.start(ATOMIC_TIME);
-}
-*/
+char keypress = ' ';
 
 enum responder_state{
     Random, Random_A, Random_V, Manual, Manual_A, Manual_V, Test 
 };
 
-void responder_thread()
+void update_keypress()
 {
-    /*
-    VpaceIn.rise(setVpace);
-    VpaceIn.fall(setVpace);
-    ApaceIn.rise(setApace);
-    ApaceIn.fall(setApace);
-    */
-    
+    while (pc.readable())
+    {
+        keypress = pc.getc();
+    }   
+}
+
+void clear_keypress()
+{   
+    keypress = ' ';   
+}
+
+void responder_thread()
+{ 
     responder_state state = Random;
 
     heartClock.start();
@@ -55,7 +36,7 @@ void responder_thread()
         switch (state)
         {
             case Random:
-                switch (rand() % 5)
+                switch (rand() % 7)
                 {
                     case 0:
                         if (heartClock.read_ms() >= minwait_V)
@@ -78,6 +59,24 @@ void responder_thread()
                         break;
                     
                     case 4:
+                        update_keypress();
+                        if (keypress == 't')
+                        {
+                            state = Test;
+                            clear_keypress();   
+                        }
+                        break;
+                        
+                    case 5:
+                        update_keypress();
+                        if (keypress == 'm')
+                        {
+                            state = Manual;
+                            clear_keypress();   
+                        }
+                        break;
+                    
+                    case 6:
                         // do nothing
                         break;
                 }
@@ -110,26 +109,24 @@ void responder_thread()
             case Manual:
                 // problem: wrong branch destroys enqueued command.
                 // idea: keep scoped char for "current command", updating if available. Clear after use.
-                switch (rand() % 5)
+                switch (rand() % 7)
                 {
                  case 0:
-                    if (pc.readable())
+                    update_keypress();
+                    if (keypress == 'v')
                     {
-                        if (pc.getc() == 'v')
-                        {
-                            state = Manual_V;   
-                        }   
+                        state = Manual_V; 
+                        clear_keypress();   
                     }
                     break;
                  
                  case 1:
-                    if (pc.readable())
+                    update_keypress();
+                     if (keypress == 'a')
                     {
-                        if (pc.getc() == 'a')
-                        {
-                            state = Manual_A;   
-                        }   
-                    }
+                        state = Manual_A;   
+                        clear_keypress();
+                    }   
                     break;
                  
                  case 2:
@@ -147,6 +144,24 @@ void responder_thread()
                     break;
                     
                  case 4: 
+                    update_keypress();
+                     if (keypress == 't')
+                    {
+                        state = Test;   
+                        clear_keypress();
+                    }   
+                    break;
+                 
+                 case 5:
+                    update_keypress();
+                     if (keypress == 'r')
+                    {
+                        state = Random;   
+                        clear_keypress();
+                    }   
+                    break;
+                 
+                 case 6:
                     //do nothing
                     break;   
                     
@@ -180,12 +195,32 @@ void responder_thread()
                 break;
                 
             case Test:
-                // ??? put tests here
+                // put tests here
+                switch (rand() % 3)
+                {
+                    case 0:
+                        update_keypress();
+                        if (keypress == 'm')
+                        {
+                            state = Manual;
+                            clear_keypress();   
+                        }
+                        break;
+                        
+                    case 1:  
+                        update_keypress();
+                        if (keypress == 'r')
+                        {
+                            state = Random;
+                            clear_keypress();   
+                        }
+                        break;
+                    
+                    case 2:
+                        //do nothing
+                        break; 
+                }
                 break;
-            
-            default:
-                printf("Illegal responder state\n");
-                
         }
     }
 }
