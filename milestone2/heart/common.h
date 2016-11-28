@@ -22,6 +22,17 @@ extern Thread threads[];
 #define AGET_PIN p12
 #define VGET_PIN p13
 
+//gloabal i/o based signals
+extern DigitalIn Vpace;
+extern DigitalIn Apace;
+
+//LED declarations
+#define APACE_LED 0
+#define VPACE_LED 1
+#define APACE_HEART_LED 2
+#define VPACE_HEART_LED 3
+extern DigitalOut LED[4];
+
 //timing parameters
 #define ATOMIC_TIME 1 //ms
 

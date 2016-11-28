@@ -56,5 +56,6 @@ void generator_thread()
                 break;
             
         }
+        Thread::yield();
     }
 }

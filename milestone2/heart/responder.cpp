@@ -1,7 +1,5 @@
 #include "responder.h"
 
-DigitalIn Vpace(VPACE_PIN);
-DigitalIn Apace(APACE_PIN);
 Timer heartClock;
 osEvent evt;
 Serial pc(USBTX, USBRX);
@@ -222,5 +220,6 @@ void responder_thread()
                 }
                 break;
         }
+        Thread::yield();
     }
 }
