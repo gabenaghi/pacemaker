@@ -12,3 +12,4 @@ void set_apace(void);
 void external_signals_thread(void);
 
 #endif // EXTERNAL_SIGNALS_H
+

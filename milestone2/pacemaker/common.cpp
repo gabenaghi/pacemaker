@@ -9,6 +9,9 @@ DigitalOut Apace(p7);
 DigitalOut Vpace(p8);
 PwmOut speaker(p26);
 
+uint16_t TIME_LRI = 1000;
+uint16_t TIME_URI = 100;
+
 DigitalOut leds[NUM_LEDS] = {
 	DigitalOut(LED1),
 	DigitalOut(LED2),
@@ -121,3 +124,4 @@ void safe_println(char const* fmt...)
 	safe_print(fmt);
 	safe_endl();
 }
+

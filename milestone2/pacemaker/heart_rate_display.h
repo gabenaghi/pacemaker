@@ -7,3 +7,4 @@ void print_heart_rate(void);
 void heart_rate_display_thread(void);
 
 #endif // HEART_RATE_DISPLAY_H
+

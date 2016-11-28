@@ -80,3 +80,4 @@ void external_signals_thread(void)
 		clear_own_signals(T_EXTERNAL_SIGNALS);
 	}
 }
+

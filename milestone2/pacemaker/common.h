@@ -49,8 +49,8 @@ extern DigitalOut leds[NUM_LEDS];
 // TODO: add more and change values later
 #define TIME_VRP 200
 #define TIME_PVARP 300
-#define TIME_LRI 1000
-#define TIME_URI 100 // which value should we use?
+extern uint16_t TIME_LRI;
+extern uint16_t TIME_URI; // which value should we use?
 #define TIME_AVI 150
 
 // threads
@@ -97,3 +97,4 @@ uint16_t lfsr(void);
 extern uint8_t obs_interval;
 
 #endif // COMMON_H
+

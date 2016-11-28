@@ -40,3 +40,4 @@ void vrp_thread(void)
 		clear_own_signals(T_VRP);
 	}
 }
+

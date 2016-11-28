@@ -45,3 +45,4 @@ void heart_rate_display_thread(void)
 		
 	}
 }
+
