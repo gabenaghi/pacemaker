@@ -10,7 +10,7 @@ RtosTimer apace_timer(&reset_apace);
 void flip_led(uint8_t led)
 {
 	if (led < 0 || led >= NUM_LEDS) {
-		safe_println("Invalid LED: %d", led);
+		safe_print("Invalid LED: %d", led);
 		while (true);
 	}
 	leds[led] = !leds[led];

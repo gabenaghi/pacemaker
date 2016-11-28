@@ -29,7 +29,7 @@ int main() {
 
     safe_println("All threads started successfully!");
 
-    while (true);
+    Thread::wait(osWaitForever);
 
 	return 0;
 }

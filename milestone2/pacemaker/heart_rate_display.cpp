@@ -3,17 +3,17 @@
 #include "common.h"
 #include "TextLCD.h"
 
-TextLCD lcd(p9, p10, p11, p12, p13, p14, TextLCD::LCD16x2);
+TextLCD lcd(LCD_PIN_0, LCD_PIN_1, LCD_PIN_2, LCD_PIN_3, LCD_PIN_4, LCD_PIN_5, TextLCD::LCD16x2);
 RtosTimer heart_rate_timer(&heart_rate_timeout);
 
-uint32_t A_ticks, V_ticks;
+volatile uint32_t A_ticks, V_ticks;
 
 void heart_rate_timeout(void const* args)
 {
 	lcd.cls();
 	lcd.locate(0, 0);
-	lcd.printf("A: %d\n", (uint8_t) (1.0 * A_ticks / obs_interval));
-	lcd.printf("V: %d", (uint8_t) (1.0 * V_ticks / obs_interval));
+	lcd.printf("A: %d\n", A_ticks);
+	lcd.printf("V: %d", V_ticks);
 	A_ticks = 0;
 	V_ticks = 0;
 }
@@ -35,10 +35,10 @@ void heart_rate_display_thread(void)
 	
 	while (true) {
 		event = Thread::signal_wait(0);
-		if (event.value.signals & SIG_AGET || event.value.signals & SIG_APACE) {
+		if (event.value.signals & SIG_AGET) {
 			A_ticks++;
 		}
-		if (event.value.signals & SIG_VGET || event.value.signals & SIG_VPACE) {
+		if (event.value.signals & SIG_VGET) {
 			V_ticks++;
 		}
 		clear_own_signals(T_HEART_RATE_DISPLAY);
