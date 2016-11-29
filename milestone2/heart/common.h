@@ -47,14 +47,19 @@ extern DigitalOut Vget;
 #define APACE_HEART_LED 2
 #define VPACE_HEART_LED 3
 #define NUM_LEDS 4
-extern DigitalOut LED[NUM_LEDS];
+extern DigitalOut leds[NUM_LEDS];
 
 //timing parameters
 #define ATOMIC_TIME 1 //ms
+#define SIG_TIMEOUT 2
+#define MS_PER_MINUTE 1000 * 60
 
 //display stuff
-#define OBSERVATION_MIN 1.0f
+#define OBSERVATION_MIN 1000
 extern int Acount;
 extern int Vcount;
+
+//debug
+#define TRACE 1
 
 #endif //heart_common_h
