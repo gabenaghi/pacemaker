@@ -9,7 +9,7 @@ DigitalOut Apace(APACE_PIN);
 DigitalOut Vpace(VPACE_PIN);
 PwmOut speaker(SPEAKER_PIN);
 
-uint16_t TIME_LRI = 1000;
+uint16_t TIME_LRI = 2000;
 uint16_t TIME_URI = 100;
 
 DigitalOut leds[NUM_LEDS] = {

@@ -16,7 +16,7 @@ void lri_thread(void)
 	lri_timer.start();
 
 	while(true) {
-		event = Thread::signal_wait(0);
+		event = Thread::signal_wait(0, SIGNAL_TIMEOUT);
 		switch (state) {
 
 			case lri:
@@ -36,7 +36,7 @@ void lri_thread(void)
 					else {
 						speaker_stop_low();
 					}
-          lri_timer.reset();
+					lri_timer.reset();
 					clear_own_signals(T_LRI);
 				}
 				else if (event.value.signals & SIG_ASENSE) {
@@ -45,6 +45,7 @@ void lri_thread(void)
 				}
 				else if (lri_timer.read_ms() > TIME_LRI - TIME_AVI) {
 					global_signal_set(SIG_APACE);
+					safe_println("Apace in LRI");
 					lri_timer.reset();
 					clear_own_signals(T_LRI);
 				}

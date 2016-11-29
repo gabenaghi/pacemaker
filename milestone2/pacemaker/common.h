@@ -6,6 +6,8 @@
 
 #define DEBUG // enable printf
 
+#define SIGNAL_TIMEOUT 2 // ms
+
 // signal difinitions
 #define SIG_VSENSE 0x1 << 1
 #define SIG_ASENSE 0x1 << 2

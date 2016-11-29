@@ -17,7 +17,7 @@ void avi_thread(void)
 	avi_timer.start();
 
 	while(true) {
-		event = Thread::signal_wait(0);
+		event = Thread::signal_wait(0, SIGNAL_TIMEOUT);
 		switch (state) {
 
 			case idle:
@@ -35,19 +35,21 @@ void avi_thread(void)
         // only try to take other transitions after checking others
 				if (event.value.signals & (SIG_FORCEVPACE)) {
 					global_signal_set(SIG_VPACE);
+					safe_println("FORCE VPACE in AVI 1");
 					state = idle;
 					clear_own_signals(T_AVI);
 				}
-        else if (event.value.signals & SIG_VSENSE) {
-          state = idle;
-          clear_own_signals(T_AVI);
-        }
+				else if (event.value.signals & SIG_VSENSE) {
+					state = idle;
+					clear_own_signals(T_AVI);
+				}
 				else if (avi_timer.read_ms() > TIME_AVI) {
 					if (clk.read_ms() < TIME_URI) {
 						state = wait_uri;
 					}
 					else {
 						global_signal_set(SIG_VPACE);
+						safe_println("VPACE in AVI 1");
 						state = idle;
 					}
 					clear_own_signals(T_AVI);
@@ -57,14 +59,16 @@ void avi_thread(void)
 			case wait_uri:
 				if (event.value.signals & (SIG_FORCEVPACE)) {
 					global_signal_set(SIG_VPACE);
+					safe_println("FORCE VPACE in AVI 2");
 					state = idle;
 					clear_own_signals(T_AVI);
 				}
-        else if (event.value.signals & SIG_VSENSE) {
-          state = idle;
-          clear_own_signals(T_AVI);
-        }
+				else if (event.value.signals & SIG_VSENSE) {
+					state = idle;
+					clear_own_signals(T_AVI);
+				}
 				else if (clk.read_ms() >= TIME_URI) {
+					safe_println("VPACE in AVI 2");
 					global_signal_set(SIG_VPACE);
 					state = idle;
 					clear_own_signals(T_AVI);

@@ -8,7 +8,7 @@ void uri_thread(void)
     bool just_started = true;
 
 	while(true) {
-		event = Thread::signal_wait(0);
+		event = Thread::signal_wait(0, SIGNAL_TIMEOUT);
         if (event.value.signals & (SIG_VPACE | SIG_VSENSE)) {
             if (just_started) {
                 just_started = false;
