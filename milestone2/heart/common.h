@@ -36,4 +36,9 @@ extern DigitalOut LED[4];
 //timing parameters
 #define ATOMIC_TIME 1 //ms
 
+//display stuff
+#define OBSERVATION_MIN 1.0f
+extern int Acount;
+extern int Vcount;
+
 #endif //heart_common_h
