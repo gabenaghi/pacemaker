@@ -7,7 +7,7 @@ enum display_state {Display};
 
 void display_thread()
 {
-    float observation_time;
+    int observation_time;
     display_timer.start();
     display_state state = Display;
     while(1)
@@ -15,26 +15,23 @@ void display_thread()
         switch (state)
         {
             case Display:
-                switch (rand() % 2)
+#if TRACE
+printf("display: state display\r\n");
+#endif
+                observation_time = display_timer.read_ms();
+#if TRACE
+printf("display: observation_time = %d\r\n", observation_time);
+#endif
+                if (observation_time > OBSERVATION_MIN)
                 {
-                    case 0:
-                        if (display_timer.read() > OBSERVATION_MIN)
-                        {
-                            observation_time = display_timer.read();
-                            lcd.printf("Acount %3.0f bpm\n Vcount: %3.0f bpm\n",
-                                        (float)Acount/observation_time, 
-                                        (float)Vcount/observation_time);
-                            Acount = 0;
-                            Vcount = 0;
-                            display_timer.reset();
-                        }
-                        break;
-                        
-                    case 1:
-                        //do nothing
-                        break;   
+                    
+                    //lcd.printf("A: %d bpm\n V: %d bpm\n", Acount/observation_time, Vcount/observation_time);
+                    printf("A: %d bpm\r\nV: %d bpm\r\n", (Acount*MS_PER_MINUTE)/observation_time, (Vcount*MS_PER_MINUTE)/observation_time);
+                    Acount = 0;
+                    Vcount = 0;
+                    display_timer.reset();
                 }
-                break;   
+                break; 
         }
         Thread::yield();
     }

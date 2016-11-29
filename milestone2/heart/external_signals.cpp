@@ -9,17 +9,6 @@ RtosTimer vget_timer(&reset_vget);
 RtosTimer aget_timer(&reset_aget);
 
 /*
-void flip_led(uint8_t led)
-{
-	if (led < 0 || led >= NUM_LEDS) {
-		safe_println("Invalid LED: %d", led);
-		while (true);
-	}
-	leds[led] = !leds[led];
-}
-*/
-
-/*
  * Interrupts for receiving Vget and Aget from the heart.
  */
 

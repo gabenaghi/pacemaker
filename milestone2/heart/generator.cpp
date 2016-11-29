@@ -24,25 +24,25 @@ void generator_thread()
         switch (state)
         {
             case waiting:
-                switch (rand() % 3)
-                {
-                    case 0:
-                        evt = Thread::signal_wait(0, ATOMIC_TIME);
-                        if (evt.value.signals & SIG_VSIGNAL)
-                            state = gotA;
-                        break;
-                
-                    case 1:
-                        evt = Thread::signal_wait(0, ATOMIC_TIME);
-                        if (evt.value.signals & SIG_ASIGNAL)
-                            state = gotV;
-                        break;
-                    
-                    case 2:
-                        // do nothing
-                        break;
-                }
+#if TRACE
+printf("generator: state waiting\r\n");
+#endif
+                evt = Thread::signal_wait(0, SIG_TIMEOUT);
+                if (evt.value.signals & SIG_VSIGNAL)
+                    state = gotA;
+#if TRACE
+printf("generator: got vsignal\r\n");
+#endif
+                if (evt.value.signals & SIG_ASIGNAL)
+                    state = gotV;
+#if TRACE
+printf("generator: got asignal\r\n");
+#endif
+                break;
             case gotV:
+#if TRACE
+    printf("generator: state gotv\r\n");
+#endif
                 Vget = 1;
                 Vget_off.start(SIGNAL_TIME);
                 Vcount++;
@@ -50,6 +50,9 @@ void generator_thread()
                 break;
                 
             case gotA:
+#if TRACE
+    printf("generator: state gota\r\n");
+#endif
                 Aget = 1;
                 Aget_off.start(SIGNAL_TIME);
                 Acount++;

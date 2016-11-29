@@ -17,10 +17,9 @@ DigitalOut leds[NUM_LEDS] = {
 void global_signal_set(uint32_t signals)
 {
 	signals_mutex.lock();
-	for (int i = 0; i < NUM_THREADS;) {
+	for (int i = 0; i < NUM_THREADS; ++i) {
 		threads[i].signal_set(signals);
-		//safe_println("i = %d", i);
-		i++;
+		//printf("i = %d", i);
 	}
 	signals_mutex.unlock();
 }

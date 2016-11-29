@@ -3,7 +3,6 @@
 Timer heartClock;
 osEvent evt;
 
-
 char keypress = ' ';
 
 enum responder_state{
@@ -31,6 +30,9 @@ void responder_thread()
     
     while(1)
     {
+#if TRACE
+    printf("responder\r\n");
+#endif
         switch (state)
         {
             case Random:

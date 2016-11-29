@@ -5,7 +5,4 @@
 
 void led_thread();
 
-
-
-
 #endif //heart_led_h

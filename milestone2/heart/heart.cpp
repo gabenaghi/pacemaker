@@ -21,10 +21,15 @@ int main()
     threads[T_LED].start(led_thread);
     threads[T_EXTERNAL].start(external_signals_thread);
     threads[T_DISPLAY].start(display_thread);
+#if TRACE
+    printf("done spawning threads\r\n");
+#endif
     while(1)
     {
-        Thread::signal_wait(NULL); //sleep forever
-        printf("problem: main woke up\n");
+#if TRACE
+printf("main\r\n");
+#endif
+        Thread::yield();
     }
     return 0; 
 }
