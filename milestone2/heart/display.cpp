@@ -21,7 +21,9 @@ void display_thread()
                         if (display_timer.read() > OBSERVATION_MIN)
                         {
                             observation_time = display_timer.read();
-                            lcd.printf("Acount %3.0f bpm\n Vcount: %3.0f bpm\n",(float)Acount/observation_time, (float)Vcount/observation_time);
+                            lcd.printf("Acount %3.0f bpm\n Vcount: %3.0f bpm\n",
+                                        (float)Acount/observation_time, 
+                                        (float)Vcount/observation_time);
                             Acount = 0;
                             Vcount = 0;
                             display_timer.reset();
