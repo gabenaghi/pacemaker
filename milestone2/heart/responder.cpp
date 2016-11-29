@@ -15,10 +15,17 @@ void update_keypress()
     {
         keypress = pc.getc();
     }   
+    
+#if TRACE
+printf("updated keypress to '%c'\r\n", keypress);
+#endif
 }
 
 void clear_keypress()
 {   
+#if TRACE
+printf("clearing keypress '%c'\r\n", keypress);
+#endif
     keypress = ' ';   
 }
 
@@ -28,11 +35,12 @@ void responder_thread()
 
     heartClock.start();
     
+#if TRACE
+printf("responder\r\n");
+#endif
+    
     while(1)
     {
-#if TRACE
-    printf("responder\r\n");
-#endif
         switch (state)
         {
             case Random:
@@ -108,66 +116,46 @@ void responder_thread()
                 break;
                 
             case Manual:
-                // problem: wrong branch destroys enqueued command.
-                // idea: keep scoped char for "current command", updating if available. Clear after use.
-                switch (rand() % 7)
+                update_keypress();
+                if (keypress == 'v')
                 {
-                 case 0:
-                    update_keypress();
-                    if (keypress == 'v')
-                    {
-                        state = Manual_V; 
-                        clear_keypress();   
-                    }
-                    break;
-                 
-                 case 1:
-                    update_keypress();
-                     if (keypress == 'a')
-                    {
-                        state = Manual_A;   
-                        clear_keypress();
-                    }   
-                    break;
-                 
-                 case 2:
-                    if (Vpace)
-                    {
-                        state = Manual_V;
-                    }
-                    break;
-                    
-                 case 3:
-                    if (Apace)
-                    {
-                        state = Manual_A;   
-                    }
-                    break;
-                    
-                 case 4: 
-                    update_keypress();
-                     if (keypress == 't')
-                    {
-                        state = Test;   
-                        clear_keypress();
-                    }   
-                    break;
-                 
-                 case 5:
-                    update_keypress();
-                     if (keypress == 'r')
-                    {
-                        state = Random;   
-                        clear_keypress();
-                    }   
-                    break;
-                 
-                 case 6:
-                    //do nothing
-                    break;   
-                    
+                    state = Manual_V; 
+                    clear_keypress(); 
+                    break;  
                 }
-                break;
+            
+                 if (keypress == 'a')
+                {
+                    state = Manual_A;   
+                    clear_keypress();
+                    break;
+                }   
+             
+                if (Vpace)
+                {
+                    state = Manual_V;
+                    break;
+                }
+                
+                if (Apace)
+                {
+                    state = Manual_A;   
+                    break;
+                }
+                
+                if (keypress == 't')
+                {
+                    state = Test;   
+                    clear_keypress();
+                    break;
+                }   
+             
+                if (keypress == 'r')
+                {
+                    state = Random;   
+                    clear_keypress();
+                    break;
+                }   
                 
             case Manual_A:
                 switch (rand() % 2)
