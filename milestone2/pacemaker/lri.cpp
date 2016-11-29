@@ -29,12 +29,16 @@ void lri_thread(void)
 				// in that model, transition with Vpace? doesn't update speaker
 				// but i figure it should. so i changed it here
                 // and in UPPAAL
+				// NOTE: i was wrong
 				else if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
-					if (clk.read_ms() < TIME_LRI) {
-						speaker_play_low();
-					}
-					else {
-						speaker_stop_low();
+					// only update speaker on Vsense, not Vpace
+					if (event.value.signals & SIG_VSENSE) {
+						if (clk.read_ms() < TIME_LRI) {
+							speaker_play_low();
+						}
+						else {
+							speaker_stop_low();
+						}
 					}
 					lri_timer.reset();
 					clear_own_signals(T_LRI);
@@ -62,12 +66,16 @@ void lri_thread(void)
 				// in that model, transition with Vpace? doesn't update speaker
 				// but i figure it should. so i changed it here
                 // and in UPPAAL
+				// NOTE: i was wrong
 				else if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
-					if (clk.read_ms() < TIME_LRI) {
-						speaker_play_low();
-					}
-					else {
-						speaker_stop_low();
+					// only update speaker on Vsense, not Vpace
+					if (event.value.signals & SIG_VSENSE) {
+						if (clk.read_ms() < TIME_LRI) {
+							speaker_play_low();
+						}
+						else {
+							speaker_stop_low();
+						}
 					}
 					state = lri;
 					clear_own_signals(T_LRI);
