@@ -60,7 +60,7 @@ extern DigitalOut leds[NUM_LEDS];
 // Pacemaker timing criteria
 // defined in ms
 // TODO: add more and change values later
-#define TIME_VRP 200
+#define TIME_VRP 400
 #define TIME_PVARP 300
 extern uint16_t TIME_LRI;
 extern uint16_t TIME_URI; // which value should we use?

@@ -25,7 +25,7 @@ void pvarp_thread(void)
 					clear_own_signals(T_PVARP);
 				} else if (event.value.signals & SIG_AGET) {
 					global_signal_set(SIG_ASENSE);
-					//safe_println("ASENSE");
+					safe_println("ASENSE");
 				}
 				break;
 			case pvarp:
