@@ -41,7 +41,7 @@ printf("generator: got asignal\r\n");
                 break;
             case gotV:
 #if TRACE
-    printf("generator: state gotv\r\n");
+    printf("generator: state gotV\r\n");
 #endif
                 Vget = 1;
                 Vget_off.start(SIGNAL_TIME);
@@ -51,7 +51,7 @@ printf("generator: got asignal\r\n");
                 
             case gotA:
 #if TRACE
-    printf("generator: state gota\r\n");
+    printf("generator: state gotA\r\n");
 #endif
                 Aget = 1;
                 Aget_off.start(SIGNAL_TIME);
