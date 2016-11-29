@@ -5,7 +5,7 @@ Serial pc(USBTX,USBRX);
 //Global signals taken in from the heart. 
 InterruptIn Apace(APACE_PIN);//pin6
 InterruptIn Vpace(VPACE_PIN);//pin5
-
+Mutex signals_mutex;
 
 DigitalOut leds[NUM_LEDS] = {
 	DigitalOut(LED1),
@@ -18,8 +18,8 @@ void global_signal_set(uint32_t signals)
 {
 	signals_mutex.lock();
 	for (int i = 0; i < NUM_THREADS;) {
-		//threads[i].signal_set(signals);
-		safe_println("i = %d", i);
+		threads[i].signal_set(signals);
+		//safe_println("i = %d", i);
 		i++;
 	}
 	signals_mutex.unlock();

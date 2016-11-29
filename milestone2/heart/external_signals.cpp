@@ -4,8 +4,9 @@
 
 #define RESET_TIMEOUT 0.01f // vpace/apace reset timeout
 
-RtosTimer vpace_timer(&reset_vpace);
-RtosTimer apace_timer(&reset_apace);
+
+RtosTimer vget_timer(&reset_vget);
+RtosTimer aget_timer(&reset_aget);
 
 /*
 void flip_led(uint8_t led)
@@ -22,63 +23,63 @@ void flip_led(uint8_t led)
  * Interrupts for receiving Vget and Aget from the heart.
  */
 
-void vget_received(void)
+void vpace_received(void)
 {
-	global_signal_set(SIG_VGET);
+	global_signal_set(SIG_VPACE);
 	//flip_led(LED_VGET);
-	safe_println("Received Vget");
+	pc.printf("Received VPACE");
 }
 
-void aget_received(void)
+void apace_received(void)
 {
-	global_signal_set(SIG_AGET);
+	global_signal_set(SIG_APACE);
 	//flip_led(LED_AGET);
-	safe_println("Received Aget");
+	pc.printf("Received Aget");
 }
 
 /*
- * Interrupts for resetting Vpace and Apace to 0 after RESET_TIMEOUT.
+ * Interrupts for resetting Vget and Aget to 0 after RESET_TIMEOUT.
  */
 
-void reset_vpace(void const* args)
+void reset_vget(void const* args)
 {
-	Vpace = 0;
-	vpace_timer.stop();
+	Vget = 0;
+	vget_timer.stop();
 }
 
-void reset_apace(void const* args)
+void reset_aget(void const* args)
 {
-	Apace = 0;
-	apace_timer.stop();
+	Aget = 0;
+	aget_timer.stop();
 }
 
-void set_vpace(void)
+void set_vget(void)
 {
-	Vpace = 1;
-	vpace_timer.start(RESET_TIMEOUT);
+	Vget = 1;
+	vget_timer.start(RESET_TIMEOUT);
 	//flip_led(LED_VPACE);
 }
 
-void set_apace(void)
+void set_aget(void)
 {
-	Apace = 1;
-	apace_timer.start(RESET_TIMEOUT);
+	Aget = 1;
+	aget_timer.start(RESET_TIMEOUT);
 	//flip_led(LED_APACE);
 }
 
 void external_signals_thread(void) 
 {
 	osEvent event;
-	Vget.rise(&vget_received);
-	Aget.rise(&aget_received);
+	Vpace.rise(&vpace_received);
+	Apace.rise(&apace_received);
 
 	while (true) {
 		event = Thread::signal_wait(0);
-		if (event.value.signals & SIG_VPACE) {
-			set_vpace();
-		} else if (event.value.signals & SIG_APACE) {
-			set_apace();
+		if (event.value.signals & SIG_VSIGNAL) {
+			set_vget();
+		} else if (event.value.signals & SIG_ASIGNAL) {
+			set_aget();
 		}
-		clear_own_signals(T_EXTERNAL_SIGNALS);
+		clear_own_signals(T_EXTERNAL);
 	}
 }

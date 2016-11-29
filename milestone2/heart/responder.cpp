@@ -2,7 +2,7 @@
 
 Timer heartClock;
 osEvent evt;
-Serial pc(USBTX, USBRX);
+
 
 char keypress = ' ';
 
@@ -114,7 +114,6 @@ void responder_thread()
                     update_keypress();
                     if (keypress == 'v')
                     {
-                        global_signal_set()
                         state = Manual_V; 
                         clear_keypress();   
                     }

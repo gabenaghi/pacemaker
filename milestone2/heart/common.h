@@ -4,6 +4,8 @@
 #include <mbed.h>
 #include <rtos.h>
 
+extern Serial pc;
+
 // signal difinitions
 #define SIG_VSIGNAL 0x1 << 0
 #define SIG_VSIGNAL_RES 0x1 << 1
