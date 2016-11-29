@@ -1,6 +1,7 @@
 #include "common.h"
 #include "generator.h"
 #include "responder.h"
+#include "display.h"
 
 Thread threads[NUM_THREADS] = {Thread(osPriorityNormal)};
 
@@ -16,9 +17,11 @@ int main()
 {    
     threads[T_GENERATOR].start(generator_thread);
     threads[T_RESPONDER].start(responder_thread);
+    threads[T_DISPLAY].start(display_thread);
     while(1)
     {
-        Thread::yield();
+        Thread::signal_wait(NULL); //sleep forever
+        printf("problem: main woke up\n");
     }
     return 0; 
 }
