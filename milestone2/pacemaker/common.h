@@ -3,6 +3,7 @@
 
 #include <mbed.h>
 #include <rtos.h>
+#include "TextLCD.h"
 
 #define DEBUG // enable printf
 
@@ -35,7 +36,7 @@
 // Serial communication with PC
 extern Serial pc;
 extern Mutex printf_mutex;
-#define safe_print(fmt, ...) pc.printf(fmt, ##__VA_ARGS__)
+#define safe_print(fmt, ...) printf_mutex.lock(); pc.printf(fmt, ##__VA_ARGS__); printf_mutex.unlock()
 #define safe_endl() safe_print("\r\n");
 #define safe_println(fmt, ...) pc.printf(fmt, ##__VA_ARGS__); pc.printf("\r\n")
 
@@ -46,6 +47,7 @@ extern InterruptIn Vget;
 extern DigitalOut Apace;
 extern DigitalOut Vpace;
 extern PwmOut speaker;
+extern TextLCD lcd;
 
 // heart sensing/pacing LEDs
 #define LED_AGET 0

@@ -8,6 +8,7 @@ InterruptIn Vget(VGET_PIN);
 DigitalOut Apace(APACE_PIN);
 DigitalOut Vpace(VPACE_PIN);
 PwmOut speaker(SPEAKER_PIN);
+TextLCD lcd(LCD_PIN_0, LCD_PIN_1, LCD_PIN_2, LCD_PIN_3, LCD_PIN_4, LCD_PIN_5, TextLCD::LCD16x2);
 
 uint16_t TIME_LRI = 2000;
 uint16_t TIME_URI = 400; // used to be 100
@@ -78,6 +79,9 @@ void speaker_play_low(void)
 	speaker.period_ms(SPEAKER_LOW_PERIOD);
 	speaker.write(0.50f); // 50% duty cycle
     speaker_status = PLAYING_LOW;
+    lcd.locate(0, 1);
+    lcd.printf("LO");
+    safe_println("Speaker playing LOW");
 }	
 
 void speaker_stop_low(void)
@@ -86,6 +90,9 @@ void speaker_stop_low(void)
 		speaker.write(0.0f); // 0% duty cycle
 		speaker_status = NOT_PLAYING;
 	}
+	lcd.locate(0, 1);
+	lcd.printf("  ");
+	safe_println("Speaker stopped from low");
 }
 
 void speaker_play_high(void)
@@ -93,6 +100,9 @@ void speaker_play_high(void)
 	speaker.period_ms(SPEAKER_HIGH_PERIOD);
 	speaker.write(0.50f); // 50% duty cycle
 	speaker_status = PLAYING_HIGH;
+	lcd.locate(0, 1);
+	lcd.printf("HI");
+	safe_println("Speaker playing HIGH");
 }
 
 void speaker_stop_high(void)
@@ -101,5 +111,8 @@ void speaker_stop_high(void)
 		speaker.write(0.0f); // 0% duty cycle
 		speaker_status = NOT_PLAYING;
 	}
+	lcd.locate(0, 1);
+	lcd.printf("  ");
+	safe_println("Speaker stopped from high");
 }
 
