@@ -9,7 +9,6 @@ enum generator_state{
 //AGET AND VGET
 DigitalOut Aget(AGET_PIN);
 DigitalOut Vget(VGET_PIN);
-
 void Aget_off_fun(void const * n){ Aget = 0;}
 void Vget_off_fun(void const * n){ Vget = 0;}
 RtosTimer Aget_off(Aget_off_fun, osTimerOnce);

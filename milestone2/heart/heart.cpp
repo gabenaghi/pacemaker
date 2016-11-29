@@ -13,6 +13,8 @@ int main()
 {    
     threads[T_GENERATOR].start(generator_thread);
     threads[T_RESPONDER].start(responder_thread);
+    threads[T_LED].start(led_thread);
+    threads[T_EXTERNAL].start(external_signals_thread);
     while(1)
     {
         Thread::yield();

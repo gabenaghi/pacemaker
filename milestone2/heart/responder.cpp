@@ -96,7 +96,8 @@ void responder_thread()
                 switch (rand() % 2)
                 {
                     case 0:
-                        threads[T_GENERATOR].signal_set(SIG_VSIGNAL);
+                        //threads[T_GENERATOR].signal_set(SIG_VSIGNAL);
+                        global_signal_set(SIG_VSIGNAL);
                         heartClock.reset();
                     case 1: 
                         // do nothing
@@ -113,6 +114,7 @@ void responder_thread()
                     update_keypress();
                     if (keypress == 'v')
                     {
+                        global_signal_set()
                         state = Manual_V; 
                         clear_keypress();   
                     }
@@ -170,7 +172,8 @@ void responder_thread()
                 switch (rand() % 2)
                 {
                     case 0:
-                        threads[T_GENERATOR].signal_set(SIG_ASIGNAL);
+                        //threads[T_GENERATOR].signal_set(SIG_ASIGNAL);
+                        global_signal_set(SIG_VSIGNAL);
                         heartClock.reset();
                         break;
                     case 1:  
@@ -183,7 +186,8 @@ void responder_thread()
                 switch (rand() % 2)
                 {
                     case 0:
-                        threads[T_GENERATOR].signal_set(SIG_VSIGNAL);
+                        //threads[T_GENERATOR].signal_set(SIG_VSIGNAL);
+                        global_signal_set(SIG_VSIGNAL);
                         heartClock.reset();
                         break;
                     case 1:  
