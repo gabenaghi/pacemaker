@@ -3,13 +3,13 @@
 
 Serial pc(USBTX, USBRX);
 
-InterruptIn Aget(p5);
-InterruptIn Vget(p6);
-DigitalOut Apace(p7);
-DigitalOut Vpace(p8);
-PwmOut speaker(p26);
+InterruptIn Aget(AGET_PIN);
+InterruptIn Vget(VGET_PIN);
+DigitalOut Apace(APACE_PIN);
+DigitalOut Vpace(VPACE_PIN);
+PwmOut speaker(SPEAKER_PIN);
 
-uint16_t TIME_LRI = 1000;
+uint16_t TIME_LRI = 2000;
 uint16_t TIME_URI = 100;
 
 DigitalOut leds[NUM_LEDS] = {
@@ -35,10 +35,8 @@ uint8_t speaker_status;
 void global_signal_set(uint32_t signals)
 {
 	signals_mutex.lock();
-	for (int i = 0; i < NUM_THREADS;) {
-		//threads[i].signal_set(signals);
-		safe_println("i = %d", i);
-		i++;
+	for (int i = 0; i < NUM_THREADS; i++) {
+		threads[i].signal_set(signals);
 	}
 	signals_mutex.unlock();
 }
@@ -53,7 +51,7 @@ void global_signal_clear(uint32_t signals)
 }
 
 void seed_lfsr(void) {
-	AnalogIn ain(p20);
+	AnalogIn ain(LFSR_PIN);
     lfsr_value = ain.read_u16();
 }    
 
@@ -103,25 +101,5 @@ void speaker_stop_high(void)
 		speaker.write(0.0f); // 0% duty cycle
 		speaker_status = NOT_PLAYING;
 	}
-}
-
-void safe_print(char const* fmt...)
-{
-	#ifdef DEBUG
-	printf_mutex.lock();
-	pc.printf(fmt);
-	printf_mutex.unlock();
-	#endif
-}
-
-void safe_endl(void)
-{
-	safe_print("\r\n");
-}
-
-void safe_println(char const* fmt...)
-{
-	safe_print(fmt);
-	safe_endl();
 }
 

@@ -16,27 +16,28 @@ void pvarp_thread(void)
 	pvarp_timer.start();
 
 	while (true) {
-		event = Thread::signal_wait(SIG_VSENSE | SIG_VPACE | SIG_AGET);
+		event = Thread::signal_wait(0, SIGNAL_TIMEOUT);
 		switch (state) {
 			case idle:
-				if (event.value.signals & SIG_VSENSE || 
-						event.value.signals & SIG_VPACE) {
+				if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
 					state = pvarp;
 					pvarp_timer.reset();
+					clear_own_signals(T_PVARP);
 				} else if (event.value.signals & SIG_AGET) {
 					global_signal_set(SIG_ASENSE);
+					//safe_println("ASENSE");
 				}
 				break;
 			case pvarp:
 				if (pvarp_timer.read_ms() > TIME_PVARP) {
 					state = idle;
+					clear_own_signals(T_PVARP);
 				}
 				break;
 			default:
 				pc.printf("Illegal PVARP state: %d\r\n", state);
 				while (true); // halt VRP thread
 		}
-		clear_own_signals(T_PVARP);
 	}
 }
 

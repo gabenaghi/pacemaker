@@ -2,15 +2,15 @@
 #include "common.h"
 #include "external_signals.h"
 
-#define RESET_TIMEOUT 0.01f // vpace/apace reset timeout
+#define RESET_TIMEOUT 10 // vpace/apace reset timeout in s
 
-RtosTimer vpace_timer(&reset_vpace);
-RtosTimer apace_timer(&reset_apace);
+RtosTimer vpace_timer(&reset_vpace, osTimerOnce);
+RtosTimer apace_timer(&reset_apace, osTimerOnce);
 
 void flip_led(uint8_t led)
 {
 	if (led < 0 || led >= NUM_LEDS) {
-		safe_println("Invalid LED: %d", led);
+		safe_print("Invalid LED: %d", led);
 		while (true);
 	}
 	leds[led] = !leds[led];
@@ -38,22 +38,23 @@ void aget_received(void)
  * Interrupts for resetting Vpace and Apace to 0 after RESET_TIMEOUT.
  */
 
-void reset_vpace(void const* args)
+void reset_vpace(void const *args)
 {
 	Vpace = 0;
-	vpace_timer.stop();
+	safe_println("Set Vpace GPIO to 0");
 }
 
-void reset_apace(void const* args)
+void reset_apace(void const *args)
 {
 	Apace = 0;
-	apace_timer.stop();
+	safe_println("Set Apace GPIO to 0");
 }
 
 void set_vpace(void)
 {
 	Vpace = 1;
 	vpace_timer.start(RESET_TIMEOUT);
+	safe_println("Set Vpace GPIO to 1");
 	flip_led(LED_VPACE);
 }
 
@@ -61,6 +62,7 @@ void set_apace(void)
 {
 	Apace = 1;
 	apace_timer.start(RESET_TIMEOUT);
+	safe_println("Set Apace GPIO to 1");
 	flip_led(LED_APACE);
 }
 

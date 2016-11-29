@@ -17,6 +17,7 @@ extern Thread threads[];
 #define NUM_THREADS 4
 #define T_GENERATOR 0
 #define T_RESPONDER 1
+<<<<<<< HEAD
 #define T_LED 2
 #define T_EXTERNAL 3
 
@@ -25,6 +26,9 @@ void global_signal_set(uint32_t signals);
 void global_signal_clear(uint32_t signals);
 void clear_own_signals(uint8_t pid);
 extern Mutex signals_mutex;
+=======
+#define T_DISPLAY 2
+>>>>>>> 14b199becf1d7881c0f1c705bac30c3fea2a8f68
 
 //pin allocations- arbitrary
 #define VPACE_PIN p10
@@ -48,5 +52,10 @@ extern DigitalOut LED[NUM_LEDS];
 
 //timing parameters
 #define ATOMIC_TIME 1 //ms
+
+//display stuff
+#define OBSERVATION_MIN 1.0f
+extern int Acount;
+extern int Vcount;
 
 #endif //heart_common_h

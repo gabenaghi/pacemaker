@@ -6,6 +6,8 @@
 
 #define DEBUG // enable printf
 
+#define SIGNAL_TIMEOUT 2 // ms
+
 // signal difinitions
 #define SIG_VSENSE 0x1 << 1
 #define SIG_ASENSE 0x1 << 2
@@ -17,14 +19,25 @@
 #define SIG_FORCEVPACE 0x1 << 8
 
 // pin definitions
-#define AGET_PIN
+#define AGET_PIN p5
+#define VGET_PIN p6
+#define APACE_PIN p7
+#define VPACE_PIN p8
+#define SPEAKER_PIN p21
+#define LCD_PIN_0 p9
+#define LCD_PIN_1 p10
+#define LCD_PIN_2 p11
+#define LCD_PIN_3 p12
+#define LCD_PIN_4 p13
+#define LCD_PIN_5 p14
+#define LFSR_PIN p20
 
 // Serial communication with PC
 extern Serial pc;
 extern Mutex printf_mutex;
-void safe_print(char const* fmt...);
-void safe_endl(void);
-void safe_println(char const* fmt...);
+#define safe_print(fmt, ...) pc.printf(fmt, ##__VA_ARGS__)
+#define safe_endl() safe_print("\r\n");
+#define safe_println(fmt, ...) pc.printf(fmt, ##__VA_ARGS__); pc.printf("\r\n")
 
 // External pin interface.
 // Can be changed later. Refer to mBed pinout.
