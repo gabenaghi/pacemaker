@@ -41,20 +41,20 @@ void aget_received(void)
 void reset_vpace(void const *args)
 {
 	Vpace = 0;
-	safe_println("Set Vpace GPIO to 0");
+	//safe_println("Set Vpace GPIO to 0");
 }
 
 void reset_apace(void const *args)
 {
 	Apace = 0;
-	safe_println("Set Apace GPIO to 0");
+	//safe_println("Set Apace GPIO to 0");
 }
 
 void set_vpace(void)
 {
 	Vpace = 1;
 	vpace_timer.start(RESET_TIMEOUT);
-	safe_println("Set Vpace GPIO to 1");
+	//safe_println("Set Vpace GPIO to 1");
 	flip_led(LED_VPACE);
 }
 
@@ -62,7 +62,7 @@ void set_apace(void)
 {
 	Apace = 1;
 	apace_timer.start(RESET_TIMEOUT);
-	safe_println("Set Apace GPIO to 1");
+	//safe_println("Set Apace GPIO to 1");
 	flip_led(LED_APACE);
 }
 

@@ -18,11 +18,12 @@ void vrp_thread(void)
 	while (true) {
 		switch (state) {
 			case idle:
-				event = Thread::signal_wait(SIG_VGET | SIG_VPACE);
+				event = Thread::signal_wait(0, SIGNAL_TIMEOUT);
 				if (event.value.signals & SIG_VGET) {
 					state = vrp;
 					vrp_timer.reset();
 					global_signal_set(SIG_VSENSE);
+					safe_println("v$en$e!");
 					clear_own_signals(T_VRP);
 				} else if (event.value.signals & SIG_VPACE) {
 					state = vrp;
