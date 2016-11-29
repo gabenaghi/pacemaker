@@ -1,5 +1,6 @@
 # Object files
 *.o
+!milestone2/pacemaker/mbed/TARGET_LPC1768/TOOLCHAIN_GCC_ARM/
 *.ko
 *.obj
 *.elf
