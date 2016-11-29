@@ -46,12 +46,14 @@ void generator_thread()
             case gotV:
                 Vget = 1;
                 Vget_off.start(SIGNAL_TIME);
+                Vcount++;
                 state = waiting;
                 break;
                 
             case gotA:
                 Aget = 1;
                 Aget_off.start(SIGNAL_TIME);
+                Acount++;
                 state = waiting;
                 break;
             

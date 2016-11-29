@@ -15,6 +15,7 @@ extern Thread threads[];
 #define NUM_THREADS 10
 #define T_GENERATOR 0
 #define T_RESPONDER 1
+#define T_DISPLAY 2
 
 //pin allocations- arbitrary
 #define VPACE_PIN p10
@@ -35,5 +36,10 @@ extern DigitalOut LED[4];
 
 //timing parameters
 #define ATOMIC_TIME 1 //ms
+
+//display stuff
+#define OBSERVATION_MIN 1.0f
+extern int Acount;
+extern int Vcount;
 
 #endif //heart_common_h
