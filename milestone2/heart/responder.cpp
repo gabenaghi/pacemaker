@@ -57,14 +57,16 @@ printf("responder: state Random\r\n");
                     clear_keypress();   
                     break;
                 }                
-                if (Vpace)
+                evt = Thread::signal_wait(0x0, SIG_TIMEOUT);
+                if (evt.value.signals & SIG_VPACE)
                 {
                     state = Random_V;
                     break;
                 }
-                if (Apace)
+                
+                if (evt.value.signals & SIG_APACE)
                 {
-                    state = Random_A;
+                    state = Random_A;   
                     break;
                 }
                 
@@ -122,18 +124,6 @@ printf("responder: state Manual\r\n");
                     clear_keypress();
                     break;
                 }   
-             
-                if (Vpace)
-                {
-                    state = Manual_V;
-                    break;
-                }
-                
-                if (Apace)
-                {
-                    state = Manual_A;   
-                    break;
-                }
                 
                 if (keypress == 't')
                 {
@@ -148,6 +138,20 @@ printf("responder: state Manual\r\n");
                     clear_keypress();
                     break;
                 }   
+             
+                evt = Thread::signal_wait(0x0, SIG_TIMEOUT);
+                if (evt.value.signals & SIG_VPACE)
+                {
+                    state = Manual_V;
+                    break;
+                }
+                
+                if (evt.value.signals & SIG_APACE)
+                {
+                    state = Manual_A;   
+                    break;
+                }
+                
                 break;
                 
             case Manual_A:
