@@ -16,9 +16,12 @@ void lri_thread(void)
 	lri_timer.start();
 
 	while(true) {
+		if (clk.read_ms() > TIME_LRI) {
+			speaker_play_low();
+		}
 		event = Thread::signal_wait(0, SIGNAL_TIMEOUT);
-		switch (state) {
 
+		switch (state) {
 			case lri:
 				if (event.value.signals & SIG_FORCEAPACE) {
 					global_signal_set(SIG_APACE);
@@ -33,12 +36,7 @@ void lri_thread(void)
 				else if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
 					// only update speaker on Vsense, not Vpace
 					if (event.value.signals & SIG_VSENSE) {
-						if (clk.read_ms() < TIME_LRI) {
-							speaker_play_low();
-						}
-						else {
-							speaker_stop_low();
-						}
+						speaker_stop_low();
 					}
 					lri_timer.reset();
 					clear_own_signals(T_LRI);
@@ -70,12 +68,7 @@ void lri_thread(void)
 				else if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
 					// only update speaker on Vsense, not Vpace
 					if (event.value.signals & SIG_VSENSE) {
-						if (clk.read_ms() < TIME_LRI) {
-							speaker_play_low();
-						}
-						else {
-							speaker_stop_low();
-						}
+						speaker_stop_low();
 					}
 					state = lri;
 					clear_own_signals(T_LRI);

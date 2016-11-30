@@ -76,12 +76,14 @@ void clear_own_signals(uint8_t pid)
 
 void speaker_play_low(void)
 {
-	speaker.period_ms(SPEAKER_LOW_PERIOD);
-	speaker.write(0.50f); // 50% duty cycle
-    speaker_status = PLAYING_LOW;
-    lcd.locate(0, 1);
-    lcd.printf("LO");
-    safe_println("Speaker playing LOW");
+	if (speaker_status != PLAYING_LOW) {
+		speaker.period_ms(SPEAKER_LOW_PERIOD);
+		speaker.write(0.50f); // 50% duty cycle
+	    speaker_status = PLAYING_LOW;
+	    lcd.locate(0, 1);
+	    lcd.printf("LO");
+	    safe_println("Speaker playing LOW");
+	}
 }	
 
 void speaker_stop_low(void)
@@ -89,20 +91,22 @@ void speaker_stop_low(void)
 	if (speaker_status == PLAYING_LOW) {
 		speaker.write(0.0f); // 0% duty cycle
 		speaker_status = NOT_PLAYING;
+		lcd.locate(0, 1);
+		lcd.printf("  ");
+		safe_println("Speaker stopped from low");
 	}
-	lcd.locate(0, 1);
-	lcd.printf("  ");
-	safe_println("Speaker stopped from low");
 }
 
 void speaker_play_high(void)
 {
-	speaker.period_ms(SPEAKER_HIGH_PERIOD);
-	speaker.write(0.50f); // 50% duty cycle
-	speaker_status = PLAYING_HIGH;
-	lcd.locate(0, 1);
-	lcd.printf("HI");
-	safe_println("Speaker playing HIGH");
+	if (speaker_status != PLAYING_HIGH) {
+		speaker.period_ms(SPEAKER_HIGH_PERIOD);
+		speaker.write(0.50f); // 50% duty cycle
+		speaker_status = PLAYING_HIGH;
+		lcd.locate(0, 1);
+		lcd.printf("HI");
+		safe_println("Speaker playing HIGH");
+	}
 }
 
 void speaker_stop_high(void)
@@ -110,9 +114,9 @@ void speaker_stop_high(void)
 	if (speaker_status == PLAYING_HIGH) {
 		speaker.write(0.0f); // 0% duty cycle
 		speaker_status = NOT_PLAYING;
+		lcd.locate(0, 1);
+		lcd.printf("  ");
+		safe_println("Speaker stopped from high");
 	}
-	lcd.locate(0, 1);
-	lcd.printf("  ");
-	safe_println("Speaker stopped from high");
 }
 
