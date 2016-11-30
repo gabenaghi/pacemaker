@@ -8,11 +8,9 @@ extern Serial pc;
 
 // signal difinitions
 #define SIG_VSIGNAL 0x1 << 0
-#define SIG_VSIGNAL_RES 0x1 << 1
-#define SIG_ASIGNAL 0x1 << 2
-#define SIG_ASIGNAL_RES 0x1 << 3
-#define SIG_APACE 0x1 << 4
-#define SIG_VPACE 0X1 << 5
+#define SIG_ASIGNAL 0x1 << 1
+#define SIG_APACE 0x1 << 2
+#define SIG_VPACE 0X1 << 3
 
 // threads
 extern Thread threads[];
@@ -53,8 +51,8 @@ extern DigitalOut leds[NUM_LEDS];
 #define ATOMIC_TIME 1 //ms
 #define SIG_TIMEOUT 2
 #define MS_PER_MINUTE 1000 * 60
-#define minwait_V 100 //ms, semi-arbitrary value for now
-#define minwait_A 150 //ms, semi-arbitrary value for now
+#define minwait_V 149 //ms
+#define minwait_A 149 //ms
 
 //display stuff
 #define OBSERVATION_MIN 1000
