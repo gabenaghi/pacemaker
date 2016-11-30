@@ -53,6 +53,8 @@ extern DigitalOut leds[NUM_LEDS];
 #define ATOMIC_TIME 1 //ms
 #define SIG_TIMEOUT 2
 #define MS_PER_MINUTE 1000 * 60
+#define minwait_V 100 //ms, semi-arbitrary value for now
+#define minwait_A 150 //ms, semi-arbitrary value for now
 
 //display stuff
 #define OBSERVATION_MIN 1000
@@ -60,6 +62,6 @@ extern int Acount;
 extern int Vcount;
 
 //debug
-#define TRACE 1
+#define TRACE 0
 
 #endif //heart_common_h
