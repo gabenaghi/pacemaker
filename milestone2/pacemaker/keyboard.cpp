@@ -4,7 +4,7 @@
 
 void keyboard_thread(void) 
 {
-	char input;
+	char input = ' ';
 	bool setting_obs_interval = false;
 	char number_string[4];
 	short int curr_index = 0;
@@ -82,6 +82,7 @@ void keyboard_thread(void)
 				case 'A':
 					if (manual) {
 						global_signal_set(SIG_FORCEAPACE);
+						//safe_println("Forced an Apace");
 					}
 					break;
 
@@ -90,6 +91,7 @@ void keyboard_thread(void)
 				case 'V':
 					if (manual) {
 						global_signal_set(SIG_FORCEVPACE);
+						//safe_println("Forced a Vpace");
 					}
 					break;
 

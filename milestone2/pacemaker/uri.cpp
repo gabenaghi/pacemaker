@@ -13,7 +13,9 @@ void uri_thread(void)
             if (just_started) {
                 just_started = false;
             }
-            else if (clk.read_ms() < TIME_URI) {
+            uint32_t clk_val = clk.read_ms();
+            //safe_println("URI: clk_val = %d", clk_val);
+            if (clk_val < TIME_URI) {
                 speaker_play_high();
             }
             else {

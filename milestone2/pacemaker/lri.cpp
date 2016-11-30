@@ -47,7 +47,7 @@ void lri_thread(void)
 				}
 				else if (lri_timer.read_ms() > TIME_LRI - TIME_AVI) {
 					global_signal_set(SIG_APACE);
-					safe_println("Apace in LRI");
+					//safe_println("Apace in LRI");
 					lri_timer.reset();
 					clear_own_signals(T_LRI);
 				}

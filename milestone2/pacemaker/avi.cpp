@@ -21,10 +21,14 @@ void avi_thread(void)
 		switch (state) {
 
 			case idle:
-				if (event.value.signals & (SIG_APACE | SIG_ASENSE)) {
+				if (event.value.signals & (SIG_FORCEVPACE)) {
+					global_signal_set(SIG_VPACE);
+					clear_own_signals(T_AVI);
+				}
+				else if (event.value.signals & (SIG_APACE | SIG_ASENSE)) {
 					avi_timer.reset();
 					state = avi;
-					safe_println("IDLE -> AVI");
+					//safe_println("IDLE -> AVI");
 					clear_own_signals(T_AVI);	
 				}
 				break;
@@ -36,25 +40,25 @@ void avi_thread(void)
         // only try to take other transitions after checking others
 				if (event.value.signals & (SIG_FORCEVPACE)) {
 					global_signal_set(SIG_VPACE);
-					safe_println("FORCE VPACE in AVI 1");
+					//safe_println("FORCE VPACE in AVI 1");
 					state = idle;
-					safe_println("AVI -> IDLE");
+					//safe_println("AVI -> IDLE");
 					clear_own_signals(T_AVI);
 				}
 				else if (event.value.signals & SIG_VSENSE) {
 					state = idle;
-					safe_println("AVI -> IDLE (VSENSE)");
+					//safe_println("AVI -> IDLE (VSENSE)");
 					clear_own_signals(T_AVI);
 				}
 				else if (avi_timer.read_ms() > TIME_AVI) {
 					if (clk.read_ms() < TIME_URI) {
 						state = wait_uri;
-						safe_println("AVI -> WAIT_URI");
+						//safe_println("AVI -> WAIT_URI");
 					}
 					else {
 						global_signal_set(SIG_VPACE);
 						//safe_println("VPACE in AVI 1");
-					    safe_println("AVI -> IDLE (VPACE!)");
+					    //safe_println("AVI -> IDLE (VPACE!)");
 						state = idle;
 					}
 					clear_own_signals(T_AVI);
@@ -64,7 +68,7 @@ void avi_thread(void)
 			case wait_uri:
 				if (event.value.signals & (SIG_FORCEVPACE)) {
 					global_signal_set(SIG_VPACE);
-					safe_println("FORCE VPACE in AVI 2");
+					//safe_println("FORCE VPACE in AVI 2");
 					state = idle;
 					clear_own_signals(T_AVI);
 				}
@@ -73,7 +77,7 @@ void avi_thread(void)
 					clear_own_signals(T_AVI);
 				}
 				else if (clk.read_ms() >= TIME_URI) {
-					safe_println("VPACE in AVI 2");
+					//safe_println("VPACE in AVI 2");
 					global_signal_set(SIG_VPACE);
 					state = idle;
 					clear_own_signals(T_AVI);

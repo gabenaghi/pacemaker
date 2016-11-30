@@ -10,7 +10,7 @@ RtosTimer apace_timer(&reset_apace, osTimerOnce);
 void flip_led(uint8_t led)
 {
 	if (led < 0 || led >= NUM_LEDS) {
-		safe_print("Invalid LED: %d", led);
+		safe_println("Invalid LED: %d", led);
 		while (true);
 	}
 	leds[led] = !leds[led];
@@ -22,16 +22,22 @@ void flip_led(uint8_t led)
 
 void vget_received(void)
 {
+	//for (int i = 0; i < 10000; i++) {
+	//	if (!Vget) return;
+	//}
 	global_signal_set(SIG_VGET);
 	flip_led(LED_VGET);
-	safe_println("Received Vget");
+	//safe_println("Received Vget");
 }
 
 void aget_received(void)
 {
+	//for (int i = 0; i < 10000; i++) {
+	//	if (!Aget) return;
+	//}
 	global_signal_set(SIG_AGET);
 	flip_led(LED_AGET);
-	safe_println("Received Aget");
+	//safe_println("Received Aget");
 }
 
 /*
@@ -73,7 +79,7 @@ void external_signals_thread(void)
 	Aget.rise(&aget_received);
 
 	while (true) {
-		event = Thread::signal_wait(0);
+		event = Thread::signal_wait(0, SIGNAL_TIMEOUT);
 		if (event.value.signals & SIG_VPACE) {
 			set_vpace();
 		} else if (event.value.signals & SIG_APACE) {

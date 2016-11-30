@@ -23,7 +23,7 @@ void vrp_thread(void)
 					state = vrp;
 					vrp_timer.reset();
 					global_signal_set(SIG_VSENSE);
-					safe_println("v$en$e!");
+					//safe_println("v$en$e!");
 					clear_own_signals(T_VRP);
 				} else if (event.value.signals & SIG_VPACE) {
 					state = vrp;

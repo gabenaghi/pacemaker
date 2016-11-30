@@ -82,7 +82,7 @@ void speaker_play_low(void)
 	    speaker_status = PLAYING_LOW;
 	    lcd.locate(0, 1);
 	    lcd.printf("LO");
-	    safe_println("Speaker playing LOW");
+	    //safe_println("Speaker playing LOW");
 	}
 }	
 
@@ -93,7 +93,7 @@ void speaker_stop_low(void)
 		speaker_status = NOT_PLAYING;
 		lcd.locate(0, 1);
 		lcd.printf("  ");
-		safe_println("Speaker stopped from low");
+		//safe_println("Speaker stopped from low");
 	}
 }
 
@@ -105,7 +105,7 @@ void speaker_play_high(void)
 		speaker_status = PLAYING_HIGH;
 		lcd.locate(0, 1);
 		lcd.printf("HI");
-		safe_println("Speaker playing HIGH");
+		//safe_println("Speaker playing HIGH");
 	}
 }
 
@@ -116,7 +116,7 @@ void speaker_stop_high(void)
 		speaker_status = NOT_PLAYING;
 		lcd.locate(0, 1);
 		lcd.printf("  ");
-		safe_println("Speaker stopped from high");
+		//safe_println("Speaker stopped from high");
 	}
 }
 

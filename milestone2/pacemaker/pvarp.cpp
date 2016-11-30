@@ -25,7 +25,7 @@ void pvarp_thread(void)
 					clear_own_signals(T_PVARP);
 				} else if (event.value.signals & SIG_AGET) {
 					global_signal_set(SIG_ASENSE);
-					safe_println("ASENSE");
+					//safe_println("ASENSE");
 				}
 				break;
 			case pvarp:
@@ -35,7 +35,7 @@ void pvarp_thread(void)
 				}
 				break;
 			default:
-				pc.printf("Illegal PVARP state: %d\r\n", state);
+				safe_println("Illegal PVARP state: %d", state);
 				while (true); // halt VRP thread
 		}
 	}

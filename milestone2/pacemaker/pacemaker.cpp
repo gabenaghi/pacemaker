@@ -16,7 +16,7 @@ Thread threads[NUM_THREADS] = {Thread(osPriorityNormal, NEW_STACK_SIZE, NULL)};
 int main() {
 
 	seed_lfsr();
-	clk.start();
+    clk.start();
 
     //safe_println("%d", DEFAULT_STACK_SIZE);
 
