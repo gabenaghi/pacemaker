@@ -26,7 +26,8 @@ printf("display: observation_time = %d\r\n", observation_time);
                 {
                     
                     //lcd.printf("A: %d bpm\n V: %d bpm\n", Acount/observation_time, Vcount/observation_time);
-                    printf("A: %d bpm\r\nV: %d bpm\r\n", (Acount*MS_PER_MINUTE)/observation_time, (Vcount*MS_PER_MINUTE)/observation_time);
+                    //printf("A: %d bpm\r\nV: %d bpm\r\n", (Acount*MS_PER_MINUTE)/observation_time, (Vcount*MS_PER_MINUTE)/observation_time);
+                    printf("A: %d bps \r\nV: %d bps\r\n\n", (Acount), (Vcount));
                     Acount = 0;
                     Vcount = 0;
                     display_timer.reset();

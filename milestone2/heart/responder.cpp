@@ -35,24 +35,45 @@ void responder_thread()
 
     heartClock.start();
     
-#if TRACE
-printf("responder\r\n");
-#endif
-    
     while(1)
     {
         switch (state)
         {
             case Random:
-                switch (rand() % 7)
+#if TRACE
+printf("responder: state Random\r\n");
+#endif
+                update_keypress();
+                if (keypress == 't')
+                {
+                    state = Test;
+                    clear_keypress(); 
+                    break;  
+                }
+                
+                if (keypress == 'm')
+                {
+                    state = Manual;
+                    clear_keypress();   
+                    break;
+                }                
+                evt = Thread::signal_wait(0x0, SIG_TIMEOUT);
+                if (evt.value.signals & SIG_VPACE)
+                {
+                    state = Random_V;
+                    break;
+                }
+                
+                if (evt.value.signals & SIG_APACE)
+                {
+                    state = Random_A;   
+                    break;
+                }
+                
+                switch (rand() % 3)
                 {
                     case 0:
                         if (heartClock.read_ms() >= minwait_V)
-                            state = Random_V;
-                        break;
-                        
-                    case 1:
-                        if (Vpace)
                             state = Random_V;
                         break;
                     
@@ -62,60 +83,33 @@ printf("responder\r\n");
                         break;
                     
                     case 3:   
-                        if (Apace)
-                            state = Random_A;
-                        break;
-                    
-                    case 4:
-                        update_keypress();
-                        if (keypress == 't')
-                        {
-                            state = Test;
-                            clear_keypress();   
-                        }
-                        break;
-                        
-                    case 5:
-                        update_keypress();
-                        if (keypress == 'm')
-                        {
-                            state = Manual;
-                            clear_keypress();   
-                        }
-                        break;
-                    
-                    case 6:
-                        // do nothing
+                        // do nothing (randomness)
                         break;
                 }
                 break;
             
             case Random_A:
-                switch (rand() % 2)
-                {
-                    case 0:
-                        threads[T_GENERATOR].signal_set(SIG_VSIGNAL);
-                        heartClock.reset();
-                    case 1: 
-                        // do nothing
-                        break;   
-                }
+#if TRACE
+printf("responder: state RandomA\r\n");
+#endif
+                global_signal_set(SIG_ASIGNAL);
+                heartClock.reset();
+                state = Random;
                 break;
             
             case Random_V:
-                switch (rand() % 2)
-                {
-                    case 0:
-                        //threads[T_GENERATOR].signal_set(SIG_VSIGNAL);
-                        global_signal_set(SIG_VSIGNAL);
-                        heartClock.reset();
-                    case 1: 
-                        // do nothing
-                        break;   
-                }
+#if TRACE
+printf("responder: state RandomV\r\n");
+#endif
+                global_signal_set(SIG_VSIGNAL);
+                heartClock.reset();
+                state = Random;
                 break;
                 
             case Manual:
+#if TRACE
+printf("responder: state Manual\r\n");
+#endif
                 update_keypress();
                 if (keypress == 'v')
                 {
@@ -130,18 +124,6 @@ printf("responder\r\n");
                     clear_keypress();
                     break;
                 }   
-             
-                if (Vpace)
-                {
-                    state = Manual_V;
-                    break;
-                }
-                
-                if (Apace)
-                {
-                    state = Manual_A;   
-                    break;
-                }
                 
                 if (keypress == 't')
                 {
@@ -156,62 +138,55 @@ printf("responder\r\n");
                     clear_keypress();
                     break;
                 }   
+             
+                evt = Thread::signal_wait(0x0, SIG_TIMEOUT);
+                if (evt.value.signals & SIG_VPACE)
+                {
+                    state = Manual_V;
+                    break;
+                }
+                
+                if (evt.value.signals & SIG_APACE)
+                {
+                    state = Manual_A;   
+                    break;
+                }
+                
+                break;
                 
             case Manual_A:
-                switch (rand() % 2)
-                {
-                    case 0:
-                        //threads[T_GENERATOR].signal_set(SIG_ASIGNAL);
-                        global_signal_set(SIG_VSIGNAL);
-                        heartClock.reset();
-                        break;
-                    case 1:  
-                        //do nothing
-                        break; 
-                }
+
+                global_signal_set(SIG_ASIGNAL);
+                state = Manual;
                 break;
             
             case Manual_V:
-                switch (rand() % 2)
-                {
-                    case 0:
-                        //threads[T_GENERATOR].signal_set(SIG_VSIGNAL);
-                        global_signal_set(SIG_VSIGNAL);
-                        heartClock.reset();
-                        break;
-                    case 1:  
-                        //do nothing
-                        break; 
-                }
+            
+                global_signal_set(SIG_VSIGNAL);
+                state = Manual;
                 break;
+
                 
             case Test:
-                // put tests here
-                switch (rand() % 3)
+#if TRACE
+printf("responder: state Test\r\n");
+#endif      
+                update_keypress();
+                if (keypress == 'm')
                 {
-                    case 0:
-                        update_keypress();
-                        if (keypress == 'm')
-                        {
-                            state = Manual;
-                            clear_keypress();   
-                        }
-                        break;
-                        
-                    case 1:  
-                        update_keypress();
-                        if (keypress == 'r')
-                        {
-                            state = Random;
-                            clear_keypress();   
-                        }
-                        break;
-                    
-                    case 2:
-                        //do nothing
-                        break; 
+                    state = Manual;
+                    clear_keypress();   
+                    break;
                 }
-                break;
+                
+                if (keypress == 'r')
+                {
+                    state = Random;
+                    clear_keypress(); 
+                    break;  
+                }
+            
+                // put tests here
         }
         Thread::yield();
     }

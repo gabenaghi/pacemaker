@@ -29,12 +29,12 @@ printf("generator: state waiting\r\n");
 #endif
                 evt = Thread::signal_wait(0, SIG_TIMEOUT);
                 if (evt.value.signals & SIG_VSIGNAL)
-                    state = gotA;
+                    state = gotV;
 #if TRACE
 printf("generator: got vsignal\r\n");
 #endif
                 if (evt.value.signals & SIG_ASIGNAL)
-                    state = gotV;
+                    state = gotA;
 #if TRACE
 printf("generator: got asignal\r\n");
 #endif
