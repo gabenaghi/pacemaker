@@ -267,8 +267,36 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                     
+                    pc.printf("Test: PVARP\r\n");
                     
-                    state = Test;
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: PVARP VPACE timeout\r\n");
+                    }
+
+                    wait_ms(TIME_PVARP - 20);
+                    global_signal_set(SIG_ASIGNAL);
+                    Timer uri_timer;
+                    uri_timer.start();
+                    wait_ms(TIME_AVI + 20);
+                    while (uri_timer.read_ms() <= TIME_URI);
+                    global_signal_set(SIG_ASIGNAL);
+                    
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - 1);
+                    if (evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: PVARP VPACE too early\r\n");
+                    }
+
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: PVARP VPACE failed to arrive\r\n");
+                    }
+
+                    pc.printf("Test passed: PVARP\r\n");
+
                     break;  
                 }
              
@@ -303,8 +331,46 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                     
+                    pc.printf("Test: Normal atrium and slow ventricle (NASV)\r\n");
                     
-                    state = Test;
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: NASV VPACE timeout\r\n");
+                    }
+
+                    wait_ms(TIME_URI);
+                    global_signal_set(SIG_ASIGNAL);
+                    
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - 1);
+                    if (evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: NASV VPACE 1 too early\r\n");
+                    }
+
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: NASV VPACE 1 failed to arrive\r\n");
+                    }
+
+                    wait_ms(TIME_URI);
+                    global_signal_set(SIG_ASIGNAL);
+
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - 1);
+                    if (evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: NASV VPACE 2 too early\r\n");
+                    }
+
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: NASV VPACE 2 failed to arrive\r\n");
+                    }
+                    
+                    pc.printf("Test passed: NASV\r\n");
+
                     break;  
                 }
                
@@ -339,8 +405,47 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                     
+                    pc.printf("Test: slow atrium and normal ventricle (SANV)\r\n");
                     
-                    state = Test;
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: SANV VPACE timeout\r\n");
+                    }
+
+                    
+                    evt = Thread::signal_wait(SIG_APACE, TIME_LRI - TIME_AVI - 1);
+                    if (evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: SANV APACE 1 too early\r\n");
+                    }
+
+                    evt = Thread::signal_wait(SIG_APACE, 2);
+                    if (!evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: SANV APACE 1 failed to arrive\r\n");
+                    }
+
+                    wait_ms(TIME_AVI - 20);
+                    global_signal_set(SIG_VSIGNAL);
+
+                    evt = Thread::signal_wait(SIG_APACE, TIME_LRI - TIME_AVI - 1);
+                    if (evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: SANV APACE 2 too early\r\n");
+                    }
+
+                    evt = Thread::signal_wait(SIG_APACE, 2);
+                    if (!evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: SANV APACE 2 failed to arrive\r\n");
+                    }
+
+                    wait_ms(TIME_AVI - 20);
+                    global_signal_set(SIG_VSIGNAL);
+
+                    pc.printf("Test passed: SANV\r\n");
+
                     break;  
                 }
                 
