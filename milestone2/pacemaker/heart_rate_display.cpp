@@ -12,6 +12,7 @@ void heart_rate_timeout(void const* args)
 	lcd.printf("A: %d, V: %d   ", A_ticks, V_ticks);
 	A_ticks = 0;
 	V_ticks = 0;
+	heart_rate_timer.start(1000 * obs_interval);
 }
 
 void print_heart_rate(void)
@@ -27,18 +28,16 @@ void heart_rate_display_thread(void)
 	A_ticks = 0;
 	V_ticks = 0;
 	
-	heart_rate_timer.start(100 * obs_interval);
+	heart_rate_timer.start(1000 * obs_interval);
 	
 	while (true) {
-		event = Thread::signal_wait(0);
+		event = Thread::signal_wait(0, SIGNAL_TIMEOUT);
 		if (event.value.signals & SIG_AGET) {
 			A_ticks++;
 		}
 		if (event.value.signals & SIG_VGET) {
 			V_ticks++;
 		}
-		clear_own_signals(T_HEART_RATE_DISPLAY);
-		
 	}
 }
 

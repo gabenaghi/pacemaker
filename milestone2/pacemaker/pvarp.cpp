@@ -22,7 +22,6 @@ void pvarp_thread(void)
 				if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
 					state = pvarp;
 					pvarp_timer.reset();
-					clear_own_signals(T_PVARP);
 				} else if (event.value.signals & SIG_AGET) {
 					global_signal_set(SIG_ASENSE);
 					//safe_println("ASENSE");
@@ -31,7 +30,6 @@ void pvarp_thread(void)
 			case pvarp:
 				if (pvarp_timer.read_ms() > TIME_PVARP) {
 					state = idle;
-					clear_own_signals(T_PVARP);
 				}
 				break;
 			default:

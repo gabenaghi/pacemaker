@@ -16,15 +16,23 @@ void flip_led(uint8_t led)
 	leds[led] = !leds[led];
 }
 
+bool debounce_button(InterruptIn in)
+{
+	for (int i = 0; i < 10000; i++) {
+		if (!in) return false;
+	}
+	return true;
+}
+
 /*
  * Interrupts for receiving Vget and Aget from the heart.
  */
 
 void vget_received(void)
 {
-	//for (int i = 0; i < 10000; i++) {
-	//	if (!Vget) return;
-	//}
+	for (int i = 0; i < 10000; i++) {
+		if (!Vget) return;
+	}
 	global_signal_set(SIG_VGET);
 	flip_led(LED_VGET);
 	//safe_println("Received Vget");
@@ -32,9 +40,9 @@ void vget_received(void)
 
 void aget_received(void)
 {
-	//for (int i = 0; i < 10000; i++) {
-	//	if (!Aget) return;
-	//}
+	for (int i = 0; i < 10000; i++) {
+		if (!Aget) return;
+	}
 	global_signal_set(SIG_AGET);
 	flip_led(LED_AGET);
 	//safe_println("Received Aget");
@@ -85,7 +93,6 @@ void external_signals_thread(void)
 		} else if (event.value.signals & SIG_APACE) {
 			set_apace();
 		}
-		clear_own_signals(T_EXTERNAL_SIGNALS);
 	}
 }
 

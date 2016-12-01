@@ -23,13 +23,11 @@ void avi_thread(void)
 			case idle:
 				if (event.value.signals & (SIG_FORCEVPACE)) {
 					global_signal_set(SIG_VPACE);
-					clear_own_signals(T_AVI);
 				}
 				else if (event.value.signals & (SIG_APACE | SIG_ASENSE)) {
 					avi_timer.reset();
 					state = avi;
-					//safe_println("IDLE -> AVI");
-					clear_own_signals(T_AVI);	
+					//safe_println("IDLE -> AVI");	
 				}
 				break;
 						
@@ -43,12 +41,10 @@ void avi_thread(void)
 					//safe_println("FORCE VPACE in AVI 1");
 					state = idle;
 					//safe_println("AVI -> IDLE");
-					clear_own_signals(T_AVI);
 				}
 				else if (event.value.signals & SIG_VSENSE) {
 					state = idle;
 					//safe_println("AVI -> IDLE (VSENSE)");
-					clear_own_signals(T_AVI);
 				}
 				else if (avi_timer.read_ms() > TIME_AVI) {
 					if (clk.read_ms() < TIME_URI) {
@@ -61,7 +57,6 @@ void avi_thread(void)
 					    //safe_println("AVI -> IDLE (VPACE!)");
 						state = idle;
 					}
-					clear_own_signals(T_AVI);
 				}
 				break;
 
@@ -70,20 +65,17 @@ void avi_thread(void)
 					global_signal_set(SIG_VPACE);
 					//safe_println("FORCE VPACE in AVI 2");
 					state = idle;
-					clear_own_signals(T_AVI);
 				}
 				else if (event.value.signals & SIG_VSENSE) {
 					state = idle;
-					clear_own_signals(T_AVI);
 				}
 				else if (clk.read_ms() >= TIME_URI) {
 					//safe_println("VPACE in AVI 2");
 					global_signal_set(SIG_VPACE);
 					state = idle;
-					clear_own_signals(T_AVI);
 				}
-        break;
+        		break;
+		}
 	}
-}
 }
 

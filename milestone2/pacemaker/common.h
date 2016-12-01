@@ -91,9 +91,8 @@ extern Timer clk;
 
 // Functions for controlling speaker/buzzer
 void speaker_play_high(void);
-void speaker_stop_high(void);
 void speaker_play_low(void);
-void speaker_stop_low(void);
+void speaker_stop(void);
 
 #define SPEAKER_LOW_PERIOD 2000 // 500 us
 #define SPEAKER_HIGH_PERIOD 800 // 800 us
