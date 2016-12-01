@@ -319,7 +319,7 @@ printf("responder: state Test\r\n");
                     clear_keypress(); 
                     pc.printf("Test: AVI\r\n");
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: AVI VPACE timeout\r\n");
                         global_signal_set(SIG_VSIGNAL);
@@ -335,13 +335,13 @@ printf("responder: state Test\r\n");
 
 
                     evt = Thread::signal_wait(SIG_APACE, TIME_AVI);
-                    if !(evt.value.signals & SIG_APACE)
+                    if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: AVI VPACE failed to arrive\r\n");
                         break;
                     }else{
                         pc.printf("Test: AVI test success");
-                        global_signal_set(SIG_VSIGNAL)
+                        global_signal_set(SIG_VSIGNAL);
                     }
                     
                     state = Test;
@@ -555,7 +555,7 @@ printf("responder: state Test\r\n");
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: NAFV VPACE timeout\r\n");
                         break;
@@ -1046,7 +1046,7 @@ printf("responder: state Test\r\n");
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
-                        pc.printf("Test: SANV VPACE timeout\r\n");
+                        pc.printf("Test: SAFV VPACE timeout\r\n");
                         break;
                     }
 
@@ -1054,14 +1054,14 @@ printf("responder: state Test\r\n");
                     evt = Thread::signal_wait(SIG_APACE, TIME_LRI - TIME_AVI - 1);
                     if (evt.value.signals & SIG_APACE)
                     {
-                        pc.printf("Test: SANV APACE 1 too early\r\n");
+                        pc.printf("Test: SAFV APACE 1 too early\r\n");
                         break;
                     }
 
                     evt = Thread::signal_wait(SIG_APACE, 2);
                     if (!(evt.value.signals & SIG_APACE))
                     {
-                        pc.printf("Test: SANV APACE 1 failed to arrive\r\n");
+                        pc.printf("Test: SAFV APACE 1 failed to arrive\r\n");
                         break;
                     }
 
@@ -1071,21 +1071,21 @@ printf("responder: state Test\r\n");
                     evt = Thread::signal_wait(SIG_APACE, TIME_LRI - TIME_AVI - 1);
                     if (evt.value.signals & SIG_APACE)
                     {
-                        pc.printf("Test: SANV APACE 2 too early\r\n");
+                        pc.printf("Test: SAFV APACE 2 too early\r\n");
                         break;
                     }
 
                     evt = Thread::signal_wait(SIG_APACE, 2);
                     if (!(evt.value.signals & SIG_APACE))
                     {
-                        pc.printf("Test: SANV APACE 2 failed to arrive\r\n");
+                        pc.printf("Test: SAFV APACE 2 failed to arrive\r\n");
                         break;
                     }
 
                     wait_ms(TIME_AVI);
                     global_signal_set(SIG_VSIGNAL);
 
-                    pc.printf("Test passed: SANV\r\n");
+                    pc.printf("Test passed: SAFV\r\n");
 
                     break;  
                 }
@@ -1243,7 +1243,7 @@ printf("responder: state Test\r\n");
                     if (failed) {
                         break;
                     }
-                    pc.printf("Test: FAFV passed\r\n");
+                    pc.printf("Test: SASV passed\r\n");
 
                     break;  
                 }
