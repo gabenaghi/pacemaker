@@ -250,6 +250,30 @@ printf("responder: state Test\r\n");
                 if (keypress == '2')
                 {
                     clear_keypress(); 
+                    pc.printf("Test: AVI\r\n");
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if !(evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: AVI VPACE timeout\r\n");
+                        global_signal_set(SIG_VSIGNAL);
+                    }
+                
+                    
+                    evt = Thread::signal_wait(SIG_APACE, TIME_URI+20);
+                    if (evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: AVI APACE 1 too early\r\n");
+                    }
+
+
+                    evt = Thread::signal_wait(SIG_APACE, TIME_AVI);
+                    if !(evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: AVI VPACE failed to arrive\r\n");
+                    }else{
+                        pc.printf("Test: AVI test success");
+                    }
+
                     
                     
                     state = Test;
