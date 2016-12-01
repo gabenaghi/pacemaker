@@ -319,7 +319,7 @@ printf("responder: state Test\r\n");
                     clear_keypress(); 
                     pc.printf("Test: AVI\r\n");
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: AVI VPACE timeout\r\n");
                         global_signal_set(SIG_VSIGNAL);
@@ -335,13 +335,13 @@ printf("responder: state Test\r\n");
 
 
                     evt = Thread::signal_wait(SIG_APACE, TIME_AVI);
-                    if !(evt.value.signals & SIG_APACE)
+                    if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: AVI VPACE failed to arrive\r\n");
                         break;
                     }else{
                         pc.printf("Test: AVI test success");
-                        global_signal_set(SIG_VSIGNAL)
+                        global_signal_set(SIG_VSIGNAL);
                     }
                     
                     state = Test;
@@ -555,7 +555,7 @@ printf("responder: state Test\r\n");
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: NAFV VPACE timeout\r\n");
                         break;
