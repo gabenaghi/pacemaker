@@ -198,43 +198,42 @@ printf("responder: state Test\r\n");
                     if !(evt.value.signals & SIG_VPACE)
                     {
                         pc.printf("Test: LRI VPACE timeout\r\n");
-                        state = Test;
+                        break;
                     }
                 
                     
-                    evt = Thread::signal_wait(SIG_APACE, TIME_LRI - 1);
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_LRI - 1);
                     if (evt.value.signals & SIG_APACE)
                     {
-                        pc.printf("Test: LRI APACE 1 too early\r\n");
-                        state = Test;
+                        pc.printf("Test: LRI VPACE 1 too early\r\n");
+                        break;
                     }
 
-                    evt = Thread::signal_wait(SIG_APACE, 2);
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
                     if !(evt.value.signals & SIG_APACE)
                     {
-                        pc.printf("Test: LRI APACE 1 failed to arrive\r\n");
-                        state = Test;
+                        pc.printf("Test: LRI VPACE 1 failed to arrive\r\n");
+                        break;
                     }
 
                     wait_ms(19);
                     global_signal_set(SIG_VSIGNAL);
 
 
-                    evt = Thread::signal_wait(SIG_APACE, TIME_LRI - 1);
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_LRI - 1);
                     if (evt.value.signals & SIG_APACE)
                     {
-                        pc.printf("Test: LRI APACE 2 too early\r\n");
-                        state = Test;
+                        pc.printf("Test: LRI VPACE 2 too early\r\n");
+                        break;
                     }
 
-                    evt = Thread::signal_wait(SIG_APACE, 2);
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
                     if !(evt.value.signals & SIG_APACE)
                     {
-                        pc.printf("Test: LRI APACE 2 failed to arrive\r\n");
-                        state = Test;
+                        pc.printf("Test: LRI VPACE 2 failed to arrive\r\n");
+                        break;
                     }
-                    
-                    state = Test;
+                    pc.printf("Test: Passed\r\n");
                     break;  
                 }
                 
@@ -259,7 +258,6 @@ printf("responder: state Test\r\n");
                 if (keypress == '3')
                 {
                     clear_keypress(); 
-                    
                     
                     state = Test;
                     break;  
@@ -296,8 +294,8 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                     
-                    
-                    state = Test;
+
+                    pc.printf("Test: Passed\r\n");
                     break;  
                 }
                
