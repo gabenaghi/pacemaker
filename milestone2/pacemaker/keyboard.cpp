@@ -72,9 +72,15 @@ void keyboard_thread(void)
 				// manual mode
 				case 'm':
 				case 'M':
-					TIME_URI = 300;
-					TIME_LRI = 1200;
-					manual = true;
+					if (!manual) {
+						TIME_URI = 300;
+						TIME_LRI = 1200;
+						manual = true;
+					} else {
+						TIME_URI = 400;
+						TIME_LRI = 1000;
+						manual = false;
+					}
 					break;
 
 				// send manual Apace

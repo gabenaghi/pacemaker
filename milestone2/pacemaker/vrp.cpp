@@ -24,17 +24,14 @@ void vrp_thread(void)
 					vrp_timer.reset();
 					global_signal_set(SIG_VSENSE);
 					//safe_println("v$en$e!");
-					clear_own_signals(T_VRP);
 				} else if (event.value.signals & SIG_VPACE) {
 					state = vrp;
 					vrp_timer.reset();
-					clear_own_signals(T_VRP);
 				}
 				break;
 			case vrp:
 				if (vrp_timer.read_ms() > TIME_VRP) {
 					state = idle;
-					clear_own_signals(T_VRP);
 				}
 				break;
 			default: // illegal state
