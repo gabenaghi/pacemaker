@@ -330,6 +330,7 @@ printf("responder: state Test\r\n");
                     if (evt.value.signals & SIG_APACE)
                     {
                         pc.printf("Test: AVI APACE 1 too early\r\n");
+                        break;
                     }
 
 
@@ -337,6 +338,7 @@ printf("responder: state Test\r\n");
                     if !(evt.value.signals & SIG_APACE)
                     {
                         pc.printf("Test: AVI VPACE failed to arrive\r\n");
+                        break;
                     }else{
                         pc.printf("Test: AVI test success");
                         global_signal_set(SIG_VSIGNAL)
