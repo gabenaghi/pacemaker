@@ -549,7 +549,7 @@ printf("responder: state Test\r\n");
                 if (keypress == '6')
                 {
                     clear_keypress(); 
-                    pc.printf("Test: NANV\r\n");
+                    pc.printf("Test: NAFV\r\n");
 
                     testTimer.reset();
 
