@@ -25,9 +25,9 @@ printf("display: observation_time = %d\r\n", observation_time);
                 if (observation_time > OBSERVATION_MIN)
                 {
                     
-                    //lcd.printf("A: %d bpm\n V: %d bpm\n", Acount/observation_time, Vcount/observation_time);
+                    lcd.printf("A: %d bps \r\nV: %d bps\r\n\n", (Acount), (Vcount));
                     //printf("A: %d bpm\r\nV: %d bpm\r\n", (Acount*MS_PER_MINUTE)/observation_time, (Vcount*MS_PER_MINUTE)/observation_time);
-                    printf("A: %d bps \r\nV: %d bps\r\n\n", (Acount), (Vcount));
+                    //printf("A: %d bps \r\nV: %d bps\r\n\n", (Acount), (Vcount));
                     Acount = 0;
                     Vcount = 0;
                     display_timer.reset();

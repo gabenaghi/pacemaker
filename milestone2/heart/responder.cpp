@@ -584,6 +584,26 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                 
+                    pc.printf("Test: Fast atrium and normal ventriculum (FANV)\r\n");
+                    
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: FANV VPACE timeout\r\n");
+                        break;
+                    }
+
+                    wait_ms(TIME_PVARP + 20); 
+                    global_signal_set(SIG_ASIGNAL);
+
+                    wait_ms(TIME_AVI - 20);
+                    global_signal_set(SIG_VSIGNAL);
+
+                    wait_ms(TIME_PVARP + 20); 
+                    global_signal_set(SIG_ASIGNAL);
+
+                    wait_ms(TIME_AVI - 20);
+                    global_signal_set(SIG_VSIGNAL);
 
                     break;  
                 }
