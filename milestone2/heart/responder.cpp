@@ -298,7 +298,47 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                    
+                    pc.printf("Test: URI\r\n");
+                    
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: URI VPACE timeout\r\n");
+                        break;
+                    }
 
+                    wait_ms(TIME_PVARP);
+                    global_signal_set(SIG_ASIGNAL);
+
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_URI - TIME_PVARP - 1);
+                    if (evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: URI VPACE 1 too early\r\n");
+                        break;
+                    }
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: URI VPACE 1 failed to arrive\r\n");
+                        break;
+                    }
+
+                    wait_ms(TIME_URI+20);
+                    global_signal_set(SIG_ASIGNAL);
+
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - 1);
+                    if (evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: URI VPACE 2 too early\r\n");
+                        break;
+                    }
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: URI VPACE 2 failed to arrive\r\n");
+                        break;
+                    }
+                    pc.printf("Test passed: URI\r\n");
                     break;  
                 }
              
