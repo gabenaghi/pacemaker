@@ -244,6 +244,8 @@ printf("responder: state Test\r\n");
 
                     pc.printf("Test: VRP\r\n");
 
+                    testTimer.reset();
+
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
                     if !(evt.value.signals & SIG_VPACE)
@@ -251,6 +253,7 @@ printf("responder: state Test\r\n");
                         pc.printf("Test: VRP VPACE timeout\r\n");
                     }
                     
+                    testTimer.reset();
                     testTimer.start();
                     bool failed = false;
                     
@@ -344,11 +347,111 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                     
+                    pc.printf("Test: Normal A Normal V\r\n");
+
+                    testTimer.reset();
+
+                    // wait for Vpace
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if !(evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: NANV VPACE timeout\r\n");
+                    }
                     
-                    state = Test;
+                    testTimer.start();
+                    bool failed = false;
+
+                    // wait for TIME_URI, fail if get paced
+                    while (testTimer.read_ms() < TIME_URI) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: NANV fail (Vpaced before 1st Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: NANV fail (Apaced before 1st Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // send ASIGNAL
+                    global_signal_set(SIG_ASIGNAL);
+                    
+
+                    // wait for TIME_URI + TIME_AVI - 20, fail if get paced
+                    while (testTimer.read_ms() < TIME_URI + TIME_AVI - 20) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: NANV fail (Vpaced before 1st Vsignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: NANV fail (Apaced before 1st Vsignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // send VSIGNAL
+                    global_signal_set(SIG_VSIGNAL);
+
+                    // wait for 2 * TIME_URI + TIME_AVI - 20, fail if get paced
+                    while (testTimer.read_ms() < 2 * TIME_URI + TIME_AVI - 20) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: NANV fail (Vpaced before 2nd Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: NANV fail (Apaced before 2nd Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // send VSIGNAL
+                    global_signal_set(SIG_VSIGNAL);
+
+                    // wait for 2 * TIME_URI + 2 * TIME_AVI - 2 * 20, fail if get paced
+                    while (testTimer.read_ms() < 2 * (TIME_URI + TIME_AVI - 20)) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: NANV fail (Vpaced before 2nd Vsignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: NANV fail (Apaced before 2nd Vsignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    pc.printf("Test: NANV passed\r\n");
+
                     break;  
                 }
-               
+                
                 if (keypress == '6')
                 {
                     clear_keypress(); 
@@ -357,7 +460,7 @@ printf("responder: state Test\r\n");
                     state = Test;
                     break;  
                 }
-                
+               
                 if (keypress == '7')
                 {
                     clear_keypress(); 
