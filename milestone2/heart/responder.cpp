@@ -195,7 +195,7 @@ printf("responder: state Test\r\n");
                     pc.printf("Test: LRI\r\n");
                     
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: LRI VPACE timeout\r\n");
                         break;
@@ -210,7 +210,7 @@ printf("responder: state Test\r\n");
                     }
 
                     evt = Thread::signal_wait(SIG_VPACE, 2);
-                    if !(evt.value.signals & SIG_APACE)
+                    if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: LRI VPACE 1 failed to arrive\r\n");
                         break;
@@ -228,7 +228,7 @@ printf("responder: state Test\r\n");
                     }
 
                     evt = Thread::signal_wait(SIG_VPACE, 2);
-                    if !(evt.value.signals & SIG_APACE)
+                    if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: LRI VPACE 2 failed to arrive\r\n");
                         break;
@@ -247,7 +247,7 @@ printf("responder: state Test\r\n");
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: VRP VPACE timeout\r\n");
                     }
@@ -263,8 +263,7 @@ printf("responder: state Test\r\n");
                           pc.printf("Test: VRP fail (paced before Vsense)\r\n");
                           failed = true;
                         }
-                          break;
-                        }
+                        break;
                     }
 
                     if (failed) {
@@ -351,6 +350,8 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                      
+                    Timer pvarp_timer;
+                    pvarp_timer.start();
                     pc.printf("Test: PVARP\r\n");
                     
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
@@ -362,10 +363,7 @@ printf("responder: state Test\r\n");
 
                     wait_ms(TIME_PVARP - 20);
                     global_signal_set(SIG_ASIGNAL);
-                    Timer uri_timer;
-                    uri_timer.start();
-                    wait_ms(TIME_AVI + 20);
-                    while (uri_timer.read_ms() <= TIME_URI);
+                    while (pvarp_timer.read_ms() <= TIME_URI + 20);
                     global_signal_set(SIG_ASIGNAL);
                     
                     evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - 1);
@@ -390,7 +388,47 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                    
+                    pc.printf("Test: URI\r\n");
+                    
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: URI VPACE timeout\r\n");
+                        break;
+                    }
 
+                    wait_ms(TIME_PVARP);
+                    global_signal_set(SIG_ASIGNAL);
+
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_URI - TIME_PVARP - 1);
+                    if (evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: URI VPACE 1 too early\r\n");
+                        break;
+                    }
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: URI VPACE 1 failed to arrive\r\n");
+                        break;
+                    }
+
+                    wait_ms(TIME_URI+20);
+                    global_signal_set(SIG_ASIGNAL);
+
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - 1);
+                    if (evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: URI VPACE 2 too early\r\n");
+                        break;
+                    }
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: URI VPACE 2 failed to arrive\r\n");
+                        break;
+                    }
+                    pc.printf("Test passed: URI\r\n");
                     break;  
                 }
              
@@ -404,7 +442,7 @@ printf("responder: state Test\r\n");
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: NANV VPACE timeout\r\n");
                     }
@@ -675,6 +713,26 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                 
+                    pc.printf("Test: Fast atrium and normal ventriculum (FANV)\r\n");
+                    
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: FANV VPACE timeout\r\n");
+                        break;
+                    }
+
+                    wait_ms(TIME_PVARP + 20); 
+                    global_signal_set(SIG_ASIGNAL);
+
+                    wait_ms(TIME_AVI - 20);
+                    global_signal_set(SIG_VSIGNAL);
+
+                    wait_ms(TIME_PVARP + 20); 
+                    global_signal_set(SIG_ASIGNAL);
+
+                    wait_ms(TIME_AVI - 20);
+                    global_signal_set(SIG_VSIGNAL);
 
                     break;  
                 }
@@ -689,7 +747,7 @@ printf("responder: state Test\r\n");
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: FAFV VPACE timeout\r\n");
                     }
@@ -792,8 +850,133 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                     
+                    pc.printf("Test: FASV\r\n");
+
+                    testTimer.reset();
+
+                    // wait for Vpace
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if !(evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: FASV VPACE timeout\r\n");
+                    }
                     
-                    state = Test;
+                    testTimer.start();
+                    bool failed = false;
+
+                    // wait for TIME_PVARP + 20, fail if get paced
+                    while (testTimer.read_ms() < TIME_PVARP + 20) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: FASV fail (Vpaced before 1st Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: FASV fail (Apaced before 1st Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // send Asignal
+                    global_signal_set(SIG_ASIGNAL);
+
+                    // wait for TIME_PVARP + 20 + TIME_AVI - 1, fail if get paced
+                    while (testTimer.read_ms() < TIME_PVARP + 20 + TIME_AVI - 1) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: FASV fail (Vpaced before 1st Vpace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: FASV fail (Apaced before 1st Vpace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // wait for 2ms, check if get paced correctly
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    if (!(evt.value.signals & SIG_VPACE)) {
+                        pc.printf("Test: FASV failed (didn't get 1st Vpace)\r\n");
+                        failed = true;
+                    }
+                    else if (evt.value.signals & SIG_APACE) {
+                        pc.printf("Test: FASV failed (got 1st Vpace with Apace)\r\n");
+                        failed = true;
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // wait for 2 * TIME_PVARP + 2 * 20 + TIME_AVI, fail if get paced
+                    while (testTimer.read_ms() < TIME_PVARP + 2 * 20 + TIME_AVI) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: FASV fail (Vpaced before 2nd Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: FASV fail (Apaced before 2nd Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // send Asignal
+                    global_signal_set(SIG_ASIGNAL);
+
+                    // wait for 2 * TIME_PVARP + 2 * 20 + 2 * TIME_AVI - 1, fail if get paced
+                    while (testTimer.read_ms() < 2 * (TIME_PVARP + 20 + TIME_AVI) - 1) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: FASV fail (Vpaced before 2nd Vpace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: FASV fail (Apaced before 2nd Vpace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // wait for 2ms, check if get paced correctly
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    if (!(evt.value.signals & SIG_VPACE)) {
+                        pc.printf("Test: FASV failed (didn't get 2nd Vpace)\r\n");
+                        failed = true;
+                    }
+                    else if (evt.value.signals & SIG_APACE) {
+                        pc.printf("Test: FASV failed (got 2nd Vpace with Apace)\r\n");
+                        failed = true;
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+                    pc.printf("Test: FASV passed\r\n");
+
                     break;  
                 }
                 
@@ -854,6 +1037,51 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                 
+                    pc.printf("Test: slow atrium and fast ventricle (SAFV)\r\n");
+                    
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if (!evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: SANV VPACE timeout\r\n");
+                        break;
+                    }
+
+                    
+                    evt = Thread::signal_wait(SIG_APACE, TIME_LRI - TIME_AVI - 1);
+                    if (evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: SANV APACE 1 too early\r\n");
+                        break;
+                    }
+
+                    evt = Thread::signal_wait(SIG_APACE, 2);
+                    if (!evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: SANV APACE 1 failed to arrive\r\n");
+                        break;
+                    }
+
+                    wait_ms(0.5 * TIME_AVI);
+                    global_signal_set(SIG_VSIGNAL);
+
+                    evt = Thread::signal_wait(SIG_APACE, TIME_LRI - TIME_AVI - 1);
+                    if (evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: SANV APACE 2 too early\r\n");
+                        break;
+                    }
+
+                    evt = Thread::signal_wait(SIG_APACE, 2);
+                    if (!evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: SANV APACE 2 failed to arrive\r\n");
+                        break;
+                    }
+
+                    wait_ms(TIME_AVI);
+                    global_signal_set(SIG_VSIGNAL);
+
+                    pc.printf("Test passed: SANV\r\n");
 
                     break;  
                 }
@@ -862,11 +1090,161 @@ printf("responder: state Test\r\n");
                 {
                     clear_keypress(); 
                     
+                    pc.printf("Test: SASV\r\n");
+
+                    testTimer.reset();
+
+                    // wait for Vpace
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if (!(evt.value.signals & SIG_VPACE))
+                    {
+                        pc.printf("Test: SASV VPACE timeout\r\n");
+                    }
                     
-                    state = Test;
+                    testTimer.start();
+                    bool failed = false;
+
+                    // wait for TIME_LRI - TIME_AVI - 1, fail if get paced
+                    while (testTimer.read_ms() < TIME_LRI - TIME_AVI - 1) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: SASV fail (Vpaced before 1st Apace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: SASV fail (Apaced before 1st Apace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // wait for 2ms, check if get paced correctly
+                    evt = Thread::signal_wait(SIG_APACE, 2);
+                    if (!(evt.value.signals & SIG_APACE)) {
+                        pc.printf("Test: SASV failed (didn't get 1st Apace)\r\n");
+                        failed = true;
+                    }
+                    else if (evt.value.signals & SIG_VPACE) {
+                        pc.printf("Test: SASV failed (got 1st Apace with Vpace)\r\n");
+                        failed = true;
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // wait for TIME_LRI - 1, fail if get paced
+                    while (testTimer.read_ms() < TIME_LRI - 1) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: SASV fail (Vpaced before 1st Vpace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: SASV fail (Apaced before 1st Vpace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // wait for 2ms, check if get paced correctly
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    if (!(evt.value.signals & SIG_VPACE)) {
+                        pc.printf("Test: SASV failed (didn't get 1st Vpace)\r\n");
+                        failed = true;
+                    }
+                    else if (evt.value.signals & SIG_APACE) {
+                        pc.printf("Test: SASV failed (got 1st Vpace with Apace)\r\n");
+                        failed = true;
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // wait for 2 * TIME_LRI - TIME_AVI - 1, fail if get paced
+                    while (testTimer.read_ms() < TIME_LRI - TIME_AVI - 1) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: SASV fail (Vpaced before 2nd Apace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: SASV fail (Apaced before 2nd Apace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // wait for 2ms, check if get paced correctly
+                    evt = Thread::signal_wait(SIG_APACE, 2);
+                    if (!(evt.value.signals & SIG_APACE)) {
+                        pc.printf("Test: SASV failed (didn't get 2nd Apace)\r\n");
+                        failed = true;
+                    }
+                    else if (evt.value.signals & SIG_VPACE) {
+                        pc.printf("Test: SASV failed (got 2nd Apace with Vpace)\r\n");
+                        failed = true;
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // wait for TIME_LRI - 1, fail if get paced
+                    while (testTimer.read_ms() < 2 * TIME_LRI - 1) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: SASV fail (Vpaced before 2nd Vpace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: SASV fail (Apaced before 2nd Vpace)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // wait for 2ms, check if get paced correctly
+                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    if (!(evt.value.signals & SIG_VPACE)) {
+                        pc.printf("Test: SASV failed (didn't get 2nd Vpace)\r\n");
+                        failed = true;
+                    }
+                    else if (evt.value.signals & SIG_APACE) {
+                        pc.printf("Test: SASV failed (got 2nd Vpace with Apace)\r\n");
+                        failed = true;
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+                    pc.printf("Test: FAFV passed\r\n");
+
                     break;  
                 }
-                
+
+
         }
         Thread::yield();
     }

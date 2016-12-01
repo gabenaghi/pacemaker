@@ -53,6 +53,11 @@ extern DigitalOut leds[NUM_LEDS];
 #define MS_PER_MINUTE 1000 * 60
 #define minwait_V 149 //ms
 #define minwait_A 149 //ms
+#define TIME_VRP 400
+#define TIME_PVARP 300
+#define TIME_LRI 2000
+#define TIME_URI 400 // which value should we use?
+#define TIME_AVI 150
 
 //display stuff
 #define OBSERVATION_MIN 1000
