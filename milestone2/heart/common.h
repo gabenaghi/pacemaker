@@ -48,7 +48,7 @@ extern DigitalOut Vget;
 extern DigitalOut leds[NUM_LEDS];
 
 //timing parameters
-#define ATOMIC_TIME 1 //ms
+#define TEST_START_TIMEOUT 5000//ms
 #define SIG_TIMEOUT 2
 #define MS_PER_MINUTE 1000 * 60
 #define minwait_V 149 //ms

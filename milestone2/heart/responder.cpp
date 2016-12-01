@@ -1,6 +1,7 @@
 #include "responder.h"
 
 Timer heartClock;
+Timer testTimer;
 osEvent evt;
 
 char keypress = ' ';
@@ -185,8 +186,164 @@ printf("responder: state Test\r\n");
                     clear_keypress(); 
                     break;  
                 }
+                
+                if (keypress == '0')
+                {
+                    clear_keypress(); 
+                    
+                    pc.printf("Test: LRI\r\n");
+                    
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if !(evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: LRI VPACE timeout\r\n");
+                        state = Test;
+                    }
+                    
+                    testTimer.start();
+                    bool res = false;
+                    while (testTimer.read_ms() < TIME_LRI)
+                    {
+                        evt = Thread::signal_wait(0x0, 1);
+                        if (evt.value.signals & SIG_VPACE)
+                        {
+                            res = false;
+                            break;   
+                        }
+                        if (evt.value.signals & SIG_APACE)
+                        {
+                            res = true;
+                            break;   
+                        }   
+                    }
+                    if !(res)
+                    {
+                        pc.printf("Test: LRI APace fail\r\n");
+                        state = Test;
+                    }
+                    res = false;
+                    
+                    state = Test;
+                    break;  
+                }
+                
+                if (keypress == '1')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
             
-                // put tests here
+                if (keypress == '2')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+            
+                if (keypress == '3')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+            
+                if (keypress == '4')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+             
+                if (keypress == '5')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+               
+                if (keypress == '6')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+                
+                if (keypress == '7')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+               
+                if (keypress == '8')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+               
+                if (keypress == '9')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+                
+                if (keypress == 'u')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+                
+                if (keypress == 'i')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+                
+                if (keypress == 'o')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+                
+                if (keypress == 'p')
+                {
+                    clear_keypress(); 
+                    
+                    
+                    state = Test;
+                    break;  
+                }
+                
         }
         Thread::yield();
     }
