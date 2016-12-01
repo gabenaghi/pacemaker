@@ -86,17 +86,6 @@ void speaker_play_low(void)
 	}
 }	
 
-void speaker_stop_low(void)
-{
-	if (speaker_status == PLAYING_LOW) {
-		speaker.write(0.0f); // 0% duty cycle
-		speaker_status = NOT_PLAYING;
-		lcd.locate(0, 1);
-		lcd.printf("  ");
-		//safe_println("Speaker stopped from low");
-	}
-}
-
 void speaker_play_high(void)
 {
 	if (speaker_status != PLAYING_HIGH) {
@@ -109,14 +98,14 @@ void speaker_play_high(void)
 	}
 }
 
-void speaker_stop_high(void)
+void speaker_stop(void)
 {
-	if (speaker_status == PLAYING_HIGH) {
+	if (speaker_status == PLAYING_LOW || speaker_status == PLAYING_HIGH) {
 		speaker.write(0.0f); // 0% duty cycle
 		speaker_status = NOT_PLAYING;
 		lcd.locate(0, 1);
 		lcd.printf("  ");
-		//safe_println("Speaker stopped from high");
+		//safe_println("Speaker stopped from low");
 	}
 }
 

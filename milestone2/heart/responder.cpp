@@ -5,6 +5,7 @@ Timer testTimer;
 osEvent evt;
 
 char keypress = ' ';
+bool res = false;
 
 enum responder_state{
     Random, Random_A, Random_V, Manual, Manual_A, Manual_V, Test 
@@ -199,29 +200,39 @@ printf("responder: state Test\r\n");
                         pc.printf("Test: LRI VPACE timeout\r\n");
                         state = Test;
                     }
+                
                     
-                    testTimer.start();
-                    bool res = false;
-                    while (testTimer.read_ms() < TIME_LRI)
+                    evt = Thread::signal_wait(SIG_APACE, TIME_LRI - 1);
+                    if (evt.value.signals & SIG_APACE)
                     {
-                        evt = Thread::signal_wait(0x0, 1);
-                        if (evt.value.signals & SIG_VPACE)
-                        {
-                            res = false;
-                            break;   
-                        }
-                        if (evt.value.signals & SIG_APACE)
-                        {
-                            res = true;
-                            break;   
-                        }   
-                    }
-                    if !(res)
-                    {
-                        pc.printf("Test: LRI APace fail\r\n");
+                        pc.printf("Test: LRI APACE 1 too early\r\n");
                         state = Test;
                     }
-                    res = false;
+
+                    evt = Thread::signal_wait(SIG_APACE, 2);
+                    if !(evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: LRI APACE 1 failed to arrive\r\n");
+                        state = Test;
+                    }
+
+                    wait_ms(19);
+                    global_signal_set(SIG_VSIGNAL);
+
+
+                    evt = Thread::signal_wait(SIG_APACE, TIME_LRI - 1);
+                    if (evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: LRI APACE 2 too early\r\n");
+                        state = Test;
+                    }
+
+                    evt = Thread::signal_wait(SIG_APACE, 2);
+                    if !(evt.value.signals & SIG_APACE)
+                    {
+                        pc.printf("Test: LRI APACE 2 failed to arrive\r\n");
+                        state = Test;
+                    }
                     
                     state = Test;
                     break;  
