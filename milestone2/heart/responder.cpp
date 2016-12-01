@@ -1044,7 +1044,7 @@ printf("responder: state Test\r\n");
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
-                        pc.printf("Test: SANV VPACE timeout\r\n");
+                        pc.printf("Test: SAFV VPACE timeout\r\n");
                         break;
                     }
 
@@ -1052,14 +1052,14 @@ printf("responder: state Test\r\n");
                     evt = Thread::signal_wait(SIG_APACE, TIME_LRI - TIME_AVI - 1);
                     if (evt.value.signals & SIG_APACE)
                     {
-                        pc.printf("Test: SANV APACE 1 too early\r\n");
+                        pc.printf("Test: SAFV APACE 1 too early\r\n");
                         break;
                     }
 
                     evt = Thread::signal_wait(SIG_APACE, 2);
                     if (!(evt.value.signals & SIG_APACE))
                     {
-                        pc.printf("Test: SANV APACE 1 failed to arrive\r\n");
+                        pc.printf("Test: SAFV APACE 1 failed to arrive\r\n");
                         break;
                     }
 
@@ -1069,21 +1069,21 @@ printf("responder: state Test\r\n");
                     evt = Thread::signal_wait(SIG_APACE, TIME_LRI - TIME_AVI - 1);
                     if (evt.value.signals & SIG_APACE)
                     {
-                        pc.printf("Test: SANV APACE 2 too early\r\n");
+                        pc.printf("Test: SAFV APACE 2 too early\r\n");
                         break;
                     }
 
                     evt = Thread::signal_wait(SIG_APACE, 2);
                     if (!(evt.value.signals & SIG_APACE))
                     {
-                        pc.printf("Test: SANV APACE 2 failed to arrive\r\n");
+                        pc.printf("Test: SAFV APACE 2 failed to arrive\r\n");
                         break;
                     }
 
                     wait_ms(TIME_AVI);
                     global_signal_set(SIG_VSIGNAL);
 
-                    pc.printf("Test passed: SANV\r\n");
+                    pc.printf("Test passed: SAFV\r\n");
 
                     break;  
                 }
@@ -1241,7 +1241,7 @@ printf("responder: state Test\r\n");
                     if (failed) {
                         break;
                     }
-                    pc.printf("Test: FAFV passed\r\n");
+                    pc.printf("Test: SASV passed\r\n");
 
                     break;  
                 }
