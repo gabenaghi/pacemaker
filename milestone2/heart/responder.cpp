@@ -734,6 +734,8 @@ printf("responder: state Test\r\n");
                     wait_ms(TIME_AVI - 20);
                     global_signal_set(SIG_VSIGNAL);
 
+                    pc.printf("Test passed: FANV\r\n");
+
                     break;  
                 }
                
