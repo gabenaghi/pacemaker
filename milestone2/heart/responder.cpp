@@ -195,7 +195,7 @@ printf("responder: state Test\r\n");
                     pc.printf("Test: LRI\r\n");
                     
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: LRI VPACE timeout\r\n");
                         break;
@@ -210,7 +210,7 @@ printf("responder: state Test\r\n");
                     }
 
                     evt = Thread::signal_wait(SIG_VPACE, 2);
-                    if !(evt.value.signals & SIG_APACE)
+                    if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: LRI VPACE 1 failed to arrive\r\n");
                         break;
@@ -228,7 +228,7 @@ printf("responder: state Test\r\n");
                     }
 
                     evt = Thread::signal_wait(SIG_VPACE, 2);
-                    if !(evt.value.signals & SIG_APACE)
+                    if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: LRI VPACE 2 failed to arrive\r\n");
                         break;
@@ -247,7 +247,7 @@ printf("responder: state Test\r\n");
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: VRP VPACE timeout\r\n");
                     }
@@ -263,8 +263,7 @@ printf("responder: state Test\r\n");
                           pc.printf("Test: VRP fail (paced before Vsense)\r\n");
                           failed = true;
                         }
-                          break;
-                        }
+                        break;
                     }
 
                     if (failed) {
@@ -420,7 +419,7 @@ printf("responder: state Test\r\n");
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: NANV VPACE timeout\r\n");
                     }
@@ -617,7 +616,7 @@ printf("responder: state Test\r\n");
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: FAFV VPACE timeout\r\n");
                     }
@@ -841,7 +840,7 @@ printf("responder: state Test\r\n");
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: SASV VPACE timeout\r\n");
                     }
