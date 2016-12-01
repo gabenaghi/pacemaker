@@ -332,7 +332,7 @@ printf("responder: state Test\r\n");
                     pc.printf("Test: PVARP\r\n");
                     
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if (!evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: PVARP VPACE timeout\r\n");
                         break;
@@ -351,7 +351,7 @@ printf("responder: state Test\r\n");
                     }
 
                     evt = Thread::signal_wait(SIG_VPACE, 2);
-                    if (!evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: PVARP VPACE failed to arrive\r\n");
                         break;
@@ -368,7 +368,7 @@ printf("responder: state Test\r\n");
                     pc.printf("Test: URI\r\n");
                     
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if (!evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: URI VPACE timeout\r\n");
                         break;
@@ -384,7 +384,7 @@ printf("responder: state Test\r\n");
                         break;
                     }
                     evt = Thread::signal_wait(SIG_VPACE, 2);
-                    if (!evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: URI VPACE 1 failed to arrive\r\n");
                         break;
@@ -400,7 +400,7 @@ printf("responder: state Test\r\n");
                         break;
                     }
                     evt = Thread::signal_wait(SIG_VPACE, 2);
-                    if (!evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: URI VPACE 2 failed to arrive\r\n");
                         break;
@@ -534,7 +534,7 @@ printf("responder: state Test\r\n");
                     pc.printf("Test: Normal atrium and slow ventricle (NASV)\r\n");
                     
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if (!evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: NASV VPACE timeout\r\n");
                         break;
@@ -551,7 +551,7 @@ printf("responder: state Test\r\n");
                     }
 
                     evt = Thread::signal_wait(SIG_VPACE, 2);
-                    if (!evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: NASV VPACE 1 failed to arrive\r\n");
                         break;
@@ -568,7 +568,7 @@ printf("responder: state Test\r\n");
                     }
 
                     evt = Thread::signal_wait(SIG_VPACE, 2);
-                    if (!evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: NASV VPACE 2 failed to arrive\r\n");
                         break;
@@ -585,7 +585,7 @@ printf("responder: state Test\r\n");
                     pc.printf("Test: Fast atrium and normal ventriculum (FANV)\r\n");
                     
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if (!evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: FANV VPACE timeout\r\n");
                         break;
@@ -731,7 +731,7 @@ printf("responder: state Test\r\n");
                     pc.printf("Test: slow atrium and normal ventricle (SANV)\r\n");
                     
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if (!evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: SANV VPACE timeout\r\n");
                         break;
@@ -746,7 +746,7 @@ printf("responder: state Test\r\n");
                     }
 
                     evt = Thread::signal_wait(SIG_APACE, 2);
-                    if (!evt.value.signals & SIG_APACE)
+                    if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: SANV APACE 1 failed to arrive\r\n");
                         break;
@@ -763,7 +763,7 @@ printf("responder: state Test\r\n");
                     }
 
                     evt = Thread::signal_wait(SIG_APACE, 2);
-                    if (!evt.value.signals & SIG_APACE)
+                    if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: SANV APACE 2 failed to arrive\r\n");
                         break;
@@ -784,7 +784,7 @@ printf("responder: state Test\r\n");
                     pc.printf("Test: slow atrium and fast ventricle (SAFV)\r\n");
                     
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if (!evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: SANV VPACE timeout\r\n");
                         break;
@@ -799,7 +799,7 @@ printf("responder: state Test\r\n");
                     }
 
                     evt = Thread::signal_wait(SIG_APACE, 2);
-                    if (!evt.value.signals & SIG_APACE)
+                    if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: SANV APACE 1 failed to arrive\r\n");
                         break;
@@ -816,7 +816,7 @@ printf("responder: state Test\r\n");
                     }
 
                     evt = Thread::signal_wait(SIG_APACE, 2);
-                    if (!evt.value.signals & SIG_APACE)
+                    if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: SANV APACE 2 failed to arrive\r\n");
                         break;
