@@ -340,9 +340,8 @@ printf("responder: state Test\r\n");
                         pc.printf("Test: AVI VPACE failed to arrive\r\n");
                     }else{
                         pc.printf("Test: AVI test success");
+                        global_signal_set(SIG_VSIGNAL)
                     }
-
-                    
                     
                     state = Test;
                     break;  
@@ -484,7 +483,7 @@ printf("responder: state Test\r\n");
                     while (testTimer.read_ms() < 2 * (TIME_URI + TIME_AVI - 20)) {
                         evt = Thread::signal_wait(0, 1);
                         if (evt.value.signals & (SIG_VPACE)) {
-                          pc.printf("Test: NANV fail (Vpaced before 2nd Vsignal)\r\n");
+                          pc.printf("Test: NAFV fail (Vpaced before 2nd Vsignal)\r\n");
                           failed = true;
                           break;
                         }
@@ -503,11 +502,119 @@ printf("responder: state Test\r\n");
 
                     break;  
                 }
-                
+               /*
+               *Normal atrium and fast ventriculum
+               *Normal A, but fast V
+               */ 
                 if (keypress == '6')
                 {
                     clear_keypress(); 
+                    pc.printf("Test: NANV\r\n");
+
+                    testTimer.reset();
+
+                    // wait for Vpace
+                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+                    if !(evt.value.signals & SIG_VPACE)
+                    {
+                        pc.printf("Test: NAFV VPACE timeout\r\n");
+                        break;
+                    }
                     
+                    testTimer.start();
+                    bool failed = false;
+
+                    // wait for TIME_URI, fail if get paced
+                    while (testTimer.read_ms() < TIME_URI) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: NAFV fail (Vpaced before 1st Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: NAFV fail (Apaced before 1st Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // send ASIGNAL
+                    global_signal_set(SIG_ASIGNAL);
+                    
+
+                    // wait for TIME_URI + TIME_AVI - 20, fail if get paced
+                    while (testTimer.read_ms() < TIME_URI + TIME_AVI/2) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: NAFV fail (Vpaced before 1st Vsignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: NAFV fail (Apaced before 1st Vsignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // send VSIGNAL
+                    global_signal_set(SIG_VSIGNAL);
+
+                    // wait for 2 * TIME_URI + TIME_AVI - 20, fail if get paced
+                    while (testTimer.read_ms() < 2 * TIME_URI + TIME_AVI/2) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: NAFV fail (Vpaced before 2nd Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: NAFV fail (Apaced before 2nd Asignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+
+                    if (failed) {
+                        break;
+                    }
+
+                    // send ASIGNAL
+                    global_signal_set(SIG_ASIGNAL);
+
+                    // wait for 2 * TIME_URI + 2 * TIME_AVI - 2 * 20, fail if get paced
+                    while (testTimer.read_ms() < 2 * TIME_URI + TIME_AVI) {
+                        evt = Thread::signal_wait(0, 1);
+                        if (evt.value.signals & (SIG_VPACE)) {
+                          pc.printf("Test: NAFV fail (Vpaced before 2nd Vsignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: NAFV fail (Apaced before 2nd Vsignal)\r\n");
+                          failed = true;
+                          break;
+                        }
+                    }
+                    //send VSIGNAL
+                    global_signal_set(SIG_VSIGNAL);
+                    if (failed) {
+                        break;
+                    }
+                    
+
+                    pc.printf("Test: NAFV passed\r\n");
+
+                    break;
                     
                     state = Test;
                     break;  
