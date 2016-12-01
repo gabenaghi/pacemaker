@@ -856,7 +856,7 @@ printf("responder: state Test\r\n");
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if !(evt.value.signals & SIG_VPACE)
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: FASV VPACE timeout\r\n");
                     }
