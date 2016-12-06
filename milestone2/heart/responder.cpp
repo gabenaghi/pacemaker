@@ -202,32 +202,32 @@ printf("responder: state Test\r\n");
                     }
                 
                     
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_LRI - 1);
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_LRI - TOLERANCE);
                     if (evt.value.signals & SIG_APACE)
                     {
                         pc.printf("Test: LRI VPACE 1 too early\r\n");
                         break;
                     }
 
-                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
                     if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: LRI VPACE 1 failed to arrive\r\n");
                         break;
                     }
 
-                    wait_ms(19);
+                    wait_ms(20);
                     global_signal_set(SIG_VSIGNAL);
 
 
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_LRI - 1);
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_LRI - TOLERANCE);
                     if (evt.value.signals & SIG_APACE)
                     {
                         pc.printf("Test: LRI VPACE 2 too early\r\n");
                         break;
                     }
 
-                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
                     if (!(evt.value.signals & SIG_APACE))
                     {
                         pc.printf("Test: LRI VPACE 2 failed to arrive\r\n");
