@@ -243,18 +243,19 @@ printf("responder: state Test\r\n");
 
                     pc.printf("Test: VRP\r\n");
 
+                    testTimer.stop();
                     testTimer.reset();
+                    bool failed = false; 
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: VRP VPACE timeout\r\n");
+                        break;
                     }
-                    
-                    testTimer.reset();
+
                     testTimer.start();
-                    bool failed = false;
                     
                     // wait for TIME_VRP - 20, fail if get paced
                     while (testTimer.read_ms() < TIME_VRP - 20) {
@@ -298,7 +299,7 @@ printf("responder: state Test\r\n");
                         break;
                     }
 
-                    // wait for 2ms
+                    // wait for 2 * tolerance ms
                     evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
                     if (!(evt.value.signals & SIG_VPACE)) {
                         pc.printf("Test: VRP failed (didn't get Vpace at TIME_LRI)\r\n");
