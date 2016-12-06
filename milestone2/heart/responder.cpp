@@ -243,18 +243,19 @@ printf("responder: state Test\r\n");
 
                     pc.printf("Test: VRP\r\n");
 
+                    testTimer.stop();
                     testTimer.reset();
+                    bool failed = false; 
 
                     // wait for Vpace
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: VRP VPACE timeout\r\n");
+                        break;
                     }
-                    
-                    testTimer.reset();
+
                     testTimer.start();
-                    bool failed = false;
                     
                     // wait for TIME_VRP - 20, fail if get paced
                     while (testTimer.read_ms() < TIME_VRP - 20) {
@@ -275,7 +276,7 @@ printf("responder: state Test\r\n");
 
                     bool Apaced = false;
                     // wait for TIME_LRI +/- 1, fail if get Vpace or Apace twice 
-                    while (testTimer.read_ms() < TIME_LRI - 1) {
+                    while (testTimer.read_ms() < TIME_LRI - TOLERANCE) {
                         evt = Thread::signal_wait(0, 1);
                         if (evt.value.signals & SIG_VPACE) {
                             pc.printf("Test: VRP fail (Vpaced too early)\r\n");
@@ -298,8 +299,8 @@ printf("responder: state Test\r\n");
                         break;
                     }
 
-                    // wait for 2ms
-                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    // wait for 2 * tolerance ms
+                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
                     if (!(evt.value.signals & SIG_VPACE)) {
                         pc.printf("Test: VRP failed (didn't get Vpace at TIME_LRI)\r\n");
                         failed = true;
@@ -368,14 +369,14 @@ printf("responder: state Test\r\n");
                     while (pvarp_timer.read_ms() <= TIME_URI + 20);
                     global_signal_set(SIG_ASIGNAL);
                     
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - 1);
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - TOLERANCE);
                     if (evt.value.signals & SIG_VPACE)
                     {
                         pc.printf("Test: PVARP VPACE too early\r\n");
                         break;
                     }
 
-                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: PVARP VPACE failed to arrive\r\n");
@@ -402,13 +403,13 @@ printf("responder: state Test\r\n");
                     wait_ms(TIME_PVARP);
                     global_signal_set(SIG_ASIGNAL);
 
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_URI - TIME_PVARP - 1);
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_URI - TIME_PVARP - TOLERANCE);
                     if (evt.value.signals & SIG_VPACE)
                     {
                         pc.printf("Test: URI VPACE 1 too early\r\n");
                         break;
                     }
-                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: URI VPACE 1 failed to arrive\r\n");
@@ -418,13 +419,13 @@ printf("responder: state Test\r\n");
                     wait_ms(TIME_URI+20);
                     global_signal_set(SIG_ASIGNAL);
 
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - 1);
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - TOLERANCE);
                     if (evt.value.signals & SIG_VPACE)
                     {
                         pc.printf("Test: URI VPACE 2 too early\r\n");
                         break;
                     }
-                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: URI VPACE 2 failed to arrive\r\n");
@@ -676,14 +677,14 @@ printf("responder: state Test\r\n");
                     wait_ms(TIME_URI);
                     global_signal_set(SIG_ASIGNAL);
                     
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - 1);
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - TOLERANCE);
                     if (evt.value.signals & SIG_VPACE)
                     {
                         pc.printf("Test: NASV VPACE 1 too early\r\n");
                         break;
                     }
 
-                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: NASV VPACE 1 failed to arrive\r\n");
@@ -693,14 +694,14 @@ printf("responder: state Test\r\n");
                     wait_ms(TIME_URI);
                     global_signal_set(SIG_ASIGNAL);
 
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - 1);
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - TOLERANCE);
                     if (evt.value.signals & SIG_VPACE)
                     {
                         pc.printf("Test: NASV VPACE 2 too early\r\n");
                         break;
                     }
 
-                    evt = Thread::signal_wait(SIG_VPACE, 2);
+                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: NASV VPACE 2 failed to arrive\r\n");
