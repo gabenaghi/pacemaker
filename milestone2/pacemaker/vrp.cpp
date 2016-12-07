@@ -33,6 +33,7 @@ void vrp_thread(void)
 				if (vrp_timer.read_ms() > TIME_VRP) {
 					state = idle;
 				}
+                Thread::yield();
 				break;
 			default: // illegal state
 				safe_println("Illegal VRP state: %d", state);
