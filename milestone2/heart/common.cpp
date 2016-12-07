@@ -6,6 +6,28 @@ uint32_t signal_times_times[SIGNAL_TIMES_ARR_SIZE] = {0};
 uint32_t signal_times_index = 0;
 Timer signal_times_clk;
 
+char keypress = ' ';
+
+void update_keypress()
+{
+    while (pc.readable())
+    {
+        keypress = pc.getc();
+    }   
+    
+#if TRACE
+printf("updated keypress to '%c'\r\n", keypress);
+#endif
+}
+
+void clear_keypress()
+{   
+#if TRACE
+printf("clearing keypress '%c'\r\n", keypress);
+#endif
+    keypress = ' ';   
+}
+
 //Global signals taken in from the heart. 
 InterruptIn Apace(APACE_PIN);//pin6
 InterruptIn Vpace(VPACE_PIN);//pin5

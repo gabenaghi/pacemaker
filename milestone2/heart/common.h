@@ -82,4 +82,10 @@ extern int Vcount;
 void dump_signal_times(void);
 const char* get_signal_name(uint32_t signals);
 
+extern char keypress;
+
+void update_keypress();
+
+void clear_keypress();
+
 #endif //heart_common_h
