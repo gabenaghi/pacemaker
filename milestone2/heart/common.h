@@ -58,7 +58,7 @@ extern DigitalOut leds[NUM_LEDS];
 #define TIME_LRI 2000
 #define TIME_URI 400 // which value should we use?
 #define TIME_AVI 150
-#define TOLERANCE 10
+#define TOLERANCE 20
 #define TWO_TOLERANCE 2 * TOLERANCE 
 
 //display stuff

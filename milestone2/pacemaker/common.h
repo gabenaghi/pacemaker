@@ -6,6 +6,7 @@
 #include "TextLCD.h"
 
 #define DEBUG // enable printf
+//#define BUZZER_ENABLED // enable buzzer
 
 #define SIGNAL_TIMEOUT 2 // ms
 

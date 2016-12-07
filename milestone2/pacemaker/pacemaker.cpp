@@ -17,6 +17,8 @@ int main() {
 
 	seed_lfsr();
     clk.start();
+    speaker.write(0.0f);
+    speaker.period_ms(100);
 
     //safe_println("%d", DEFAULT_STACK_SIZE);
 

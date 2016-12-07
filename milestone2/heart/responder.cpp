@@ -198,6 +198,7 @@ printf("responder: state Test\r\n");
                     testTimer.reset();
                     bool failed = false; 
                     
+                    clear_own_signals(T_RESPONDER);
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
@@ -208,6 +209,7 @@ printf("responder: state Test\r\n");
                     testTimer.start();
                 
                     while (testTimer.read_ms() < TIME_LRI - TOLERANCE) {
+                        clear_own_signals(T_RESPONDER);
                     	evt = Thread::signal_wait(SIG_VPACE, 1);
                     	if (evt.value.signals & SIG_VPACE)
                     	{
@@ -219,6 +221,7 @@ printf("responder: state Test\r\n");
 
                     if (failed) break;
                     
+                    clear_own_signals(T_RESPONDER);
                     evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
@@ -230,6 +233,7 @@ printf("responder: state Test\r\n");
                     global_signal_set(SIG_VSIGNAL);
 
                     while (testTimer.read_ms() < 2 * TIME_LRI + 20 - TOLERANCE) {
+                        clear_own_signals(T_RESPONDER);
 	                    evt = Thread::signal_wait(SIG_VPACE, 1);
 	                    if (evt.value.signals & SIG_VPACE)
 	                    {
@@ -241,7 +245,8 @@ printf("responder: state Test\r\n");
 
                 	if (failed) break;
 
-                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
+                    clear_own_signals(T_RESPONDER);
+                    evt = Thread::signal_wait(SIG_VPACE, TIME_VRP + TWO_TOLERANCE);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: LRI VPACE 2 failed to arrive\r\n");
@@ -262,6 +267,7 @@ printf("responder: state Test\r\n");
                     bool failed = false; 
 
                     // wait for Vpace
+                    clear_own_signals(T_RESPONDER);
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
                     if (!(evt.value.signals & SIG_VPACE))
                     {
@@ -269,16 +275,28 @@ printf("responder: state Test\r\n");
                         break;
                     }
 
-                    testTimer.start();
+                    Timer t1Timer;
+                    t1Timer.start();
                     
+                    clear_own_signals(T_RESPONDER);
                     // wait for TIME_VRP - 20, fail if get paced
-                    while (testTimer.read_ms() < TIME_VRP - 20) {
+                    while (true) {
+                        uint32_t timer_value = t1Timer.read_ms();
+                        if (timer_value >= TIME_VRP - 20) break;
+                        pc.printf("timer value: %d\r\n", timer_value);
                         evt = Thread::signal_wait(0, 1);
-                        if (evt.value.signals & (SIG_VPACE | SIG_APACE)) {
-                          pc.printf("Test: VRP fail (paced before Vsense)\r\n");
+                        timer_value = t1Timer.read_ms();
+                        pc.printf("timer value: %d\r\n", timer_value);
+                        if (evt.value.signals & (SIG_APACE)) {
+                          pc.printf("Test: VRP fail (Apaced before Vsense)\r\n");
                           failed = true;
+                          break;
                         }
-                        break;
+                        else if (evt.value.signals & SIG_VPACE) {
+                          pc.printf("Test: VRP fail (Vpaced before Vsense)\r\n");
+                          failed = true;
+                          break;
+                        } 
                     }
 
                     if (failed) {
