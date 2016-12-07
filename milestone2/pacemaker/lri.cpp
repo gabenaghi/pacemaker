@@ -22,7 +22,6 @@ void lri_thread(void)
 			case lri:
 				if (event.value.signals & SIG_FORCEAPACE) {
 					global_signal_set(SIG_APACE);
-					lri_timer.reset();
 				}
 				// NOTE: the below is different from milestone1 UPPAAL model.
 				// in that model, transition with Vpace? doesn't update speaker
@@ -32,21 +31,21 @@ void lri_thread(void)
 				// NOTE: all speaker changes now handled in URI, not LRI.
 				else if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
 					lri_timer.reset();
+					//safe_println("LRI Timer Reset in LRI.LRI");
 				}
 				else if (event.value.signals & SIG_ASENSE) {
 					state = ASed;
 				}
 				else if (lri_timer.read_ms() > TIME_LRI - TIME_AVI) {
+					//safe_println("Atrium Paced in LRI.LRI");
 					global_signal_set(SIG_APACE);
-					//safe_println("Apace in LRI");
-					lri_timer.reset();
+					state = ASed;
 				}
 				break;
 
 			case ASed:
 				if (event.value.signals & SIG_FORCEAPACE) {
 					global_signal_set(SIG_APACE);
-					lri_timer.reset();
 					state = lri;
 				}
 				// NOTE: the below is different from milestone1 UPPAAL model.
@@ -56,6 +55,8 @@ void lri_thread(void)
 				// NOTE: i was wrong
 				else if (event.value.signals & (SIG_VSENSE | SIG_VPACE)) {
 					state = lri;
+					lri_timer.reset();
+					//safe_println("LRI Timer Reset in LRI.Ased");
 				}
 				break;
 		}

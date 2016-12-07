@@ -17,7 +17,8 @@ void uri_thread(void)
                 just_started = false;
             } else {
                 uint32_t clk_val = clk.read_ms();
-                safe_println("URI: clk_val = %d", clk_val);
+                Thread::wait(1);
+                //safe_println("URI: clk_val = %d", clk_val);
                 if (clk_val < TIME_URI) {
                     speaker_play_high();
                 } else if (clk_val <= TIME_LRI) {

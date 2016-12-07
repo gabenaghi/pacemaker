@@ -193,6 +193,10 @@ printf("responder: state Test\r\n");
                     clear_keypress(); 
                     
                     pc.printf("Test: LRI\r\n");
+
+                    testTimer.stop();
+                    testTimer.reset();
+                    bool failed = false; 
                     
                     evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
                     if (!(evt.value.signals & SIG_VPACE))
@@ -200,35 +204,45 @@ printf("responder: state Test\r\n");
                         pc.printf("Test: LRI VPACE timeout\r\n");
                         break;
                     }
+
+                    testTimer.start();
                 
-                    
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_LRI - TOLERANCE);
-                    if (evt.value.signals & SIG_APACE)
-                    {
-                        pc.printf("Test: LRI VPACE 1 too early\r\n");
-                        break;
+                    while (testTimer.read_ms() < TIME_LRI - TOLERANCE) {
+                    	evt = Thread::signal_wait(SIG_VPACE, 1);
+                    	if (evt.value.signals & SIG_VPACE)
+                    	{
+                        	pc.printf("Test: LRI VPACE 1 too early\r\n");
+                        	failed = true;
+                        	break;
+                   		}
                     }
 
+                    if (failed) break;
+                    
                     evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
-                    if (!(evt.value.signals & SIG_APACE))
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: LRI VPACE 1 failed to arrive\r\n");
                         break;
                     }
 
-                    wait_ms(20);
+                    while (testTimer.read_ms() < TIME_LRI + TIME_VRP + 20);
                     global_signal_set(SIG_VSIGNAL);
 
+                    while (testTimer.read_ms() < 2 * TIME_LRI + 20 - TOLERANCE) {
+	                    evt = Thread::signal_wait(SIG_VPACE, 1);
+	                    if (evt.value.signals & SIG_VPACE)
+	                    {
+	                        pc.printf("Test: LRI VPACE 2 too early\r\n");
+	                        failed = true;
+	                        break;
+	                    }
+                	}
 
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_LRI - TOLERANCE);
-                    if (evt.value.signals & SIG_APACE)
-                    {
-                        pc.printf("Test: LRI VPACE 2 too early\r\n");
-                        break;
-                    }
+                	if (failed) break;
 
                     evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
-                    if (!(evt.value.signals & SIG_APACE))
+                    if (!(evt.value.signals & SIG_VPACE))
                     {
                         pc.printf("Test: LRI VPACE 2 failed to arrive\r\n");
                         break;
