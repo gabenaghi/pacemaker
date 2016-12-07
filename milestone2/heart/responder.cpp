@@ -173,6 +173,7 @@ printf("responder: state Manual\r\n");
 #if TRACE
 printf("responder: state Test\r\n");
 #endif      
+                signal_times_index = 0;
                 update_keypress();
                 if (keypress == 'm')
                 {
@@ -191,7 +192,7 @@ printf("responder: state Test\r\n");
                 if (keypress == '0')
                 {
                     clear_keypress(); 
-                    
+                    signal_times_clk.start();
                     pc.printf("Test: LRI\r\n");
 
                     testTimer.stop();
@@ -253,6 +254,7 @@ printf("responder: state Test\r\n");
                         break;
                     }
                     pc.printf("Test: Passed\r\n");
+                    dump_signal_times();
                     break;  
                 }
                 
@@ -280,19 +282,14 @@ printf("responder: state Test\r\n");
                     
                     clear_own_signals(T_RESPONDER);
                     // wait for TIME_VRP - 20, fail if get paced
-                    while (true) {
-                        uint32_t timer_value = t1Timer.read_ms();
-                        if (timer_value >= TIME_VRP - 20) break;
-                        pc.printf("timer value: %d\r\n", timer_value);
+                    while (t1Timer.read_ms() < TIME_VRP - 20) {
                         evt = Thread::signal_wait(0, 1);
-                        timer_value = t1Timer.read_ms();
-                        pc.printf("timer value: %d\r\n", timer_value);
-                        if (evt.value.signals & (SIG_APACE)) {
-                          pc.printf("Test: VRP fail (Apaced before Vsense)\r\n");
-                          failed = true;
-                          break;
-                        }
-                        else if (evt.value.signals & SIG_VPACE) {
+                        //if (evt.value.signals & (SIG_APACE)) {
+                        //  pc.printf("Test: VRP fail (Apaced before Vsense)\r\n");
+                        //  failed = true;
+                        //  break;
+                        //}
+                        if (evt.value.signals & SIG_VPACE) {
                           pc.printf("Test: VRP fail (Vpaced before Vsense)\r\n");
                           failed = true;
                           break;
@@ -308,7 +305,7 @@ printf("responder: state Test\r\n");
 
                     bool Apaced = false;
                     // wait for TIME_LRI +/- 1, fail if get Vpace or Apace twice 
-                    while (testTimer.read_ms() < TIME_LRI - TOLERANCE) {
+                    while (t1Timer.read_ms() < TIME_LRI - TOLERANCE) {
                         evt = Thread::signal_wait(0, 1);
                         if (evt.value.signals & SIG_VPACE) {
                             pc.printf("Test: VRP fail (Vpaced too early)\r\n");
@@ -336,10 +333,12 @@ printf("responder: state Test\r\n");
                     if (!(evt.value.signals & SIG_VPACE)) {
                         pc.printf("Test: VRP failed (didn't get Vpace at TIME_LRI)\r\n");
                         failed = true;
+                        break;
                     }
                     else if (evt.value.signals & SIG_APACE) {
                         pc.printf("Test: VRP failed (got Apace and Vpace at TIME_LRI)\r\n");
                         failed = true;
+                        break;
                     }
 
                     pc.printf("Test: VRP passed\r\n");
@@ -1280,8 +1279,6 @@ printf("responder: state Test\r\n");
 
                     break;  
                 }
-
-
         }
         Thread::yield();
     }

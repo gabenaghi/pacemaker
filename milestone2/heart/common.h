@@ -7,10 +7,20 @@
 extern Serial pc;
 
 // signal difinitions
-#define SIG_VSIGNAL 0x1 << 0
-#define SIG_ASIGNAL 0x1 << 1
-#define SIG_APACE 0x1 << 2
-#define SIG_VPACE 0X1 << 3
+#define SIG_VSIGNAL_ID 0
+#define SIG_ASIGNAL_ID 1
+#define SIG_APACE_ID 2
+#define SIG_VPACE_ID 3
+#define SIG_VSIGNAL 0x1 << SIG_VSIGNAL_ID
+#define SIG_ASIGNAL 0x1 << SIG_ASIGNAL_ID
+#define SIG_APACE 0x1 << SIG_APACE_ID
+#define SIG_VPACE 0X1 << SIG_VPACE_ID
+
+#define SIGNAL_TIMES_ARR_SIZE 128
+extern uint32_t signal_times_ids[SIGNAL_TIMES_ARR_SIZE];
+extern uint32_t signal_times_times[SIGNAL_TIMES_ARR_SIZE];
+extern uint32_t signal_times_index;
+extern Timer signal_times_clk;
 
 // threads
 extern Thread threads[];
@@ -68,5 +78,8 @@ extern int Vcount;
 
 //debug
 #define TRACE 0
+
+void dump_signal_times(void);
+const char* get_signal_name(uint32_t signals);
 
 #endif //heart_common_h
