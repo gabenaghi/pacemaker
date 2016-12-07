@@ -16,6 +16,7 @@ int Vcount = 0;
 
 int main()
 {    
+    signal_times_clk.start();
     threads[T_GENERATOR].start(generator_thread);
     threads[T_RESPONDER].start(responder_thread);
     threads[T_LED].start(led_thread);

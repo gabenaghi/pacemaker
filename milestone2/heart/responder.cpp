@@ -31,6 +31,66 @@ printf("clearing keypress '%c'\r\n", keypress);
     keypress = ' ';   
 }
 
+int test_0(void)
+{
+    clear_keypress(); 
+    pc.printf("Test: LRI\r\n");
+
+    testTimer.stop();
+    testTimer.reset();
+
+    clear_own_signals(T_RESPONDER);
+    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+    if (!(evt.value.signals & SIG_VPACE))
+    {
+        pc.printf("Test: LRI VPACE timeout\r\n");
+        return 1;
+    }
+
+    testTimer.start();
+
+    while (testTimer.read_ms() < TIME_LRI - TOLERANCE) {
+        clear_own_signals(T_RESPONDER);
+        evt = Thread::signal_wait(SIG_VPACE, 1);
+        if (evt.value.signals & SIG_VPACE)
+        {
+            pc.printf("Test: LRI VPACE 1 too early\r\n");
+            return 1;
+        }
+    }
+    
+    clear_own_signals(T_RESPONDER);
+    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
+    if (!(evt.value.signals & SIG_VPACE))
+    {
+        pc.printf("Test: LRI VPACE 1 failed to arrive\r\n");
+        return 1;
+    }
+
+    while (testTimer.read_ms() < TIME_LRI + TIME_VRP + 20);
+    global_signal_set(SIG_VSIGNAL);
+
+    while (testTimer.read_ms() < 2 * TIME_LRI + 20 - TOLERANCE) {
+        clear_own_signals(T_RESPONDER);
+        evt = Thread::signal_wait(SIG_VPACE, 1);
+        if (evt.value.signals & SIG_VPACE)
+        {
+            pc.printf("Test: LRI VPACE 2 too early\r\n");
+            return 1;
+        }
+    }
+
+    clear_own_signals(T_RESPONDER);
+    evt = Thread::signal_wait(SIG_VPACE, TIME_VRP + TWO_TOLERANCE);
+    if (!(evt.value.signals & SIG_VPACE))
+    {
+        pc.printf("Test: LRI VPACE 2 failed to arrive\r\n");
+        return 1;
+    }
+    pc.printf("Test: Passed\r\n");
+    return 0;  
+}
+
 void responder_thread()
 { 
     responder_state state = Random;
@@ -174,11 +234,11 @@ printf("responder: state Manual\r\n");
 printf("responder: state Test\r\n");
 #endif      
                 signal_times_index = 0;
+                signal_times_clk.reset();
                 update_keypress();
                 if (keypress == 'm')
                 {
-                    state = Manual;
-                    clear_keypress();   
+                    state = Manual;  
                     break;
                 }
                 
@@ -191,71 +251,9 @@ printf("responder: state Test\r\n");
                 
                 if (keypress == '0')
                 {
-                    clear_keypress(); 
-                    signal_times_clk.start();
-                    pc.printf("Test: LRI\r\n");
-
-                    testTimer.stop();
-                    testTimer.reset();
-                    bool failed = false; 
-                    
-                    clear_own_signals(T_RESPONDER);
-                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if (!(evt.value.signals & SIG_VPACE))
-                    {
-                        pc.printf("Test: LRI VPACE timeout\r\n");
-                        break;
-                    }
-
-                    testTimer.start();
-                
-                    while (testTimer.read_ms() < TIME_LRI - TOLERANCE) {
-                        clear_own_signals(T_RESPONDER);
-                    	evt = Thread::signal_wait(SIG_VPACE, 1);
-                    	if (evt.value.signals & SIG_VPACE)
-                    	{
-                        	pc.printf("Test: LRI VPACE 1 too early\r\n");
-                        	failed = true;
-                        	break;
-                   		}
-                    }
-
-                    if (failed) break;
-                    
-                    clear_own_signals(T_RESPONDER);
-                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
-                    if (!(evt.value.signals & SIG_VPACE))
-                    {
-                        pc.printf("Test: LRI VPACE 1 failed to arrive\r\n");
-                        break;
-                    }
-
-                    while (testTimer.read_ms() < TIME_LRI + TIME_VRP + 20);
-                    global_signal_set(SIG_VSIGNAL);
-
-                    while (testTimer.read_ms() < 2 * TIME_LRI + 20 - TOLERANCE) {
-                        clear_own_signals(T_RESPONDER);
-	                    evt = Thread::signal_wait(SIG_VPACE, 1);
-	                    if (evt.value.signals & SIG_VPACE)
-	                    {
-	                        pc.printf("Test: LRI VPACE 2 too early\r\n");
-	                        failed = true;
-	                        break;
-	                    }
-                	}
-
-                	if (failed) break;
-
-                    clear_own_signals(T_RESPONDER);
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_VRP + TWO_TOLERANCE);
-                    if (!(evt.value.signals & SIG_VPACE))
-                    {
-                        pc.printf("Test: LRI VPACE 2 failed to arrive\r\n");
-                        break;
-                    }
-                    pc.printf("Test: Passed\r\n");
+                    clear_keypress();
+                    test_0();
                     dump_signal_times();
-                    break;  
                 }
                 
                 if (keypress == '1')
