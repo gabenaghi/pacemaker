@@ -91,6 +91,199 @@ int test_0(void)
     return 0;  
 }
 
+int test_1(void)
+{
+    clear_keypress(); 
+
+    pc.printf("Test: VRP\r\n");
+
+    testTimer.stop();
+    testTimer.reset();
+
+    // wait for Vpace
+    clear_own_signals(T_RESPONDER);
+    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+    if (!(evt.value.signals & SIG_VPACE))
+    {
+        pc.printf("Test: VRP VPACE timeout\r\n");
+        return 1;
+    }
+
+    testTimer.start();
+    
+    clear_own_signals(T_RESPONDER);
+    // wait for TIME_VRP - 20, fail if get paced
+    while (testTimer.read_ms() < TIME_VRP - 20) {
+        evt = Thread::signal_wait(0, 1);
+        //if (evt.value.signals & (SIG_APACE)) {
+        //  pc.printf("Test: VRP fail (Apaced before Vsense)\r\n");
+        //  failed = true;
+        //  break;
+        //}
+        if (evt.value.signals & SIG_VPACE) {
+          pc.printf("Test: VRP fail (Vpaced before Vsense)\r\n");
+          return 1;
+        } 
+    }
+
+    // send VSIGNAL
+    global_signal_set(SIG_VSIGNAL);
+
+    bool Apaced = false;
+    // wait for TIME_LRI +/- 1, fail if get Vpace or Apace twice 
+    while (testTimer.read_ms() < TIME_LRI - TOLERANCE) {
+        evt = Thread::signal_wait(0, 1);
+        if (evt.value.signals & SIG_VPACE) {
+            pc.printf("Test: VRP fail (Vpaced too early)\r\n");
+            return 1;
+        }
+        if (evt.value.signals & SIG_APACE) {
+            if (Apaced) {
+                pc.printf("Test: VRP failed (Apaced twice before Vpace)\r\n");
+                return 1;
+            }
+            else {
+                Apaced = true;
+            }
+        }
+    }
+
+    // wait for 2 * tolerance ms
+    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
+    if (!(evt.value.signals & SIG_VPACE)) {
+        pc.printf("Test: VRP failed (didn't get Vpace at TIME_LRI)\r\n");
+        return 1;
+    }
+    else if (evt.value.signals & SIG_APACE) {
+        pc.printf("Test: VRP failed (got Apace and Vpace at TIME_LRI)\r\n");
+        return 1;
+    }
+
+    pc.printf("Test: VRP passed\r\n");
+    
+    return 0;  
+}
+
+int test_2(void) 
+{
+    clear_keypress(); 
+    pc.printf("Test: AVI\r\n");
+    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+    if (!(evt.value.signals & SIG_VPACE))
+    {
+        pc.printf("Test: AVI VPACE timeout\r\n");
+        global_signal_set(SIG_VSIGNAL);
+        return 1;
+    }
+
+    
+    evt = Thread::signal_wait(SIG_APACE, TIME_URI+20);
+    if (evt.value.signals & SIG_APACE)
+    {
+        pc.printf("Test: AVI APACE 1 too early\r\n");
+        return 1;
+    }
+
+
+    evt = Thread::signal_wait(SIG_APACE, TIME_AVI);
+    if (!(evt.value.signals & SIG_APACE))
+    {
+        pc.printf("Test: AVI VPACE failed to arrive\r\n");
+        return 1;
+    } else {
+        pc.printf("Test: AVI test success");
+        global_signal_set(SIG_VSIGNAL);
+    }
+    
+    return 0;  
+}
+
+int test_3(void)
+{
+    clear_keypress(); 
+     
+    testTimer.stop();
+    testTimer.reset();
+    pc.printf("Test: PVARP\r\n");
+    
+    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+    if (!(evt.value.signals & SIG_VPACE))
+    {
+        pc.printf("Test: PVARP VPACE timeout\r\n");
+        return 1;
+    }
+
+    wait_ms(TIME_PVARP - 20);
+    global_signal_set(SIG_ASIGNAL);
+    while (testTimer.read_ms() <= TIME_URI + 20);
+    global_signal_set(SIG_ASIGNAL);
+    
+    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - TOLERANCE);
+    if (evt.value.signals & SIG_VPACE)
+    {
+        pc.printf("Test: PVARP VPACE too early\r\n");
+        return 1;
+    }
+
+    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
+    if (!(evt.value.signals & SIG_VPACE))
+    {
+        pc.printf("Test: PVARP VPACE failed to arrive\r\n");
+        return 1;
+    }
+
+    pc.printf("Test passed: PVARP\r\n");
+    return 0;  
+}
+
+int test_4(void)
+{
+    clear_keypress(); 
+   
+    pc.printf("Test: URI\r\n");
+    
+    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
+    if (!(evt.value.signals & SIG_VPACE))
+    {
+        pc.printf("Test: URI VPACE timeout\r\n");
+        return 1;
+    }
+
+    wait_ms(TIME_PVARP);
+    global_signal_set(SIG_ASIGNAL);
+
+    evt = Thread::signal_wait(SIG_VPACE, TIME_URI - TIME_PVARP - TOLERANCE);
+    if (evt.value.signals & SIG_VPACE)
+    {
+        pc.printf("Test: URI VPACE 1 too early\r\n");
+        return 1;
+    }
+    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
+    if (!(evt.value.signals & SIG_VPACE))
+    {
+        pc.printf("Test: URI VPACE 1 failed to arrive\r\n");
+        return 1;
+    }
+
+    wait_ms(TIME_URI+20);
+    global_signal_set(SIG_ASIGNAL);
+
+    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - TOLERANCE);
+    if (evt.value.signals & SIG_VPACE)
+    {
+        pc.printf("Test: URI VPACE 2 too early\r\n");
+        return 1;
+    }
+    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
+    if (!(evt.value.signals & SIG_VPACE))
+    {
+        pc.printf("Test: URI VPACE 2 failed to arrive\r\n");
+        return 1;
+    }
+    pc.printf("Test passed: URI\r\n");
+    return 0;  
+}
+
 void responder_thread()
 { 
     responder_state state = Random;
@@ -254,214 +447,39 @@ printf("responder: state Test\r\n");
                     clear_keypress();
                     test_0();
                     dump_signal_times();
+                    break;
                 }
                 
                 if (keypress == '1')
                 {
-                    clear_keypress(); 
-
-                    pc.printf("Test: VRP\r\n");
-
-                    testTimer.stop();
-                    testTimer.reset();
-                    bool failed = false; 
-
-                    // wait for Vpace
-                    clear_own_signals(T_RESPONDER);
-                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if (!(evt.value.signals & SIG_VPACE))
-                    {
-                        pc.printf("Test: VRP VPACE timeout\r\n");
-                        break;
-                    }
-
-                    Timer t1Timer;
-                    t1Timer.start();
-                    
-                    clear_own_signals(T_RESPONDER);
-                    // wait for TIME_VRP - 20, fail if get paced
-                    while (t1Timer.read_ms() < TIME_VRP - 20) {
-                        evt = Thread::signal_wait(0, 1);
-                        //if (evt.value.signals & (SIG_APACE)) {
-                        //  pc.printf("Test: VRP fail (Apaced before Vsense)\r\n");
-                        //  failed = true;
-                        //  break;
-                        //}
-                        if (evt.value.signals & SIG_VPACE) {
-                          pc.printf("Test: VRP fail (Vpaced before Vsense)\r\n");
-                          failed = true;
-                          break;
-                        } 
-                    }
-
-                    if (failed) {
-                        break;
-                    }
-
-                    // send VSIGNAL
-                    global_signal_set(SIG_VSIGNAL);
-
-                    bool Apaced = false;
-                    // wait for TIME_LRI +/- 1, fail if get Vpace or Apace twice 
-                    while (t1Timer.read_ms() < TIME_LRI - TOLERANCE) {
-                        evt = Thread::signal_wait(0, 1);
-                        if (evt.value.signals & SIG_VPACE) {
-                            pc.printf("Test: VRP fail (Vpaced too early)\r\n");
-                            failed = true;
-                            break;
-                        }
-                        if (evt.value.signals & SIG_APACE) {
-                            if (Apaced) {
-                                pc.printf("Test: VRP failed (Apaced twice before Vpace)\r\n");
-                                failed = true;
-                                break;
-                            }
-                            else {
-                                Apaced = true;
-                            }
-                        }
-                    }
-
-                    if (failed) {
-                        break;
-                    }
-
-                    // wait for 2 * tolerance ms
-                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
-                    if (!(evt.value.signals & SIG_VPACE)) {
-                        pc.printf("Test: VRP failed (didn't get Vpace at TIME_LRI)\r\n");
-                        failed = true;
-                        break;
-                    }
-                    else if (evt.value.signals & SIG_APACE) {
-                        pc.printf("Test: VRP failed (got Apace and Vpace at TIME_LRI)\r\n");
-                        failed = true;
-                        break;
-                    }
-
-                    pc.printf("Test: VRP passed\r\n");
-                    
-                    break;  
+                    clear_keypress();
+                    test_1();
+                    dump_signal_times();
+                    break;
                 }
             
                 if (keypress == '2')
                 {
-                    clear_keypress(); 
-                    pc.printf("Test: AVI\r\n");
-                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if (!(evt.value.signals & SIG_VPACE))
-                    {
-                        pc.printf("Test: AVI VPACE timeout\r\n");
-                        global_signal_set(SIG_VSIGNAL);
-                    }
-                
-                    
-                    evt = Thread::signal_wait(SIG_APACE, TIME_URI+20);
-                    if (evt.value.signals & SIG_APACE)
-                    {
-                        pc.printf("Test: AVI APACE 1 too early\r\n");
-                        break;
-                    }
-
-
-                    evt = Thread::signal_wait(SIG_APACE, TIME_AVI);
-                    if (!(evt.value.signals & SIG_APACE))
-                    {
-                        pc.printf("Test: AVI VPACE failed to arrive\r\n");
-                        break;
-                    }else{
-                        pc.printf("Test: AVI test success");
-                        global_signal_set(SIG_VSIGNAL);
-                    }
-                    
-                    state = Test;
-                    break;  
+                    clear_keypress();
+                    test_2();
+                    dump_signal_times();
+                    break;
                 }
             
                 if (keypress == '3')
                 {
-                    clear_keypress(); 
-                     
-                    Timer pvarp_timer;
-                    pvarp_timer.start();
-                    pc.printf("Test: PVARP\r\n");
-                    
-                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if (!(evt.value.signals & SIG_VPACE))
-                    {
-                        pc.printf("Test: PVARP VPACE timeout\r\n");
-                        break;
-                    }
-
-                    wait_ms(TIME_PVARP - 20);
-                    global_signal_set(SIG_ASIGNAL);
-                    while (pvarp_timer.read_ms() <= TIME_URI + 20);
-                    global_signal_set(SIG_ASIGNAL);
-                    
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - TOLERANCE);
-                    if (evt.value.signals & SIG_VPACE)
-                    {
-                        pc.printf("Test: PVARP VPACE too early\r\n");
-                        break;
-                    }
-
-                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
-                    if (!(evt.value.signals & SIG_VPACE))
-                    {
-                        pc.printf("Test: PVARP VPACE failed to arrive\r\n");
-                        break;
-                    }
-
-                    pc.printf("Test passed: PVARP\r\n");
-                    break;  
+                    clear_keypress();
+                    test_3();
+                    dump_signal_times();
+                    break;
                 }
             
                 if (keypress == '4')
                 {
-                    clear_keypress(); 
-                   
-                    pc.printf("Test: URI\r\n");
-                    
-                    evt = Thread::signal_wait(SIG_VPACE, TEST_START_TIMEOUT);
-                    if (!(evt.value.signals & SIG_VPACE))
-                    {
-                        pc.printf("Test: URI VPACE timeout\r\n");
-                        break;
-                    }
-
-                    wait_ms(TIME_PVARP);
-                    global_signal_set(SIG_ASIGNAL);
-
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_URI - TIME_PVARP - TOLERANCE);
-                    if (evt.value.signals & SIG_VPACE)
-                    {
-                        pc.printf("Test: URI VPACE 1 too early\r\n");
-                        break;
-                    }
-                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
-                    if (!(evt.value.signals & SIG_VPACE))
-                    {
-                        pc.printf("Test: URI VPACE 1 failed to arrive\r\n");
-                        break;
-                    }
-
-                    wait_ms(TIME_URI+20);
-                    global_signal_set(SIG_ASIGNAL);
-
-                    evt = Thread::signal_wait(SIG_VPACE, TIME_AVI - TOLERANCE);
-                    if (evt.value.signals & SIG_VPACE)
-                    {
-                        pc.printf("Test: URI VPACE 2 too early\r\n");
-                        break;
-                    }
-                    evt = Thread::signal_wait(SIG_VPACE, TWO_TOLERANCE);
-                    if (!(evt.value.signals & SIG_VPACE))
-                    {
-                        pc.printf("Test: URI VPACE 2 failed to arrive\r\n");
-                        break;
-                    }
-                    pc.printf("Test passed: URI\r\n");
-                    break;  
+                    clear_keypress();
+                    test_4();
+                    dump_signal_times();
+                    break;
                 }
              
                 if (keypress == '5')
