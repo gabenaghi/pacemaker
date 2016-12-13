@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>//
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>//
 // PACEMAKER
 //
 
@@ -65,37 +68,930 @@ const int LED_APACE = 2;
 const int LED_AGET = 3;
 
 broadcast chan Aget, Vget, Apace, Vpace;
-</declaration><template><name x="5" y="5">PM_LRI</name><declaration>// Place local declarations here.
-clock lri_t;</declaration><location id="id0" x="-48" y="160"><name x="-88" y="176">interApace</name><committed/></location><location id="id1" x="136" y="-224"><committed/></location><location id="id2" x="-96" y="-104"><committed/></location><location id="id3" x="264" y="96"><committed/></location><location id="id4" x="0" y="-104"><name x="-24" y="-136">ASed</name></location><location id="id5" x="120" y="24"><name x="152" y="16">LRI</name><label kind="invariant" x="192" y="16">lri_t &lt;= TLRI - TAVI</label></location><init ref="id5"/><transition><source ref="id0"/><target ref="id4"/><nail x="0" y="64"/></transition><transition><source ref="id1"/><target ref="id5"/><nail x="312" y="-224"/><nail x="312" y="8"/></transition><transition><source ref="id5"/><target ref="id0"/><label kind="guard" x="8" y="160">lri_t &gt;= TLRI - TAVI</label><label kind="synchronisation" x="40" y="176">Apace!</label><nail x="120" y="128"/></transition><transition><source ref="id4"/><target ref="id1"/><label kind="synchronisation" x="40" y="-216">Vsense?</label><label kind="assignment" x="40" y="-200">lri_t = 0</label></transition><transition><source ref="id5"/><target ref="id1"/><label kind="synchronisation" x="128" y="-184">Vsense?</label><label kind="assignment" x="128" y="-168">lri_t = 0</label></transition><transition><source ref="id3"/><target ref="id5"/><label kind="synchronisation" x="200" y="96">Apace!</label><label kind="assignment" x="200" y="112">lri_t = 0</label><nail x="176" y="96"/></transition><transition><source ref="id5"/><target ref="id3"/><label kind="synchronisation" x="192" y="40">forceApace?</label></transition><transition><source ref="id2"/><target ref="id5"/><label kind="synchronisation" x="-144" y="-64">Apace!</label><label kind="assignment" x="-128" y="-48">lri_t = 0</label><nail x="-96" y="24"/></transition><transition><source ref="id4"/><target ref="id2"/><label kind="synchronisation" x="-112" y="-136">forceApace?</label></transition><transition><source ref="id5"/><target ref="id5"/><label kind="synchronisation" x="176" y="-112">Vpace?</label><label kind="assignment" x="184" y="-96">lri_t = 0</label><nail x="144" y="-72"/><nail x="216" y="-72"/><nail x="216" y="-16"/></transition><transition><source ref="id4"/><target ref="id5"/><label kind="synchronisation" x="40" y="-80">Vpace?</label><label kind="assignment" x="56" y="-64">lri_t = 0</label></transition><transition><source ref="id5"/><target ref="id4"/><label kind="synchronisation" x="48" y="-128">Asense?</label><nail x="120" y="-72"/><nail x="88" y="-104"/></transition></template><template><name>PM_AVI</name><declaration>clock avi_t;
-</declaration><location id="id6" x="-472" y="144"></location><location id="id7" x="72" y="168"></location><location id="id8" x="88" y="-232"></location><location id="id9" x="-160" y="144"><name x="-160" y="112">WaitURI</name><label kind="invariant" x="-208" y="160">clk &lt;= TURI</label></location><location id="id10" x="-8" y="64"><name x="-18" y="34">AVI</name><label kind="invariant" x="-24" y="72">avi_t &lt;= TAVI</label></location><location id="id11" x="-8" y="-136"><name x="32" y="-160">Idle</name></location><init ref="id11"/><transition><source ref="id6"/><target ref="id11"/><label kind="synchronisation" x="-528" y="-16">Vpace!</label><nail x="-472" y="-144"/></transition><transition><source ref="id9"/><target ref="id6"/><label kind="synchronisation" x="-408" y="120">forceVpace?</label></transition><transition><source ref="id7"/><target ref="id11"/><label kind="synchronisation" x="208" y="-72">Vpace!</label><nail x="288" y="168"/><nail x="256" y="-136"/></transition><transition><source ref="id10"/><target ref="id7"/><label kind="synchronisation" x="40" y="112">forceVpace?</label></transition><transition><source ref="id8"/><target ref="id11"/><label kind="synchronisation" x="120" y="-192">Vpace!</label><nail x="192" y="-232"/></transition><transition><source ref="id11"/><target ref="id8"/><label kind="synchronisation" x="-16" y="-216">forceVpace?</label></transition><transition><source ref="id9"/><target ref="id11"/><label kind="synchronisation" x="-408" y="8">Vsense?</label><nail x="-240" y="144"/><nail x="-344" y="104"/><nail x="-344" y="-136"/><nail x="-160" y="-232"/><nail x="-40" y="-232"/><nail x="-8" y="-184"/></transition><transition><source ref="id9"/><target ref="id11"/><label kind="guard" x="-296" y="56">clk &gt;= TURI</label><label kind="synchronisation" x="-272" y="72">Vpace!</label><nail x="-216" y="112"/><nail x="-216" y="-104"/><nail x="-112" y="-176"/><nail x="-48" y="-176"/></transition><transition><source ref="id10"/><target ref="id9"/><label kind="guard" x="-120" y="136">avi_t &gt;= TAVI &amp;&amp; clk &lt; TURI</label><nail x="-72" y="80"/><nail x="-96" y="136"/></transition><transition><source ref="id10"/><target ref="id11"/><label kind="guard" x="64" y="64">avi_t &gt;= TAVI &amp;&amp; clk &gt;= TURI</label><label kind="synchronisation" x="96" y="48">Vpace!</label><nail x="64" y="64"/><nail x="128" y="8"/><nail x="128" y="-96"/><nail x="80" y="-136"/></transition><transition><source ref="id10"/><target ref="id11"/><label kind="synchronisation" x="-168" y="40">Vsense?</label><nail x="-88" y="64"/><nail x="-144" y="8"/><nail x="-144" y="-80"/><nail x="-80" y="-136"/></transition><transition><source ref="id11"/><target ref="id10"/><label kind="synchronisation" x="-16" y="-56">Asense?</label><label kind="assignment" x="-8" y="-40">avi_t = 0</label><nail x="40" y="-96"/><nail x="40" y="24"/></transition><transition><source ref="id11"/><target ref="id10"/><label kind="synchronisation" x="-112" y="-56">Apace?</label><label kind="assignment" x="-104" y="-40">avi_t = 0</label><nail x="-56" y="-96"/><nail x="-56" y="-96"/><nail x="-56" y="32"/></transition></template><template><name>PM_URI</name><declaration>clock t;
-bool just_started = true;</declaration><location id="id12" x="-184" y="0"><name x="-272" y="-16">interVpace</name><committed/></location><location id="id13" x="152" y="0"><name x="176" y="-8">interVsense</name><committed/></location><location id="id14" x="0" y="0"><name x="-16" y="16">URI</name></location><init ref="id14"/><transition><source ref="id14"/><target ref="id14"/><label kind="guard" x="-32" y="-304">clk &lt;= TLRI</label><label kind="synchronisation" x="-32" y="-288">StopLow!</label><nail x="-40" y="-264"/><nail x="32" y="-264"/><nail x="0" y="-16"/></transition><transition><source ref="id14"/><target ref="id14"/><label kind="guard" x="32" y="240">clk &gt; TLRI</label><label kind="synchronisation" x="32" y="256">PlayLow!</label><nail x="-24" y="264"/><nail x="24" y="264"/></transition><transition><source ref="id12"/><target ref="id14"/><label kind="guard" x="-144" y="64">clk &gt;= TURI</label><label kind="synchronisation" x="-88" y="88">StopHigh!</label><label kind="assignment" x="-144" y="88">clk = 0,
-just_started = false</label><nail x="-128" y="64"/><nail x="-40" y="64"/></transition><transition><source ref="id12"/><target ref="id14"/><label kind="guard" x="-128" y="-136">clk &lt; TURI</label><label kind="synchronisation" x="-120" y="-120">PlayHigh!</label><label kind="assignment" x="-128" y="-104">clk = 0,
-just_started = false</label><nail x="-128" y="-64"/><nail x="-48" y="-64"/><nail x="-8" y="-16"/></transition><transition><source ref="id14"/><target ref="id12"/><label kind="synchronisation" x="-128" y="-24">Vpace?</label></transition><transition><source ref="id13"/><target ref="id14"/><label kind="guard" x="48" y="-104">clk &lt; TURI</label><label kind="synchronisation" x="48" y="-88">PlayHigh!</label><label kind="assignment" x="48" y="-72">clk = 0,
-just_started = false</label><nail x="120" y="-48"/><nail x="40" y="-48"/></transition><transition><source ref="id13"/><target ref="id14"/><label kind="guard" x="40" y="48">clk &gt;= TURI</label><label kind="synchronisation" x="40" y="64">StopHigh!</label><label kind="assignment" x="40" y="80">clk = 0,
-just_started = false</label><nail x="104" y="48"/><nail x="40" y="48"/></transition><transition><source ref="id14"/><target ref="id13"/><label kind="synchronisation" x="56" y="-24">Vsense?</label></transition></template><template><name x="5" y="5">PM_PVARP</name><declaration>// Place local declarations here.
+</declaration>
+	<template>
+		<name x="5" y="5">PM_LRI</name>
+		<declaration>// Place local declarations here.
+clock lri_t;</declaration>
+		<location id="id0" x="-48" y="160">
+			<name x="-88" y="176">interApace</name>
+			<committed/>
+		</location>
+		<location id="id1" x="136" y="-224">
+			<committed/>
+		</location>
+		<location id="id2" x="-96" y="-104">
+			<name x="-187" y="-119">inter_ased</name>
+			<committed/>
+		</location>
+		<location id="id3" x="264" y="96">
+			<committed/>
+		</location>
+		<location id="id4" x="0" y="-104">
+			<name x="-24" y="-136">ASed</name>
+		</location>
+		<location id="id5" x="120" y="24">
+			<name x="152" y="16">LRI</name>
+			<label kind="invariant" x="192" y="16">lri_t &lt;= TLRI - TAVI</label>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id4"/>
+			<nail x="0" y="64"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id5"/>
+			<nail x="312" y="-224"/>
+			<nail x="312" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id0"/>
+			<label kind="guard" x="8" y="160">lri_t &gt;= TLRI - TAVI</label>
+			<label kind="synchronisation" x="40" y="176">Apace!</label>
+			<nail x="120" y="128"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="40" y="-216">Vsense?</label>
+			<label kind="assignment" x="40" y="-200">lri_t = 0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="128" y="-184">Vsense?</label>
+			<label kind="assignment" x="128" y="-168">lri_t = 0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="200" y="96">Apace!</label>
+			<label kind="assignment" x="200" y="112">lri_t = 0</label>
+			<nail x="176" y="96"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="192" y="40">forceApace?</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-144" y="-64">Apace!</label>
+			<label kind="assignment" x="-128" y="-48">lri_t = 0</label>
+			<nail x="-96" y="24"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-119" y="-136">forceApace?</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="176" y="-112">Vpace?</label>
+			<label kind="assignment" x="184" y="-96">lri_t = 0</label>
+			<nail x="144" y="-72"/>
+			<nail x="216" y="-72"/>
+			<nail x="216" y="-16"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="40" y="-80">Vpace?</label>
+			<label kind="assignment" x="56" y="-64">lri_t = 0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="48" y="-128">Asense?</label>
+			<nail x="120" y="-72"/>
+			<nail x="88" y="-104"/>
+		</transition>
+	</template>
+	<template>
+		<name>PM_AVI</name>
+		<declaration>clock avi_t;
+</declaration>
+		<location id="id6" x="-472" y="144">
+		</location>
+		<location id="id7" x="72" y="168">
+		</location>
+		<location id="id8" x="88" y="-232">
+		</location>
+		<location id="id9" x="-160" y="144">
+			<name x="-160" y="112">WaitURI</name>
+			<label kind="invariant" x="-208" y="160">clk &lt;= TURI</label>
+		</location>
+		<location id="id10" x="-8" y="64">
+			<name x="-18" y="34">AVI</name>
+			<label kind="invariant" x="-24" y="72">avi_t &lt;= TAVI</label>
+		</location>
+		<location id="id11" x="-8" y="-136">
+			<name x="32" y="-160">Idle</name>
+		</location>
+		<init ref="id11"/>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-528" y="-16">Vpace!</label>
+			<nail x="-472" y="-144"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-408" y="120">forceVpace?</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="208" y="-72">Vpace!</label>
+			<nail x="288" y="168"/>
+			<nail x="256" y="-136"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="40" y="112">forceVpace?</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="120" y="-192">Vpace!</label>
+			<nail x="192" y="-232"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-16" y="-216">forceVpace?</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-408" y="8">Vsense?</label>
+			<nail x="-240" y="144"/>
+			<nail x="-344" y="104"/>
+			<nail x="-344" y="-136"/>
+			<nail x="-160" y="-232"/>
+			<nail x="-40" y="-232"/>
+			<nail x="-8" y="-184"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-296" y="56">clk &gt;= TURI</label>
+			<label kind="synchronisation" x="-272" y="72">Vpace!</label>
+			<nail x="-216" y="112"/>
+			<nail x="-216" y="-104"/>
+			<nail x="-112" y="-176"/>
+			<nail x="-48" y="-176"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-120" y="136">avi_t &gt;= TAVI &amp;&amp; clk &lt; TURI</label>
+			<nail x="-72" y="80"/>
+			<nail x="-96" y="136"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="guard" x="64" y="64">avi_t &gt;= TAVI &amp;&amp; clk &gt;= TURI</label>
+			<label kind="synchronisation" x="96" y="48">Vpace!</label>
+			<nail x="64" y="64"/>
+			<nail x="128" y="8"/>
+			<nail x="128" y="-96"/>
+			<nail x="80" y="-136"/>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-168" y="40">Vsense?</label>
+			<nail x="-88" y="64"/>
+			<nail x="-144" y="8"/>
+			<nail x="-144" y="-80"/>
+			<nail x="-80" y="-136"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-16" y="-56">Asense?</label>
+			<label kind="assignment" x="-8" y="-40">avi_t = 0</label>
+			<nail x="40" y="-96"/>
+			<nail x="40" y="24"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-112" y="-56">Apace?</label>
+			<label kind="assignment" x="-104" y="-40">avi_t = 0</label>
+			<nail x="-56" y="-96"/>
+			<nail x="-56" y="-96"/>
+			<nail x="-56" y="32"/>
+		</transition>
+	</template>
+	<template>
+		<name>PM_URI</name>
+		<declaration>clock t;
+bool just_started = true;</declaration>
+		<location id="id12" x="-184" y="0">
+			<name x="-272" y="-16">interVpace</name>
+			<committed/>
+		</location>
+		<location id="id13" x="152" y="0">
+			<name x="176" y="-8">interVsense</name>
+			<committed/>
+		</location>
+		<location id="id14" x="0" y="0">
+			<name x="-16" y="16">URI</name>
+		</location>
+		<init ref="id14"/>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-32" y="-304">clk &lt;= TLRI</label>
+			<label kind="synchronisation" x="-32" y="-288">StopLow!</label>
+			<nail x="-40" y="-264"/>
+			<nail x="32" y="-264"/>
+			<nail x="0" y="-16"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id14"/>
+			<label kind="guard" x="32" y="240">clk &gt; TLRI</label>
+			<label kind="synchronisation" x="32" y="256">PlayLow!</label>
+			<nail x="-24" y="264"/>
+			<nail x="24" y="264"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-144" y="64">clk &gt;= TURI</label>
+			<label kind="synchronisation" x="-88" y="88">StopHigh!</label>
+			<label kind="assignment" x="-144" y="88">clk = 0,
+just_started = false</label>
+			<nail x="-128" y="64"/>
+			<nail x="-40" y="64"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-128" y="-136">clk &lt; TURI</label>
+			<label kind="synchronisation" x="-120" y="-120">PlayHigh!</label>
+			<label kind="assignment" x="-128" y="-104">clk = 0,
+just_started = false</label>
+			<nail x="-128" y="-64"/>
+			<nail x="-48" y="-64"/>
+			<nail x="-8" y="-16"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="-128" y="-24">Vpace?</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="guard" x="48" y="-104">clk &lt; TURI</label>
+			<label kind="synchronisation" x="48" y="-88">PlayHigh!</label>
+			<label kind="assignment" x="48" y="-72">clk = 0,
+just_started = false</label>
+			<nail x="120" y="-48"/>
+			<nail x="40" y="-48"/>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="guard" x="40" y="48">clk &gt;= TURI</label>
+			<label kind="synchronisation" x="40" y="64">StopHigh!</label>
+			<label kind="assignment" x="40" y="80">clk = 0,
+just_started = false</label>
+			<nail x="104" y="48"/>
+			<nail x="40" y="48"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="56" y="-24">Vsense?</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">PM_PVARP</name>
+		<declaration>// Place local declarations here.
 clock t;
-</declaration><location id="id15" x="112" y="-32"><name x="120" y="-64">PVARP</name><label kind="invariant" x="128" y="-40">t&lt;=TPVARP</label></location><location id="id16" x="-200" y="88"><name x="-248" y="80">inter</name><committed/></location><location id="id17" x="-200" y="-32"><name x="-248" y="-48">Idle</name></location><init ref="id17"/><transition><source ref="id17"/><target ref="id15"/><label kind="synchronisation" x="-72" y="-88">Vpace?</label><label kind="assignment" x="-64" y="-72">t = 0</label><nail x="-96" y="-88"/><nail x="8" y="-88"/></transition><transition><source ref="id17"/><target ref="id15"/><label kind="synchronisation" x="-72" y="16">Vsense?</label><label kind="assignment" x="-64" y="32">t = 0</label><nail x="-104" y="16"/><nail x="8" y="16"/></transition><transition><source ref="id15"/><target ref="id17"/><label kind="guard" x="-88" y="-168">t&gt;=TPVARP</label><nail x="112" y="-144"/><nail x="-200" y="-144"/></transition><transition><source ref="id16"/><target ref="id17"/><label kind="synchronisation" x="-136" y="96">Asense!</label><nail x="-128" y="88"/></transition><transition><source ref="id17"/><target ref="id16"/><label kind="synchronisation" x="-256" y="32">Aget?</label></transition></template><template><name>PM_VRP</name><declaration>clock t;</declaration><location id="id18" x="112" y="-96"><name x="102" y="-126">VRP</name><label kind="invariant" x="128" y="-104">t&lt;=TVRP</label></location><location id="id19" x="-144" y="-96"><name x="-154" y="-126">inter</name><committed/></location><location id="id20" x="-144" y="88"><name x="-192" y="80">Idle</name></location><init ref="id20"/><transition><source ref="id18"/><target ref="id20"/><label kind="guard" x="-24" y="96">t&gt;=TVRP</label><nail x="112" y="88"/></transition><transition><source ref="id20"/><target ref="id18"/><label kind="synchronisation" x="-76" y="-19">Vpace?</label><label kind="assignment" x="-76" y="-4">t=0</label></transition><transition><source ref="id19"/><target ref="id18"/><label kind="synchronisation" x="-76" y="-111">Vsense!</label><label kind="assignment" x="-76" y="-96">t=0</label></transition><transition><source ref="id20"/><target ref="id19"/><label kind="synchronisation" x="-204" y="-19">Vget?</label></transition></template><template><name>PM_LED</name><parameter>const int id</parameter><location id="id21" x="-320" y="0"><name x="-330" y="-30">on</name></location><location id="id22" x="-504" y="88"><name x="-514" y="58">off</name></location><init ref="id22"/><transition><source ref="id21"/><target ref="id21"/><label kind="synchronisation" x="-440" y="-56">LEDon[id]?</label><nail x="-376" y="-72"/><nail x="-264" y="-72"/></transition><transition><source ref="id21"/><target ref="id22"/><label kind="synchronisation" x="-368" y="64">LEDoff[id]?</label><nail x="-400" y="88"/></transition><transition><source ref="id22"/><target ref="id21"/><label kind="synchronisation" x="-544" y="8">LEDon[id]?</label><nail x="-440" y="0"/></transition><transition><source ref="id22"/><target ref="id22"/><label kind="synchronisation" x="-456" y="136">LEDoff[id]?</label><nail x="-552" y="152"/><nail x="-464" y="152"/></transition></template><template><name>PM_Speaker</name><location id="id23" x="8" y="112"><name x="32" y="120">playingLow</name></location><location id="id24" x="16" y="-104"><name x="40" y="-128">playingHigh</name></location><location id="id25" x="-176" y="0"><name x="-216" y="-8">Idle</name></location><init ref="id25"/><transition><source ref="id25"/><target ref="id25"/><label kind="synchronisation" x="-240" y="64">StopLow?</label><nail x="-176" y="40"/><nail x="-176" y="64"/><nail x="-240" y="64"/></transition><transition><source ref="id25"/><target ref="id25"/><label kind="synchronisation" x="-240" y="-88">StopHigh?</label><nail x="-176" y="-64"/><nail x="-248" y="-64"/></transition><transition><source ref="id23"/><target ref="id23"/><label kind="synchronisation" x="80" y="80">StopHigh?</label><nail x="80" y="112"/><nail x="80" y="56"/></transition><transition><source ref="id24"/><target ref="id24"/><label kind="synchronisation" x="88" y="-88">StopLow?</label><nail x="80" y="-104"/><nail x="80" y="-48"/></transition><transition><source ref="id23"/><target ref="id23"/><label kind="synchronisation" x="-16" y="144">PlayLow?</label><nail x="-16" y="144"/><nail x="40" y="144"/></transition><transition><source ref="id24"/><target ref="id24"/><label kind="synchronisation" x="-8" y="-160">PlayHigh?</label><nail x="-16" y="-136"/><nail x="48" y="-136"/></transition><transition><source ref="id24"/><target ref="id25"/><label kind="synchronisation" x="-120" y="-112">StopHigh?</label><nail x="-128" y="-88"/></transition><transition><source ref="id23"/><target ref="id25"/><label kind="synchronisation" x="-104" y="112">StopLow?</label><nail x="-136" y="104"/></transition><transition><source ref="id23"/><target ref="id24"/><label kind="synchronisation" x="80" y="0">PlayHigh?</label><nail x="16" y="104"/><nail x="64" y="0"/></transition><transition><source ref="id24"/><target ref="id23"/><label kind="synchronisation" x="-104" y="-8">PlayLow?</label><nail x="-40" y="0"/></transition><transition><source ref="id25"/><target ref="id23"/><label kind="synchronisation" x="-120" y="64">PlayLow?</label></transition><transition><source ref="id25"/><target ref="id24"/><label kind="synchronisation" x="-136" y="-72">PlayHigh?</label></transition></template><template><name>PM_Keyboard</name><declaration>bool manual;
-clock t;</declaration><location id="id26" x="0" y="0"><name x="-56" y="0">Idle</name></location><init ref="id26"/><transition><source ref="id26"/><target ref="id26"/><label kind="guard" x="96" y="32">t &gt;= 1000</label><label kind="assignment" x="96" y="48">t = 0,
-obs_interval = 1000</label><nail x="88" y="40"/><nail x="80" y="80"/><nail x="24" y="72"/></transition><transition><source ref="id26"/><target ref="id26"/><label kind="guard" x="192" y="-32">t &gt;= 1000</label><label kind="assignment" x="192" y="-16">t = 0,
-obs_interval = 100</label><nail x="96" y="-24"/><nail x="184" y="0"/><nail x="88" y="16"/></transition><transition><source ref="id26"/><target ref="id26"/><label kind="guard" x="-240" y="56">t&gt;=1000 &amp;&amp; manual</label><label kind="synchronisation" x="-240" y="72">forceVpace!</label><label kind="assignment" x="-240" y="88">t = 0</label><nail x="-136" y="136"/><nail x="-88" y="56"/></transition><transition><source ref="id26"/><target ref="id26"/><label kind="guard" x="-272" y="-48">t&gt;=1000 &amp;&amp; manual</label><label kind="synchronisation" x="-272" y="-16">forceApace!</label><label kind="assignment" x="-272" y="-32">t = 0</label><nail x="-216" y="0"/><nail x="-104" y="-24"/></transition><transition><source ref="id26"/><target ref="id26"/><label kind="guard" x="-216" y="-200">t&gt;=1000</label><label kind="assignment" x="-216" y="-184">t = 0,
+</declaration>
+		<location id="id15" x="112" y="-32">
+			<name x="120" y="-64">PVARP</name>
+			<label kind="invariant" x="128" y="-40">t&lt;=TPVARP</label>
+		</location>
+		<location id="id16" x="-200" y="88">
+			<name x="-248" y="80">inter</name>
+			<committed/>
+		</location>
+		<location id="id17" x="-200" y="-32">
+			<name x="-248" y="-48">Idle</name>
+		</location>
+		<init ref="id17"/>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-72" y="-88">Vpace?</label>
+			<label kind="assignment" x="-64" y="-72">t = 0</label>
+			<nail x="-96" y="-88"/>
+			<nail x="8" y="-88"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-72" y="16">Vsense?</label>
+			<label kind="assignment" x="-64" y="32">t = 0</label>
+			<nail x="-104" y="16"/>
+			<nail x="8" y="16"/>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id17"/>
+			<label kind="guard" x="-88" y="-168">t&gt;=TPVARP</label>
+			<nail x="112" y="-144"/>
+			<nail x="-200" y="-144"/>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-136" y="96">Asense!</label>
+			<nail x="-128" y="88"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="-256" y="32">Aget?</label>
+		</transition>
+	</template>
+	<template>
+		<name>PM_VRP</name>
+		<declaration>clock t;</declaration>
+		<location id="id18" x="112" y="-96">
+			<name x="102" y="-126">VRP</name>
+			<label kind="invariant" x="128" y="-104">t&lt;=TVRP</label>
+		</location>
+		<location id="id19" x="-144" y="-96">
+			<name x="-154" y="-126">inter</name>
+			<committed/>
+		</location>
+		<location id="id20" x="-144" y="88">
+			<name x="-192" y="80">Idle</name>
+		</location>
+		<init ref="id20"/>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id20"/>
+			<label kind="guard" x="-24" y="96">t&gt;=TVRP</label>
+			<nail x="112" y="88"/>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="-76" y="-19">Vpace?</label>
+			<label kind="assignment" x="-76" y="-4">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id18"/>
+			<label kind="synchronisation" x="-76" y="-111">Vsense!</label>
+			<label kind="assignment" x="-76" y="-96">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id19"/>
+			<label kind="synchronisation" x="-204" y="-19">Vget?</label>
+		</transition>
+	</template>
+	<template>
+		<name>PM_LED</name>
+		<parameter>const int id</parameter>
+		<location id="id21" x="-320" y="0">
+			<name x="-330" y="-30">on</name>
+		</location>
+		<location id="id22" x="-504" y="88">
+			<name x="-514" y="58">off</name>
+		</location>
+		<init ref="id22"/>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-440" y="-56">LEDon[id]?</label>
+			<nail x="-376" y="-72"/>
+			<nail x="-264" y="-72"/>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="-368" y="64">LEDoff[id]?</label>
+			<nail x="-400" y="88"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-544" y="8">LEDon[id]?</label>
+			<nail x="-440" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="-456" y="136">LEDoff[id]?</label>
+			<nail x="-552" y="152"/>
+			<nail x="-464" y="152"/>
+		</transition>
+	</template>
+	<template>
+		<name>PM_Speaker</name>
+		<location id="id23" x="8" y="112">
+			<name x="32" y="120">playingLow</name>
+		</location>
+		<location id="id24" x="16" y="-104">
+			<name x="40" y="-128">playingHigh</name>
+		</location>
+		<location id="id25" x="-176" y="0">
+			<name x="-216" y="-8">Idle</name>
+		</location>
+		<init ref="id25"/>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-240" y="64">StopLow?</label>
+			<nail x="-176" y="40"/>
+			<nail x="-176" y="64"/>
+			<nail x="-240" y="64"/>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-240" y="-88">StopHigh?</label>
+			<nail x="-176" y="-64"/>
+			<nail x="-248" y="-64"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="80" y="80">StopHigh?</label>
+			<nail x="80" y="112"/>
+			<nail x="80" y="56"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="88" y="-88">StopLow?</label>
+			<nail x="80" y="-104"/>
+			<nail x="80" y="-48"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-16" y="144">PlayLow?</label>
+			<nail x="-16" y="144"/>
+			<nail x="40" y="144"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="-8" y="-160">PlayHigh?</label>
+			<nail x="-16" y="-136"/>
+			<nail x="48" y="-136"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-120" y="-112">StopHigh?</label>
+			<nail x="-128" y="-88"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-104" y="112">StopLow?</label>
+			<nail x="-136" y="104"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="80" y="0">PlayHigh?</label>
+			<nail x="16" y="104"/>
+			<nail x="64" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-104" y="-8">PlayLow?</label>
+			<nail x="-40" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="-120" y="64">PlayLow?</label>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="-136" y="-72">PlayHigh?</label>
+		</transition>
+	</template>
+	<template>
+		<name>PM_Keyboard</name>
+		<declaration>bool manual;
+clock t;</declaration>
+		<location id="id26" x="0" y="0">
+			<name x="-56" y="0">Idle</name>
+		</location>
+		<init ref="id26"/>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id26"/>
+			<label kind="guard" x="96" y="32">t &gt;= 1000</label>
+			<label kind="assignment" x="96" y="48">t = 0,
+obs_interval = 1000</label>
+			<nail x="88" y="40"/>
+			<nail x="80" y="80"/>
+			<nail x="24" y="72"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id26"/>
+			<label kind="guard" x="192" y="-32">t &gt;= 1000</label>
+			<label kind="assignment" x="192" y="-16">t = 0,
+obs_interval = 100</label>
+			<nail x="96" y="-24"/>
+			<nail x="184" y="0"/>
+			<nail x="88" y="16"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id26"/>
+			<label kind="guard" x="-240" y="56">t&gt;=1000 &amp;&amp; manual</label>
+			<label kind="synchronisation" x="-240" y="72">forceVpace!</label>
+			<label kind="assignment" x="-240" y="88">t = 0</label>
+			<nail x="-136" y="136"/>
+			<nail x="-88" y="56"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id26"/>
+			<label kind="guard" x="-272" y="-48">t&gt;=1000 &amp;&amp; manual</label>
+			<label kind="synchronisation" x="-272" y="-16">forceApace!</label>
+			<label kind="assignment" x="-272" y="-32">t = 0</label>
+			<nail x="-216" y="0"/>
+			<nail x="-104" y="-24"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id26"/>
+			<label kind="guard" x="-216" y="-200">t&gt;=1000</label>
+			<label kind="assignment" x="-216" y="-184">t = 0,
 TLRI = 1200,
 TURI = 300,
-manual = true</label><nail x="-144" y="-144"/><nail x="-48" y="-96"/></transition><transition><source ref="id26"/><target ref="id26"/><label kind="guard" x="16" y="-232">t &gt;= 1000</label><label kind="assignment" x="16" y="-216">t = 0,
+manual = true</label>
+			<nail x="-144" y="-144"/>
+			<nail x="-48" y="-96"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id26"/>
+			<label kind="guard" x="16" y="-232">t &gt;= 1000</label>
+			<label kind="assignment" x="16" y="-216">t = 0,
 TURI = 300,
 TLRI = 800,
-manual = false</label><label kind="comments" x="-60" y="30">Sports mode</label><nail x="-32" y="-112"/><nail x="-8" y="-200"/><nail x="32" y="-112"/></transition><transition><source ref="id26"/><target ref="id26"/><label kind="guard" x="-8" y="96">t &gt;= 1000</label><label kind="assignment" x="-8" y="112">t = 0,
+manual = false</label>
+			<label kind="comments" x="-60" y="30">Sports mode</label>
+			<nail x="-32" y="-112"/>
+			<nail x="-8" y="-200"/>
+			<nail x="32" y="-112"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id26"/>
+			<label kind="guard" x="-8" y="96">t &gt;= 1000</label>
+			<label kind="assignment" x="-8" y="112">t = 0,
 TURI = 500,
 TLRI = 1200,
-manual = false</label><label kind="comments" x="-60" y="30">Sleep mode</label><nail x="-16" y="88"/><nail x="-72" y="160"/><nail x="-64" y="80"/></transition><transition><source ref="id26"/><target ref="id26"/><label kind="guard" x="104" y="-136">t &gt;= 1000</label><label kind="assignment" x="104" y="-120">t = 0,
+manual = false</label>
+			<label kind="comments" x="-60" y="30">Sleep mode</label>
+			<nail x="-16" y="88"/>
+			<nail x="-72" y="160"/>
+			<nail x="-64" y="80"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id26"/>
+			<label kind="guard" x="104" y="-136">t &gt;= 1000</label>
+			<label kind="assignment" x="104" y="-120">t = 0,
 TURI = 400,
 TLRI = 1000,
-manual = false</label><label kind="comments" x="-60" y="30">Normal mode</label><nail x="40" y="-104"/><nail x="96" y="-120"/><nail x="88" y="-64"/></transition></template><template><name>PM_HeartRateDisplay</name><declaration>clock t;
+manual = false</label>
+			<label kind="comments" x="-60" y="30">Normal mode</label>
+			<nail x="40" y="-104"/>
+			<nail x="96" y="-120"/>
+			<nail x="88" y="-64"/>
+		</transition>
+	</template>
+	<template>
+		<name>PM_HeartRateDisplay</name>
+		<declaration>clock t;
 int A = 0;
 int V = 0;
-int displayed_rate = 0;</declaration><location id="id27" x="0" y="0"></location><init ref="id27"/><transition><source ref="id27"/><target ref="id27"/><label kind="guard" x="152" y="48">t &gt;= obs_interval</label><label kind="assignment" x="152" y="64">t = 0,
+int displayed_rate = 0;</declaration>
+		<location id="id27" x="0" y="0">
+		</location>
+		<init ref="id27"/>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id27"/>
+			<label kind="guard" x="152" y="48">t &gt;= obs_interval</label>
+			<label kind="assignment" x="152" y="64">t = 0,
 displayed_rate = V / (obs_interval / 60),
 V = 0,
-A = 0</label><nail x="144" y="64"/><nail x="48" y="56"/></transition><transition><source ref="id27"/><target ref="id27"/><label kind="synchronisation" x="144" y="-72">Apace?</label><label kind="assignment" x="152" y="-56">A++</label><nail x="136" y="-64"/><nail x="80" y="0"/></transition><transition><source ref="id27"/><target ref="id27"/><label kind="synchronisation" x="-72" y="-152">Asense?</label><label kind="assignment" x="-56" y="-136">A++</label><nail x="-80" y="-128"/><nail x="-8" y="-72"/></transition><transition><source ref="id27"/><target ref="id27"/><label kind="synchronisation" x="-216" y="0">Vpace?</label><label kind="assignment" x="-208" y="16">V++</label><nail x="-168" y="24"/><nail x="-88" y="-16"/></transition><transition><source ref="id27"/><target ref="id27"/><label kind="synchronisation" x="-72" y="144">Vsense?</label><label kind="assignment" x="-56" y="160">V++</label><nail x="-48" y="144"/><nail x="-56" y="56"/></transition></template><template><name>PM_LED_Apace_CTRL</name><location id="id28" x="-216" y="-16"><name x="-226" y="-46">turnOn</name><committed/></location><location id="id29" x="-568" y="-16"><name x="-616" y="-48">turnOff</name><committed/></location><location id="id30" x="-400" y="-16"></location><init ref="id30"/><transition><source ref="id28"/><target ref="id30"/><label kind="synchronisation" x="-368" y="48">LEDon[LED_APACE]!</label><label kind="assignment" x="-384" y="64">ledOn[LED_APACE] = true</label><nail x="-272" y="40"/><nail x="-352" y="40"/></transition><transition><source ref="id29"/><target ref="id30"/><label kind="synchronisation" x="-552" y="48">LEDoff[LED_APACE]!</label><label kind="assignment" x="-576" y="64">ledOn[LED_APACE] = false</label><nail x="-520" y="40"/><nail x="-448" y="40"/></transition><transition><source ref="id30"/><target ref="id28"/><label kind="guard" x="-376" y="-47">!ledOn[LED_APACE]</label><label kind="synchronisation" x="-376" y="-32">Apace?</label></transition><transition><source ref="id30"/><target ref="id29"/><label kind="guard" x="-544" y="-48">ledOn[LED_APACE]</label><label kind="synchronisation" x="-544" y="-32">Apace?</label></transition></template><template><name>PM_LED_Vpace_CTRL</name><location id="id31" x="240" y="0"><name x="230" y="-30">turnOn</name><committed/></location><location id="id32" x="-224" y="0"><name x="-234" y="-30">turnOff</name><committed/></location><location id="id33" x="0" y="0"></location><init ref="id33"/><transition><source ref="id32"/><target ref="id33"/><label kind="synchronisation" x="-176" y="80">LEDoff[LED_VPACE]!</label><label kind="assignment" x="-192" y="96">ledOn[LED_VPACE] = false</label><nail x="-160" y="72"/><nail x="-56" y="72"/></transition><transition><source ref="id31"/><target ref="id33"/><label kind="synchronisation" x="56" y="80">LEDon[LED_VPACE]!</label><label kind="assignment" x="40" y="96">ledOn[LED_VPACE] = true</label><nail x="176" y="72"/><nail x="64" y="72"/></transition><transition><source ref="id33"/><target ref="id31"/><label kind="guard" x="60" y="-30">!ledOn[LED_VPACE]</label><label kind="synchronisation" x="60" y="-15">Vpace?</label></transition><transition><source ref="id33"/><target ref="id32"/><label kind="guard" x="-172" y="-30">ledOn[LED_VPACE]</label><label kind="synchronisation" x="-172" y="-15">Vpace?</label></transition></template><template><name>PM_LED_Aget_CTRL</name><location id="id34" x="248" y="0"><name x="238" y="-30">turnOn</name><committed/></location><location id="id35" x="-240" y="0"><name x="-250" y="-30">turnOff</name><committed/></location><location id="id36" x="0" y="0"></location><init ref="id36"/><transition><source ref="id34"/><target ref="id36"/><label kind="synchronisation" x="64" y="80">LEDon[LED_AGET]!</label><label kind="assignment" x="40" y="96">ledOn[LED_AGET] = true</label><nail x="192" y="72"/><nail x="48" y="72"/></transition><transition><source ref="id35"/><target ref="id36"/><label kind="synchronisation" x="-184" y="80">LEDoff[LED_AGET]!</label><label kind="assignment" x="-208" y="96">ledOn[LED_AGET] = false</label><nail x="-176" y="72"/><nail x="-56" y="72"/></transition><transition><source ref="id36"/><target ref="id34"/><label kind="guard" x="64" y="-30">!ledOn[LED_AGET]</label><label kind="synchronisation" x="64" y="-15">Aget?</label></transition><transition><source ref="id36"/><target ref="id35"/><label kind="guard" x="-180" y="-30">ledOn[LED_AGET]</label><label kind="synchronisation" x="-180" y="-15">Aget?</label></transition></template><template><name>PM_LED_Vget_CTRL</name><location id="id37" x="256" y="0"><name x="246" y="-30">turnOn</name><committed/></location><location id="id38" x="-248" y="0"><name x="-258" y="-30">turnOff</name><committed/></location><location id="id39" x="0" y="0"></location><init ref="id39"/><transition><source ref="id39"/><target ref="id37"/><label kind="guard" x="68" y="-30">!ledOn[LED_VGET]</label><label kind="synchronisation" x="68" y="-15">Vget?</label></transition><transition><source ref="id37"/><target ref="id39"/><label kind="synchronisation" x="64" y="72">LEDon[LED_VGET]!</label><label kind="assignment" x="40" y="88">ledOn[LED_VGET] = true</label><nail x="208" y="72"/><nail x="48" y="72"/></transition><transition><source ref="id38"/><target ref="id39"/><label kind="synchronisation" x="-184" y="72">LEDoff[LED_VGET]!</label><label kind="assignment" x="-208" y="88">ledOn[LED_VGET] = false</label><nail x="-192" y="72"/><nail x="-48" y="72"/></transition><transition><source ref="id39"/><target ref="id38"/><label kind="guard" x="-184" y="-30">ledOn[LED_VGET]</label><label kind="synchronisation" x="-184" y="-15">Vget?</label></transition></template><template><name>PM_Signals_Received</name><location id="id40" x="-280" y="8"><name x="-304" y="24">r_Vget</name><committed/></location><location id="id41" x="-16" y="200"><name x="-40" y="208">r_Vpace</name><committed/></location><location id="id42" x="216" y="-8"><name x="206" y="-38">r_Aget</name><committed/></location><location id="id43" x="-32" y="-216"><name x="-64" y="-248">r_Apace</name><committed/></location><location id="id44" x="-24" y="0"></location><init ref="id44"/><transition><source ref="id44"/><target ref="id40"/><label kind="synchronisation" x="-192" y="48">Vget?</label><nail x="-108" y="43"/><nail x="-228" y="43"/></transition><transition><source ref="id40"/><target ref="id44"/><nail x="-216" y="-48"/><nail x="-104" y="-48"/></transition><transition><source ref="id41"/><target ref="id44"/><nail x="-88" y="168"/><nail x="-88" y="40"/></transition><transition><source ref="id44"/><target ref="id41"/><label kind="synchronisation" x="40" y="136">Vpace?</label><nail x="24" y="80"/><nail x="32" y="168"/></transition><transition><source ref="id43"/><target ref="id44"/><nail x="16" y="-168"/><nail x="24" y="-80"/></transition><transition><source ref="id42"/><target ref="id44"/><nail x="160" y="64"/><nail x="32" y="64"/></transition><transition><source ref="id44"/><target ref="id42"/><label kind="synchronisation" x="72" y="-88">Aget?</label><nail x="40" y="-64"/><nail x="144" y="-64"/></transition><transition><source ref="id44"/><target ref="id43"/><label kind="synchronisation" x="-136" y="-120">Apace?</label><nail x="-80" y="-72"/><nail x="-80" y="-152"/></transition></template><template><name>H_Display</name><declaration>int printInterval = 100;
+A = 0</label>
+			<nail x="144" y="64"/>
+			<nail x="48" y="56"/>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="144" y="-72">Apace?</label>
+			<label kind="assignment" x="152" y="-56">A++</label>
+			<nail x="136" y="-64"/>
+			<nail x="80" y="0"/>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="-72" y="-152">Asense?</label>
+			<label kind="assignment" x="-56" y="-136">A++</label>
+			<nail x="-80" y="-128"/>
+			<nail x="-8" y="-72"/>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="-216" y="0">Vpace?</label>
+			<label kind="assignment" x="-208" y="16">V++</label>
+			<nail x="-168" y="24"/>
+			<nail x="-88" y="-16"/>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="-72" y="144">Vsense?</label>
+			<label kind="assignment" x="-56" y="160">V++</label>
+			<nail x="-48" y="144"/>
+			<nail x="-56" y="56"/>
+		</transition>
+	</template>
+	<template>
+		<name>PM_LED_Apace_CTRL</name>
+		<location id="id28" x="-216" y="-16">
+			<name x="-226" y="-46">turnOn</name>
+			<committed/>
+		</location>
+		<location id="id29" x="-568" y="-16">
+			<name x="-616" y="-48">turnOff</name>
+			<committed/>
+		</location>
+		<location id="id30" x="-400" y="-16">
+		</location>
+		<init ref="id30"/>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id30"/>
+			<label kind="synchronisation" x="-368" y="48">LEDon[LED_APACE]!</label>
+			<label kind="assignment" x="-384" y="64">ledOn[LED_APACE] = true</label>
+			<nail x="-272" y="40"/>
+			<nail x="-352" y="40"/>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id30"/>
+			<label kind="synchronisation" x="-552" y="48">LEDoff[LED_APACE]!</label>
+			<label kind="assignment" x="-576" y="64">ledOn[LED_APACE] = false</label>
+			<nail x="-520" y="40"/>
+			<nail x="-448" y="40"/>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id28"/>
+			<label kind="guard" x="-376" y="-47">!ledOn[LED_APACE]</label>
+			<label kind="synchronisation" x="-376" y="-32">Apace?</label>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id29"/>
+			<label kind="guard" x="-544" y="-48">ledOn[LED_APACE]</label>
+			<label kind="synchronisation" x="-544" y="-32">Apace?</label>
+		</transition>
+	</template>
+	<template>
+		<name>PM_LED_Vpace_CTRL</name>
+		<location id="id31" x="240" y="0">
+			<name x="230" y="-30">turnOn</name>
+			<committed/>
+		</location>
+		<location id="id32" x="-224" y="0">
+			<name x="-234" y="-30">turnOff</name>
+			<committed/>
+		</location>
+		<location id="id33" x="0" y="0">
+		</location>
+		<init ref="id33"/>
+		<transition>
+			<source ref="id32"/>
+			<target ref="id33"/>
+			<label kind="synchronisation" x="-176" y="80">LEDoff[LED_VPACE]!</label>
+			<label kind="assignment" x="-192" y="96">ledOn[LED_VPACE] = false</label>
+			<nail x="-160" y="72"/>
+			<nail x="-56" y="72"/>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id33"/>
+			<label kind="synchronisation" x="56" y="80">LEDon[LED_VPACE]!</label>
+			<label kind="assignment" x="40" y="96">ledOn[LED_VPACE] = true</label>
+			<nail x="176" y="72"/>
+			<nail x="64" y="72"/>
+		</transition>
+		<transition>
+			<source ref="id33"/>
+			<target ref="id31"/>
+			<label kind="guard" x="60" y="-30">!ledOn[LED_VPACE]</label>
+			<label kind="synchronisation" x="60" y="-15">Vpace?</label>
+		</transition>
+		<transition>
+			<source ref="id33"/>
+			<target ref="id32"/>
+			<label kind="guard" x="-172" y="-30">ledOn[LED_VPACE]</label>
+			<label kind="synchronisation" x="-172" y="-15">Vpace?</label>
+		</transition>
+	</template>
+	<template>
+		<name>PM_LED_Aget_CTRL</name>
+		<location id="id34" x="248" y="0">
+			<name x="238" y="-30">turnOn</name>
+			<committed/>
+		</location>
+		<location id="id35" x="-240" y="0">
+			<name x="-250" y="-30">turnOff</name>
+			<committed/>
+		</location>
+		<location id="id36" x="0" y="0">
+		</location>
+		<init ref="id36"/>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id36"/>
+			<label kind="synchronisation" x="64" y="80">LEDon[LED_AGET]!</label>
+			<label kind="assignment" x="40" y="96">ledOn[LED_AGET] = true</label>
+			<nail x="192" y="72"/>
+			<nail x="48" y="72"/>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id36"/>
+			<label kind="synchronisation" x="-184" y="80">LEDoff[LED_AGET]!</label>
+			<label kind="assignment" x="-208" y="96">ledOn[LED_AGET] = false</label>
+			<nail x="-176" y="72"/>
+			<nail x="-56" y="72"/>
+		</transition>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id34"/>
+			<label kind="guard" x="64" y="-30">!ledOn[LED_AGET]</label>
+			<label kind="synchronisation" x="64" y="-15">Aget?</label>
+		</transition>
+		<transition>
+			<source ref="id36"/>
+			<target ref="id35"/>
+			<label kind="guard" x="-180" y="-30">ledOn[LED_AGET]</label>
+			<label kind="synchronisation" x="-180" y="-15">Aget?</label>
+		</transition>
+	</template>
+	<template>
+		<name>PM_LED_Vget_CTRL</name>
+		<location id="id37" x="256" y="0">
+			<name x="246" y="-30">turnOn</name>
+			<committed/>
+		</location>
+		<location id="id38" x="-248" y="0">
+			<name x="-258" y="-30">turnOff</name>
+			<committed/>
+		</location>
+		<location id="id39" x="0" y="0">
+		</location>
+		<init ref="id39"/>
+		<transition>
+			<source ref="id39"/>
+			<target ref="id37"/>
+			<label kind="guard" x="68" y="-30">!ledOn[LED_VGET]</label>
+			<label kind="synchronisation" x="68" y="-15">Vget?</label>
+		</transition>
+		<transition>
+			<source ref="id37"/>
+			<target ref="id39"/>
+			<label kind="synchronisation" x="64" y="72">LEDon[LED_VGET]!</label>
+			<label kind="assignment" x="40" y="88">ledOn[LED_VGET] = true</label>
+			<nail x="208" y="72"/>
+			<nail x="48" y="72"/>
+		</transition>
+		<transition>
+			<source ref="id38"/>
+			<target ref="id39"/>
+			<label kind="synchronisation" x="-184" y="72">LEDoff[LED_VGET]!</label>
+			<label kind="assignment" x="-208" y="88">ledOn[LED_VGET] = false</label>
+			<nail x="-192" y="72"/>
+			<nail x="-48" y="72"/>
+		</transition>
+		<transition>
+			<source ref="id39"/>
+			<target ref="id38"/>
+			<label kind="guard" x="-184" y="-30">ledOn[LED_VGET]</label>
+			<label kind="synchronisation" x="-184" y="-15">Vget?</label>
+		</transition>
+	</template>
+	<template>
+		<name>PM_Signals_Received</name>
+		<location id="id40" x="-280" y="8">
+			<name x="-304" y="24">r_Vget</name>
+			<committed/>
+		</location>
+		<location id="id41" x="-16" y="200">
+			<name x="-40" y="208">r_Vpace</name>
+			<committed/>
+		</location>
+		<location id="id42" x="216" y="-8">
+			<name x="206" y="-38">r_Aget</name>
+			<committed/>
+		</location>
+		<location id="id43" x="-32" y="-216">
+			<name x="-64" y="-248">r_Apace</name>
+			<committed/>
+		</location>
+		<location id="id44" x="-24" y="0">
+		</location>
+		<init ref="id44"/>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id40"/>
+			<label kind="synchronisation" x="-192" y="48">Vget?</label>
+			<nail x="-108" y="43"/>
+			<nail x="-228" y="43"/>
+		</transition>
+		<transition>
+			<source ref="id40"/>
+			<target ref="id44"/>
+			<nail x="-216" y="-48"/>
+			<nail x="-104" y="-48"/>
+		</transition>
+		<transition>
+			<source ref="id41"/>
+			<target ref="id44"/>
+			<nail x="-88" y="168"/>
+			<nail x="-88" y="40"/>
+		</transition>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id41"/>
+			<label kind="synchronisation" x="40" y="136">Vpace?</label>
+			<nail x="24" y="80"/>
+			<nail x="32" y="168"/>
+		</transition>
+		<transition>
+			<source ref="id43"/>
+			<target ref="id44"/>
+			<nail x="16" y="-168"/>
+			<nail x="24" y="-80"/>
+		</transition>
+		<transition>
+			<source ref="id42"/>
+			<target ref="id44"/>
+			<nail x="160" y="64"/>
+			<nail x="32" y="64"/>
+		</transition>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id42"/>
+			<label kind="synchronisation" x="72" y="-88">Aget?</label>
+			<nail x="40" y="-64"/>
+			<nail x="144" y="-64"/>
+		</transition>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id43"/>
+			<label kind="synchronisation" x="-136" y="-120">Apace?</label>
+			<nail x="-80" y="-72"/>
+			<nail x="-80" y="-152"/>
+		</transition>
+	</template>
+	<template>
+		<name>H_Display</name>
+		<declaration>int printInterval = 100;
 int Arate, Vrate;
 clock printClock;
 
@@ -107,12 +1003,573 @@ Acount = 0;
 Vcount = 0;
 }
 
-</declaration><location id="id45" x="0" y="0"><name x="-68" y="-8">Display</name></location><init ref="id45"/><transition><source ref="id45"/><target ref="id45"/><label kind="guard" x="0" y="-127">printClock &gt; printInterval</label><label kind="assignment" x="110" y="-25">printRate(),
-printClock := 0</label><nail x="102" y="-102"/><nail x="102" y="93"/></transition></template><template><name>PM_Heart</name><declaration>clock x;</declaration><location id="id46" x="0" y="0"></location><init ref="id46"/><transition><source ref="id46"/><target ref="id46"/><label kind="synchronisation" x="-24" y="152">Apace?</label><label kind="assignment" x="-16" y="168">x = 0</label><nail x="24" y="80"/><nail x="0" y="152"/><nail x="-32" y="80"/></transition><transition><source ref="id46"/><target ref="id46"/><label kind="synchronisation" x="176" y="-32">Vpace?</label><label kind="assignment" x="184" y="-16">x = 0</label><nail x="80" y="-24"/><nail x="160" y="0"/><nail x="80" y="24"/></transition><transition><source ref="id46"/><target ref="id46"/><label kind="guard" x="-40" y="-224">x &gt;= minwait_V</label><label kind="synchronisation" x="-8" y="-208">Vget!</label><label kind="assignment" x="-8" y="-192">x = 0</label><nail x="-32" y="-80"/><nail x="0" y="-160"/><nail x="40" y="-80"/></transition><transition><source ref="id46"/><target ref="id46"/><label kind="guard" x="-248" y="-32">x &gt;= minwait_A</label><label kind="synchronisation" x="-208" y="-16">Aget!</label><label kind="assignment" x="-208" y="0">x = 0</label><nail x="-72" y="32"/><nail x="-152" y="8"/><nail x="-72" y="-24"/></transition></template><template><name>H_FakePM</name><location id="id47" x="0" y="0"></location><init ref="id47"/><transition><source ref="id47"/><target ref="id47"/><label kind="synchronisation" x="-110" y="-17">Aget?</label><nail x="-8" y="-8"/><nail x="-68" y="-51"/><nail x="-68" y="34"/></transition><transition><source ref="id47"/><target ref="id47"/><label kind="synchronisation" x="68" y="-17">Vget?</label><nail x="59" y="-51"/><nail x="59" y="42"/></transition></template><template><name>H_Keyboard</name><declaration>void clearClock(){
+</declaration>
+		<location id="id45" x="0" y="0">
+			<name x="-68" y="-8">Display</name>
+		</location>
+		<init ref="id45"/>
+		<transition>
+			<source ref="id45"/>
+			<target ref="id45"/>
+			<label kind="guard" x="0" y="-127">printClock &gt; printInterval</label>
+			<label kind="assignment" x="110" y="-25">printRate(),
+printClock := 0</label>
+			<nail x="102" y="-102"/>
+			<nail x="102" y="93"/>
+		</transition>
+	</template>
+	<template>
+		<name>PM_Heart</name>
+		<declaration>clock x;</declaration>
+		<location id="id46" x="0" y="0">
+		</location>
+		<init ref="id46"/>
+		<transition>
+			<source ref="id46"/>
+			<target ref="id46"/>
+			<label kind="synchronisation" x="-24" y="152">Apace?</label>
+			<label kind="assignment" x="-16" y="168">x = 0</label>
+			<nail x="24" y="80"/>
+			<nail x="0" y="152"/>
+			<nail x="-32" y="80"/>
+		</transition>
+		<transition>
+			<source ref="id46"/>
+			<target ref="id46"/>
+			<label kind="synchronisation" x="176" y="-32">Vpace?</label>
+			<label kind="assignment" x="184" y="-16">x = 0</label>
+			<nail x="80" y="-24"/>
+			<nail x="160" y="0"/>
+			<nail x="80" y="24"/>
+		</transition>
+		<transition>
+			<source ref="id46"/>
+			<target ref="id46"/>
+			<label kind="guard" x="-40" y="-224">x &gt;= minwait_V</label>
+			<label kind="synchronisation" x="-8" y="-208">Vget!</label>
+			<label kind="assignment" x="-8" y="-192">x = 0</label>
+			<nail x="-32" y="-80"/>
+			<nail x="0" y="-160"/>
+			<nail x="40" y="-80"/>
+		</transition>
+		<transition>
+			<source ref="id46"/>
+			<target ref="id46"/>
+			<label kind="guard" x="-248" y="-32">x &gt;= minwait_A</label>
+			<label kind="synchronisation" x="-208" y="-16">Aget!</label>
+			<label kind="assignment" x="-208" y="0">x = 0</label>
+			<nail x="-72" y="32"/>
+			<nail x="-152" y="8"/>
+			<nail x="-72" y="-24"/>
+		</transition>
+	</template>
+	<template>
+		<name>H_FakePM</name>
+		<location id="id47" x="0" y="0">
+		</location>
+		<init ref="id47"/>
+		<transition>
+			<source ref="id47"/>
+			<target ref="id47"/>
+			<label kind="synchronisation" x="-110" y="-17">Aget?</label>
+			<nail x="-8" y="-8"/>
+			<nail x="-68" y="-51"/>
+			<nail x="-68" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id47"/>
+			<target ref="id47"/>
+			<label kind="synchronisation" x="68" y="-17">Vget?</label>
+			<nail x="59" y="-51"/>
+			<nail x="59" y="42"/>
+		</transition>
+	</template>
+	<template>
+		<name>H_Keyboard</name>
+		<declaration>void clearClock(){
     keyboardClock = 0;
-}</declaration><location id="id48" x="229" y="238"><name x="204" y="255">Test</name></location><location id="id49" x="-212" y="229"><name x="-195" y="238">Manual</name></location><location id="id50" x="0" y="-68"><name x="-25" y="-102">Random</name></location><init ref="id50"/><transition><source ref="id49"/><target ref="id49"/><label kind="synchronisation" x="-246" y="323">keypressV!</label><nail x="-238" y="314"/><nail x="-178" y="314"/></transition><transition><source ref="id49"/><target ref="id49"/><label kind="synchronisation" x="-374" y="289">keypressA!</label><nail x="-306" y="263"/><nail x="-280" y="306"/></transition><transition><source ref="id50"/><target ref="id48"/><label kind="guard" x="17" y="-68">keyboardClock &gt; 1000</label><label kind="synchronisation" x="127" y="34">keypressT!</label><label kind="assignment" x="127" y="51">clearClock()</label><nail x="119" y="59"/></transition><transition><source ref="id48"/><target ref="id50"/><label kind="guard" x="221" y="204">keyboardClock &gt; 1000</label><label kind="synchronisation" x="8" y="76">keypressR!</label><label kind="assignment" x="8" y="93">clearClock()</label><nail x="85" y="85"/></transition><transition><source ref="id48"/><target ref="id49"/><label kind="guard" x="246" y="246">keyboardClock &gt; 1000</label><label kind="synchronisation" x="-34" y="263">keypressM!</label><label kind="assignment" x="-42" y="280">clearClock()</label><nail x="0" y="263"/></transition><transition><source ref="id49"/><target ref="id48"/><label kind="guard" x="-365" y="195">keyboardClock &gt; 1000</label><label kind="synchronisation" x="-34" y="204">keypressT!</label><label kind="assignment" x="-34" y="221">clearClock()</label><nail x="0" y="195"/></transition><transition><source ref="id50"/><target ref="id49"/><label kind="guard" x="-178" y="-68">keyboardClock &gt; 1000</label><label kind="synchronisation" x="-93" y="93">keypressM!</label><label kind="assignment" x="-93" y="110">clearClock()</label><nail x="-76" y="76"/></transition><transition><source ref="id49"/><target ref="id50"/><label kind="guard" x="-365" y="178">keyboardClock &gt; 1000</label><label kind="synchronisation" x="-204" y="25">keypressR!</label><label kind="assignment" x="-204" y="42">clearClock()</label><nail x="-119" y="59"/></transition></template><template><name>H_Generator</name><location id="id51" x="-136" y="0"><name x="-146" y="-30">gotV</name><urgent/></location><location id="id52" x="136" y="0"><name x="126" y="-30">gotA</name><urgent/></location><location id="id53" x="0" y="0"><name x="-25" y="-34">waiting</name></location><init ref="id53"/><transition><source ref="id52"/><target ref="id53"/><label kind="synchronisation" x="51" y="34">Aget!</label><nail x="68" y="34"/></transition><transition><source ref="id51"/><target ref="id53"/><label kind="synchronisation" x="-85" y="34">Vget!</label><nail x="-68" y="34"/></transition><transition><source ref="id53"/><target ref="id51"/><label kind="synchronisation" x="-102" y="-59">Vsignal?</label><nail x="-68" y="-42"/></transition><transition><source ref="id53"/><target ref="id52"/><label kind="synchronisation" x="42" y="-51">Asignal?</label><nail x="68" y="-34"/></transition></template><template><name>H_LEDheart</name><parameter>const int id</parameter><declaration>clock ledClock;</declaration><location id="id54" x="8" y="-64"><name x="25" y="-76">on</name></location><location id="id55" x="-144" y="-64"><name x="-178" y="-76">off</name></location><init ref="id55"/><transition><source ref="id54"/><target ref="id55"/><label kind="synchronisation" x="-136" y="-8">LED_heart_toggle[id]?</label><nail x="-76" y="-8"/></transition><transition><source ref="id55"/><target ref="id54"/><label kind="synchronisation" x="-144" y="-136">LED_heart_toggle[id]?</label><nail x="-68" y="-119"/><nail x="-8" y="-76"/></transition></template><template><name x="5" y="5">H_Responder</name><declaration>int minwait_V = 1;
+}</declaration>
+		<location id="id48" x="229" y="238">
+			<name x="204" y="255">Test</name>
+		</location>
+		<location id="id49" x="-212" y="229">
+			<name x="-195" y="238">Manual</name>
+		</location>
+		<location id="id50" x="0" y="-68">
+			<name x="-25" y="-102">Random</name>
+		</location>
+		<init ref="id50"/>
+		<transition>
+			<source ref="id49"/>
+			<target ref="id49"/>
+			<label kind="synchronisation" x="-246" y="323">keypressV!</label>
+			<nail x="-238" y="314"/>
+			<nail x="-178" y="314"/>
+		</transition>
+		<transition>
+			<source ref="id49"/>
+			<target ref="id49"/>
+			<label kind="synchronisation" x="-374" y="289">keypressA!</label>
+			<nail x="-306" y="263"/>
+			<nail x="-280" y="306"/>
+		</transition>
+		<transition>
+			<source ref="id50"/>
+			<target ref="id48"/>
+			<label kind="guard" x="17" y="-68">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="127" y="34">keypressT!</label>
+			<label kind="assignment" x="127" y="51">clearClock()</label>
+			<nail x="119" y="59"/>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id50"/>
+			<label kind="guard" x="221" y="204">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="8" y="76">keypressR!</label>
+			<label kind="assignment" x="8" y="93">clearClock()</label>
+			<nail x="85" y="85"/>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id49"/>
+			<label kind="guard" x="246" y="246">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="-34" y="263">keypressM!</label>
+			<label kind="assignment" x="-42" y="280">clearClock()</label>
+			<nail x="0" y="263"/>
+		</transition>
+		<transition>
+			<source ref="id49"/>
+			<target ref="id48"/>
+			<label kind="guard" x="-365" y="195">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="-34" y="204">keypressT!</label>
+			<label kind="assignment" x="-34" y="221">clearClock()</label>
+			<nail x="0" y="195"/>
+		</transition>
+		<transition>
+			<source ref="id50"/>
+			<target ref="id49"/>
+			<label kind="guard" x="-178" y="-68">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="-93" y="93">keypressM!</label>
+			<label kind="assignment" x="-93" y="110">clearClock()</label>
+			<nail x="-76" y="76"/>
+		</transition>
+		<transition>
+			<source ref="id49"/>
+			<target ref="id50"/>
+			<label kind="guard" x="-365" y="178">keyboardClock &gt; 1000</label>
+			<label kind="synchronisation" x="-204" y="25">keypressR!</label>
+			<label kind="assignment" x="-204" y="42">clearClock()</label>
+			<nail x="-119" y="59"/>
+		</transition>
+	</template>
+	<template>
+		<name>H_Generator</name>
+		<location id="id51" x="-136" y="0">
+			<name x="-146" y="-30">gotV</name>
+			<urgent/>
+		</location>
+		<location id="id52" x="136" y="0">
+			<name x="126" y="-30">gotA</name>
+			<urgent/>
+		</location>
+		<location id="id53" x="0" y="0">
+			<name x="-25" y="-34">waiting</name>
+		</location>
+		<init ref="id53"/>
+		<transition>
+			<source ref="id52"/>
+			<target ref="id53"/>
+			<label kind="synchronisation" x="51" y="34">Aget!</label>
+			<nail x="68" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id51"/>
+			<target ref="id53"/>
+			<label kind="synchronisation" x="-85" y="34">Vget!</label>
+			<nail x="-68" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id53"/>
+			<target ref="id51"/>
+			<label kind="synchronisation" x="-102" y="-59">Vsignal?</label>
+			<nail x="-68" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id53"/>
+			<target ref="id52"/>
+			<label kind="synchronisation" x="42" y="-51">Asignal?</label>
+			<nail x="68" y="-34"/>
+		</transition>
+	</template>
+	<template>
+		<name>H_LEDheart</name>
+		<parameter>const int id</parameter>
+		<declaration>clock ledClock;</declaration>
+		<location id="id54" x="8" y="-64">
+			<name x="25" y="-76">on</name>
+		</location>
+		<location id="id55" x="-144" y="-64">
+			<name x="-178" y="-76">off</name>
+		</location>
+		<init ref="id55"/>
+		<transition>
+			<source ref="id54"/>
+			<target ref="id55"/>
+			<label kind="synchronisation" x="-136" y="-8">LED_heart_toggle[id]?</label>
+			<nail x="-76" y="-8"/>
+		</transition>
+		<transition>
+			<source ref="id55"/>
+			<target ref="id54"/>
+			<label kind="synchronisation" x="-144" y="-136">LED_heart_toggle[id]?</label>
+			<nail x="-68" y="-119"/>
+			<nail x="-8" y="-76"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">H_Responder</name>
+		<declaration>int minwait_V = 1;
 int minwait_A = 2;
-clock testClock;</declaration><location id="id56" x="204" y="263"></location><location id="id57" x="340" y="263"></location><location id="id58" x="476" y="263"></location><location id="id59" x="586" y="263"></location><location id="id60" x="586" y="187"></location><location id="id61" x="586" y="110"></location><location id="id62" x="348" y="110"></location><location id="id63" x="476" y="110"></location><location id="id64" x="280" y="-238"><name x="297" y="-246">Random_A</name></location><location id="id65" x="-272" y="-238"><name x="-365" y="-246">Random_V</name></location><location id="id66" x="-442" y="110"><name x="-527" y="102">Manual_V</name></location><location id="id67" x="-187" y="340"><name x="-221" y="357">Manual_A</name></location><location id="id68" x="204" y="110"><name x="153" y="85">Test</name></location><location id="id69" x="-178" y="110"><name x="-153" y="85">Manual</name></location><location id="id70" x="0" y="-179"><name x="-25" y="-161">Random</name></location><init ref="id70"/><transition><source ref="id67"/><target ref="id69"/><label kind="synchronisation" x="-48" y="216">Asignal!</label><nail x="-64" y="216"/></transition><transition><source ref="id69"/><target ref="id67"/><label kind="synchronisation" x="-323" y="246">Apace?</label><nail x="-272" y="256"/></transition><transition><source ref="id69"/><target ref="id66"/><label kind="synchronisation" x="-365" y="212">Vpace?</label><nail x="-352" y="208"/></transition><transition><source ref="id66"/><target ref="id69"/><label kind="synchronisation" x="-357" y="17">Vsignal!</label><nail x="-328" y="32"/></transition><transition><source ref="id70"/><target ref="id64"/><label kind="synchronisation" x="80" y="-223">Apace?</label></transition><transition><source ref="id70"/><target ref="id65"/><label kind="synchronisation" x="-196" y="-223">Vpace?</label></transition><transition><source ref="id64"/><target ref="id70"/><label kind="synchronisation" x="120" y="-320">Asignal!</label><label kind="assignment" x="104" y="-304">heartClock = 0</label><nail x="16" y="-312"/></transition><transition><source ref="id65"/><target ref="id70"/><label kind="synchronisation" x="-216" y="-320">Vsignal!</label><label kind="assignment" x="-232" y="-304">heartClock = 0</label><nail x="-24" y="-312"/></transition><transition><source ref="id56"/><target ref="id68"/><label kind="guard" x="204" y="195">testClock &gt; 1000</label><label kind="synchronisation" x="204" y="178">Vsignal!</label><label kind="assignment" x="204" y="161">heartClock := 0</label></transition><transition><source ref="id57"/><target ref="id56"/><label kind="guard" x="221" y="272">testClock &gt; 1000</label><label kind="synchronisation" x="246" y="246">Asignal!</label><label kind="assignment" x="229" y="229">testClock := 0</label></transition><transition><source ref="id58"/><target ref="id57"/><label kind="guard" x="357" y="272">testClock &gt; 100</label><label kind="synchronisation" x="374" y="238">Vsignal!</label><label kind="assignment" x="357" y="221">testClock := 0</label></transition><transition><source ref="id59"/><target ref="id58"/><label kind="guard" x="484" y="272">testClock &gt; 100</label><label kind="synchronisation" x="510" y="238">Asignal!</label><label kind="assignment" x="484" y="221">testClock := 0</label></transition><transition><source ref="id60"/><target ref="id59"/><label kind="guard" x="586" y="195">testClock &gt; 100</label><label kind="synchronisation" x="586" y="229">Vsignal!</label><label kind="assignment" x="586" y="212">testClock := 0</label></transition><transition><source ref="id61"/><target ref="id60"/><label kind="guard" x="586" y="119">testClock &gt; 500</label><label kind="synchronisation" x="586" y="153">Asignal!</label><label kind="assignment" x="586" y="136">testClock := 0</label></transition><transition><source ref="id63"/><target ref="id61"/><label kind="guard" x="467" y="119">testClock &gt; 100</label><label kind="synchronisation" x="501" y="93">Vsignal!</label><label kind="assignment" x="484" y="76">testClock := 0</label></transition><transition><source ref="id62"/><target ref="id63"/><label kind="synchronisation" x="382" y="93">Asignal!</label></transition><transition><source ref="id68"/><target ref="id62"/><label kind="assignment" x="221" y="93">testClock := 0</label></transition><transition><source ref="id70"/><target ref="id65"/><label kind="guard" x="-240" y="-176">heartClock &gt;= minwait_V</label><nail x="-272" y="-178"/></transition><transition><source ref="id70"/><target ref="id64"/><label kind="guard" x="48" y="-176">heartClock &gt;= minwait_A</label><nail x="280" y="-178"/></transition><transition><source ref="id69"/><target ref="id66"/><label kind="synchronisation" x="-365" y="110">keypressV?</label></transition><transition><source ref="id69"/><target ref="id67"/><label kind="synchronisation" x="-212" y="221">keypressA?</label></transition><transition><source ref="id69"/><target ref="id70"/><label kind="synchronisation" x="-170" y="-51">keypressR?</label><label kind="assignment" x="-204" y="-34">heartClock := 0</label><nail x="-110" y="-51"/></transition><transition><source ref="id70"/><target ref="id69"/><label kind="synchronisation" x="-85" y="-51">keypressM?</label><nail x="-68" y="-34"/></transition><transition><source ref="id69"/><target ref="id68"/><label kind="synchronisation" x="-34" y="136">keypressT?</label><nail x="0" y="136"/></transition><transition><source ref="id68"/><target ref="id69"/><label kind="synchronisation" x="-34" y="68">keypressM?</label><nail x="0" y="85"/></transition><transition><source ref="id70"/><target ref="id68"/><label kind="synchronisation" x="25" y="-51">keypressT?</label><nail x="76" y="-34"/></transition><transition><source ref="id68"/><target ref="id70"/><label kind="synchronisation" x="110" y="-51">keypressR?</label><label kind="assignment" x="119" y="-34">heartClock := 0</label><nail x="119" y="-68"/></transition></template><template><name>H_Signals_Received</name><location id="id71" x="240" y="0"><name x="264" y="-8">r_Vsignal</name><committed/></location><location id="id72" x="-232" y="8"><name x="-312" y="0">r_Asignal</name><committed/></location><location id="id73" x="0" y="0"></location><init ref="id73"/><transition><source ref="id71"/><target ref="id73"/><nail x="176" y="-64"/><nail x="48" y="-64"/></transition><transition><source ref="id73"/><target ref="id71"/><label kind="synchronisation" x="112" y="64">Vsignal?</label><nail x="72" y="64"/><nail x="192" y="64"/></transition><transition><source ref="id72"/><target ref="id73"/><nail x="-176" y="-64"/><nail x="-56" y="-64"/></transition><transition><source ref="id73"/><target ref="id72"/><label kind="synchronisation" x="-144" y="64">Asignal?</label><nail x="-64" y="64"/><nail x="-168" y="64"/></transition></template><template><name>H_LED_Apace_CTRL</name><location id="id74" x="-488" y="120"><committed/></location><location id="id75" x="-488" y="-32"></location><init ref="id75"/><transition><source ref="id74"/><target ref="id75"/><label kind="synchronisation" x="-440" y="56">LED_heart_toggle[H_LED_APACE]!</label><nail x="-440" y="96"/><nail x="-440" y="24"/></transition><transition><source ref="id75"/><target ref="id74"/><label kind="synchronisation" x="-592" y="64">Apace?</label><nail x="-544" y="32"/><nail x="-544" y="96"/></transition></template><template><name>H_LED_Vpace_CTRL</name><location id="id76" x="8" y="48"><committed/></location><location id="id77" x="8" y="-112"></location><init ref="id77"/><transition><source ref="id76"/><target ref="id77"/><label kind="synchronisation" x="80" y="-16">LED_heart_toggle[H_LED_VPACE]!</label><nail x="72" y="24"/><nail x="72" y="-64"/></transition><transition><source ref="id77"/><target ref="id76"/><label kind="synchronisation" x="-112" y="-24">Vpace?</label><nail x="-56" y="-64"/><nail x="-56" y="24"/></transition></template><template><name>H_LED_Apace_heart_CTRL</name><location id="id78" x="0" y="144"><committed/></location><location id="id79" x="0" y="0"></location><init ref="id79"/><transition><source ref="id78"/><target ref="id79"/><label kind="synchronisation" x="56" y="64">LED_heart_toggle[H_LED_APACE_HEART]!</label><nail x="48" y="112"/><nail x="48" y="32"/></transition><transition><source ref="id79"/><target ref="id78"/><label kind="synchronisation" x="-120" y="64">Asignal?</label><nail x="-48" y="32"/><nail x="-48" y="104"/></transition></template><template><name>H_LED_Vpace_heart_CTRL</name><location id="id80" x="8" y="152"><committed/></location><location id="id81" x="0" y="0"></location><init ref="id81"/><transition><source ref="id80"/><target ref="id81"/><label kind="synchronisation" x="64" y="128">LED_heart_toggle[H_LED_VPACE_HEART]!</label><nail x="96" y="112"/><nail x="96" y="40"/></transition><transition><source ref="id81"/><target ref="id80"/><label kind="synchronisation" x="-144" y="72">Vsignal?</label><nail x="-72" y="48"/><nail x="-72" y="120"/></transition></template><system>// Pacemaker
+clock testClock;</declaration>
+		<location id="id56" x="204" y="263">
+		</location>
+		<location id="id57" x="340" y="263">
+		</location>
+		<location id="id58" x="476" y="263">
+		</location>
+		<location id="id59" x="586" y="263">
+		</location>
+		<location id="id60" x="586" y="187">
+		</location>
+		<location id="id61" x="586" y="110">
+		</location>
+		<location id="id62" x="348" y="110">
+		</location>
+		<location id="id63" x="476" y="110">
+		</location>
+		<location id="id64" x="280" y="-238">
+			<name x="297" y="-246">Random_A</name>
+		</location>
+		<location id="id65" x="-272" y="-238">
+			<name x="-365" y="-246">Random_V</name>
+		</location>
+		<location id="id66" x="-442" y="110">
+			<name x="-527" y="102">Manual_V</name>
+		</location>
+		<location id="id67" x="-187" y="340">
+			<name x="-221" y="357">Manual_A</name>
+		</location>
+		<location id="id68" x="204" y="110">
+			<name x="153" y="85">Test</name>
+		</location>
+		<location id="id69" x="-178" y="110">
+			<name x="-153" y="85">Manual</name>
+		</location>
+		<location id="id70" x="0" y="-179">
+			<name x="-25" y="-161">Random</name>
+		</location>
+		<init ref="id70"/>
+		<transition>
+			<source ref="id67"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="-48" y="216">Asignal!</label>
+			<nail x="-64" y="216"/>
+		</transition>
+		<transition>
+			<source ref="id69"/>
+			<target ref="id67"/>
+			<label kind="synchronisation" x="-323" y="246">Apace?</label>
+			<nail x="-272" y="256"/>
+		</transition>
+		<transition>
+			<source ref="id69"/>
+			<target ref="id66"/>
+			<label kind="synchronisation" x="-365" y="212">Vpace?</label>
+			<nail x="-352" y="208"/>
+		</transition>
+		<transition>
+			<source ref="id66"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="-357" y="17">Vsignal!</label>
+			<nail x="-328" y="32"/>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id64"/>
+			<label kind="synchronisation" x="80" y="-223">Apace?</label>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id65"/>
+			<label kind="synchronisation" x="-196" y="-223">Vpace?</label>
+		</transition>
+		<transition>
+			<source ref="id64"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="120" y="-320">Asignal!</label>
+			<label kind="assignment" x="104" y="-304">heartClock = 0</label>
+			<nail x="16" y="-312"/>
+		</transition>
+		<transition>
+			<source ref="id65"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="-216" y="-320">Vsignal!</label>
+			<label kind="assignment" x="-232" y="-304">heartClock = 0</label>
+			<nail x="-24" y="-312"/>
+		</transition>
+		<transition>
+			<source ref="id56"/>
+			<target ref="id68"/>
+			<label kind="guard" x="204" y="195">testClock &gt; 1000</label>
+			<label kind="synchronisation" x="204" y="178">Vsignal!</label>
+			<label kind="assignment" x="204" y="161">heartClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id57"/>
+			<target ref="id56"/>
+			<label kind="guard" x="221" y="272">testClock &gt; 1000</label>
+			<label kind="synchronisation" x="246" y="246">Asignal!</label>
+			<label kind="assignment" x="229" y="229">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id58"/>
+			<target ref="id57"/>
+			<label kind="guard" x="357" y="272">testClock &gt; 100</label>
+			<label kind="synchronisation" x="374" y="238">Vsignal!</label>
+			<label kind="assignment" x="357" y="221">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id59"/>
+			<target ref="id58"/>
+			<label kind="guard" x="484" y="272">testClock &gt; 100</label>
+			<label kind="synchronisation" x="510" y="238">Asignal!</label>
+			<label kind="assignment" x="484" y="221">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id60"/>
+			<target ref="id59"/>
+			<label kind="guard" x="586" y="195">testClock &gt; 100</label>
+			<label kind="synchronisation" x="586" y="229">Vsignal!</label>
+			<label kind="assignment" x="586" y="212">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id61"/>
+			<target ref="id60"/>
+			<label kind="guard" x="586" y="119">testClock &gt; 500</label>
+			<label kind="synchronisation" x="586" y="153">Asignal!</label>
+			<label kind="assignment" x="586" y="136">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id63"/>
+			<target ref="id61"/>
+			<label kind="guard" x="467" y="119">testClock &gt; 100</label>
+			<label kind="synchronisation" x="501" y="93">Vsignal!</label>
+			<label kind="assignment" x="484" y="76">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id62"/>
+			<target ref="id63"/>
+			<label kind="synchronisation" x="382" y="93">Asignal!</label>
+		</transition>
+		<transition>
+			<source ref="id68"/>
+			<target ref="id62"/>
+			<label kind="assignment" x="221" y="93">testClock := 0</label>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id65"/>
+			<label kind="guard" x="-240" y="-176">heartClock &gt;= minwait_V</label>
+			<nail x="-272" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id64"/>
+			<label kind="guard" x="48" y="-176">heartClock &gt;= minwait_A</label>
+			<nail x="280" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id69"/>
+			<target ref="id66"/>
+			<label kind="synchronisation" x="-365" y="110">keypressV?</label>
+		</transition>
+		<transition>
+			<source ref="id69"/>
+			<target ref="id67"/>
+			<label kind="synchronisation" x="-212" y="221">keypressA?</label>
+		</transition>
+		<transition>
+			<source ref="id69"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="-170" y="-51">keypressR?</label>
+			<label kind="assignment" x="-204" y="-34">heartClock := 0</label>
+			<nail x="-110" y="-51"/>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="-85" y="-51">keypressM?</label>
+			<nail x="-68" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id69"/>
+			<target ref="id68"/>
+			<label kind="synchronisation" x="-34" y="136">keypressT?</label>
+			<nail x="0" y="136"/>
+		</transition>
+		<transition>
+			<source ref="id68"/>
+			<target ref="id69"/>
+			<label kind="synchronisation" x="-34" y="68">keypressM?</label>
+			<nail x="0" y="85"/>
+		</transition>
+		<transition>
+			<source ref="id70"/>
+			<target ref="id68"/>
+			<label kind="synchronisation" x="25" y="-51">keypressT?</label>
+			<nail x="76" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id68"/>
+			<target ref="id70"/>
+			<label kind="synchronisation" x="110" y="-51">keypressR?</label>
+			<label kind="assignment" x="119" y="-34">heartClock := 0</label>
+			<nail x="119" y="-68"/>
+		</transition>
+	</template>
+	<template>
+		<name>H_Signals_Received</name>
+		<location id="id71" x="240" y="0">
+			<name x="264" y="-8">r_Vsignal</name>
+			<committed/>
+		</location>
+		<location id="id72" x="-232" y="8">
+			<name x="-312" y="0">r_Asignal</name>
+			<committed/>
+		</location>
+		<location id="id73" x="0" y="0">
+		</location>
+		<init ref="id73"/>
+		<transition>
+			<source ref="id71"/>
+			<target ref="id73"/>
+			<nail x="176" y="-64"/>
+			<nail x="48" y="-64"/>
+		</transition>
+		<transition>
+			<source ref="id73"/>
+			<target ref="id71"/>
+			<label kind="synchronisation" x="112" y="64">Vsignal?</label>
+			<nail x="72" y="64"/>
+			<nail x="192" y="64"/>
+		</transition>
+		<transition>
+			<source ref="id72"/>
+			<target ref="id73"/>
+			<nail x="-176" y="-64"/>
+			<nail x="-56" y="-64"/>
+		</transition>
+		<transition>
+			<source ref="id73"/>
+			<target ref="id72"/>
+			<label kind="synchronisation" x="-144" y="64">Asignal?</label>
+			<nail x="-64" y="64"/>
+			<nail x="-168" y="64"/>
+		</transition>
+	</template>
+	<template>
+		<name>H_LED_Apace_CTRL</name>
+		<location id="id74" x="-488" y="120">
+			<committed/>
+		</location>
+		<location id="id75" x="-488" y="-32">
+		</location>
+		<init ref="id75"/>
+		<transition>
+			<source ref="id74"/>
+			<target ref="id75"/>
+			<label kind="synchronisation" x="-440" y="56">LED_heart_toggle[H_LED_APACE]!</label>
+			<nail x="-440" y="96"/>
+			<nail x="-440" y="24"/>
+		</transition>
+		<transition>
+			<source ref="id75"/>
+			<target ref="id74"/>
+			<label kind="synchronisation" x="-592" y="64">Apace?</label>
+			<nail x="-544" y="32"/>
+			<nail x="-544" y="96"/>
+		</transition>
+	</template>
+	<template>
+		<name>H_LED_Vpace_CTRL</name>
+		<location id="id76" x="8" y="48">
+			<committed/>
+		</location>
+		<location id="id77" x="8" y="-112">
+		</location>
+		<init ref="id77"/>
+		<transition>
+			<source ref="id76"/>
+			<target ref="id77"/>
+			<label kind="synchronisation" x="80" y="-16">LED_heart_toggle[H_LED_VPACE]!</label>
+			<nail x="72" y="24"/>
+			<nail x="72" y="-64"/>
+		</transition>
+		<transition>
+			<source ref="id77"/>
+			<target ref="id76"/>
+			<label kind="synchronisation" x="-112" y="-24">Vpace?</label>
+			<nail x="-56" y="-64"/>
+			<nail x="-56" y="24"/>
+		</transition>
+	</template>
+	<template>
+		<name>H_LED_Apace_heart_CTRL</name>
+		<location id="id78" x="0" y="144">
+			<committed/>
+		</location>
+		<location id="id79" x="0" y="0">
+		</location>
+		<init ref="id79"/>
+		<transition>
+			<source ref="id78"/>
+			<target ref="id79"/>
+			<label kind="synchronisation" x="56" y="64">LED_heart_toggle[H_LED_APACE_HEART]!</label>
+			<nail x="48" y="112"/>
+			<nail x="48" y="32"/>
+		</transition>
+		<transition>
+			<source ref="id79"/>
+			<target ref="id78"/>
+			<label kind="synchronisation" x="-120" y="64">Asignal?</label>
+			<nail x="-48" y="32"/>
+			<nail x="-48" y="104"/>
+		</transition>
+	</template>
+	<template>
+		<name>H_LED_Vpace_heart_CTRL</name>
+		<location id="id80" x="8" y="152">
+			<committed/>
+		</location>
+		<location id="id81" x="0" y="0">
+		</location>
+		<init ref="id81"/>
+		<transition>
+			<source ref="id80"/>
+			<target ref="id81"/>
+			<label kind="synchronisation" x="64" y="128">LED_heart_toggle[H_LED_VPACE_HEART]!</label>
+			<nail x="96" y="112"/>
+			<nail x="96" y="40"/>
+		</transition>
+		<transition>
+			<source ref="id81"/>
+			<target ref="id80"/>
+			<label kind="synchronisation" x="-144" y="72">Vsignal?</label>
+			<nail x="-72" y="48"/>
+			<nail x="-72" y="120"/>
+		</transition>
+	</template>
+	<system>// Pacemaker
 lri = PM_LRI();
 avi = PM_AVI();
 uri = PM_URI();
@@ -185,4 +1642,7 @@ system
 	H_led_Apace_heart_ctrl,
 	H_led_Vpace_heart_ctrl,
 	H_signals_received;
-</system></nta>
+</system>
+	<queries>
+	</queries>
+</nta>
