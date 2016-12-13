@@ -1439,63 +1439,97 @@ clock testClock;</declaration>
 	</template>
 	<template>
 		<name>H_Signals_Received</name>
-		<location id="id71" x="240" y="0">
+		<location id="id71" x="8" y="187">
+			<name x="-25" y="204">r_Vpace</name>
+			<committed/>
+		</location>
+		<location id="id72" x="0" y="-187">
+			<name x="-25" y="-221">r_Apace</name>
+			<committed/>
+		</location>
+		<location id="id73" x="240" y="0">
 			<name x="264" y="-8">r_Vsignal</name>
 			<committed/>
 		</location>
-		<location id="id72" x="-232" y="8">
+		<location id="id74" x="-232" y="8">
 			<name x="-312" y="0">r_Asignal</name>
 			<committed/>
 		</location>
-		<location id="id73" x="0" y="0">
+		<location id="id75" x="0" y="0">
 		</location>
-		<init ref="id73"/>
+		<init ref="id75"/>
 		<transition>
 			<source ref="id71"/>
-			<target ref="id73"/>
-			<nail x="176" y="-64"/>
-			<nail x="48" y="-64"/>
+			<target ref="id75"/>
+			<nail x="51" y="136"/>
+			<nail x="51" y="76"/>
 		</transition>
 		<transition>
-			<source ref="id73"/>
+			<source ref="id75"/>
 			<target ref="id71"/>
-			<label kind="synchronisation" x="112" y="64">Vsignal?</label>
-			<nail x="72" y="64"/>
-			<nail x="192" y="64"/>
+			<label kind="synchronisation" x="-85" y="93">Apace?</label>
+			<nail x="-34" y="68"/>
+			<nail x="-34" y="136"/>
 		</transition>
 		<transition>
 			<source ref="id72"/>
-			<target ref="id73"/>
-			<nail x="-176" y="-64"/>
-			<nail x="-56" y="-64"/>
+			<target ref="id75"/>
+			<nail x="-34" y="-127"/>
+			<nail x="-34" y="-68"/>
+		</transition>
+		<transition>
+			<source ref="id75"/>
+			<target ref="id72"/>
+			<label kind="synchronisation" x="51" y="-102">Vpace?</label>
+			<nail x="34" y="-59"/>
+			<nail x="34" y="-136"/>
 		</transition>
 		<transition>
 			<source ref="id73"/>
-			<target ref="id72"/>
-			<label kind="synchronisation" x="-144" y="64">Asignal?</label>
-			<nail x="-64" y="64"/>
-			<nail x="-168" y="64"/>
+			<target ref="id75"/>
+			<nail x="170" y="-34"/>
+			<nail x="76" y="-34"/>
+		</transition>
+		<transition>
+			<source ref="id75"/>
+			<target ref="id73"/>
+			<label kind="synchronisation" x="110" y="51">Vsignal?</label>
+			<nail x="68" y="42"/>
+			<nail x="195" y="42"/>
+		</transition>
+		<transition>
+			<source ref="id74"/>
+			<target ref="id75"/>
+			<nail x="-178" y="-42"/>
+			<nail x="-59" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id75"/>
+			<target ref="id74"/>
+			<label kind="synchronisation" x="-148" y="51">Asignal?</label>
+			<nail x="-68" y="51"/>
+			<nail x="-170" y="51"/>
 		</transition>
 	</template>
 	<template>
 		<name>H_LED_Apace_CTRL</name>
-		<location id="id74" x="-488" y="120">
+		<location id="id76" x="-488" y="120">
 			<name x="-510" y="136">flip_led</name>
 			<committed/>
 		</location>
-		<location id="id75" x="-488" y="-32">
+		<location id="id77" x="-488" y="-32">
 		</location>
-		<init ref="id75"/>
+		<init ref="id77"/>
 		<transition>
-			<source ref="id74"/>
-			<target ref="id75"/>
+			<source ref="id76"/>
+			<target ref="id77"/>
 			<label kind="synchronisation" x="-425" y="42">LED_heart_toggle[H_LED_APACE]!</label>
 			<nail x="-442" y="77"/>
 			<nail x="-442" y="17"/>
 		</transition>
 		<transition>
-			<source ref="id75"/>
-			<target ref="id74"/>
+			<source ref="id77"/>
+			<target ref="id76"/>
 			<label kind="synchronisation" x="-586" y="51">Apace?</label>
 			<nail x="-535" y="17"/>
 			<nail x="-535" y="85"/>
@@ -1503,23 +1537,23 @@ clock testClock;</declaration>
 	</template>
 	<template>
 		<name>H_LED_Vpace_CTRL</name>
-		<location id="id76" x="8" y="48">
+		<location id="id78" x="8" y="48">
 			<name x="-17" y="68">flip_led</name>
 			<committed/>
 		</location>
-		<location id="id77" x="8" y="-112">
+		<location id="id79" x="8" y="-112">
 		</location>
-		<init ref="id77"/>
+		<init ref="id79"/>
 		<transition>
-			<source ref="id76"/>
-			<target ref="id77"/>
+			<source ref="id78"/>
+			<target ref="id79"/>
 			<label kind="synchronisation" x="68" y="-42">LED_heart_toggle[H_LED_VPACE]!</label>
 			<nail x="59" y="8"/>
 			<nail x="59" y="-76"/>
 		</transition>
 		<transition>
-			<source ref="id77"/>
-			<target ref="id76"/>
+			<source ref="id79"/>
+			<target ref="id78"/>
 			<label kind="synchronisation" x="-102" y="-42">Vpace?</label>
 			<nail x="-42" y="-68"/>
 			<nail x="-42" y="8"/>
@@ -1527,23 +1561,23 @@ clock testClock;</declaration>
 	</template>
 	<template>
 		<name>H_LED_Apace_heart_CTRL</name>
-		<location id="id78" x="0" y="144">
+		<location id="id80" x="0" y="144">
 			<name x="-25" y="161">flip_led</name>
 			<committed/>
 		</location>
-		<location id="id79" x="0" y="0">
+		<location id="id81" x="0" y="0">
 		</location>
-		<init ref="id79"/>
+		<init ref="id81"/>
 		<transition>
-			<source ref="id78"/>
-			<target ref="id79"/>
+			<source ref="id80"/>
+			<target ref="id81"/>
 			<label kind="synchronisation" x="56" y="64">LED_heart_toggle[H_LED_APACE_HEART]!</label>
 			<nail x="48" y="112"/>
 			<nail x="48" y="32"/>
 		</transition>
 		<transition>
-			<source ref="id79"/>
-			<target ref="id78"/>
+			<source ref="id81"/>
+			<target ref="id80"/>
 			<label kind="synchronisation" x="-120" y="64">Asignal?</label>
 			<nail x="-48" y="32"/>
 			<nail x="-48" y="104"/>
@@ -1551,23 +1585,23 @@ clock testClock;</declaration>
 	</template>
 	<template>
 		<name>H_LED_Vpace_heart_CTRL</name>
-		<location id="id80" x="8" y="152">
+		<location id="id82" x="8" y="152">
 			<name x="-17" y="170">flip_led</name>
 			<committed/>
 		</location>
-		<location id="id81" x="8" y="0">
+		<location id="id83" x="8" y="0">
 		</location>
-		<init ref="id81"/>
+		<init ref="id83"/>
 		<transition>
-			<source ref="id80"/>
-			<target ref="id81"/>
+			<source ref="id82"/>
+			<target ref="id83"/>
 			<label kind="synchronisation" x="68" y="68">LED_heart_toggle[H_LED_VPACE_HEART]!</label>
 			<nail x="59" y="119"/>
 			<nail x="59" y="34"/>
 		</transition>
 		<transition>
-			<source ref="id81"/>
-			<target ref="id80"/>
+			<source ref="id83"/>
+			<target ref="id82"/>
 			<label kind="synchronisation" x="-110" y="68">Vsignal?</label>
 			<nail x="-42" y="42"/>
 			<nail x="-42" y="110"/>
@@ -1648,5 +1682,180 @@ system
 	H_signals_received;
 </system>
 	<queries>
+		<query>
+			<formula>A[] (clk &gt;= TURI) || (clk &lt; TURI &amp;&amp; (!uri.interVpace || !uri.just_started || !PM_keyboard.manual))
+			</formula>
+			<comment>URI check. Main part of query is ANDed sequence at the end: we want to see if it's always true that: we haven't just started (avoids failing at first ventricular event), are in interVpace (just received Vpace), we haven't exceeded TURI, and we are not in keyboard mode (keyboard mode lets us pace at any time).
+ORed variables negate ANDed sequence except for clk &gt;= TURI, keeping query valid when any one of other expressions isn't true at a given time.
+			</comment>
+		</query>
+		<query>
+			<formula>A[] lri.lri_t &lt;= TLRI or (PM_keyboard.manual) or lri.ASed
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>avi.AVI --&gt; (avi.Idle &amp;&amp; avi.avi_t &lt;= TAVI)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (Vsignal --&gt; Vget)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>avi.AVI --&gt; (signals_received.r_Vpace and avi.avi_t &gt;= TAVI) or not signals_received.r_Vpace
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (clk &gt;= TURI and clk &lt;= TLRI imply not (speaker.playingLow or speaker.playingHigh))
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(clk &lt; TURI &amp;&amp; (signals_received.r_Vpace || signals_received.r_Vget) &amp;&amp; !uri.just_started &amp;&amp; !PM_keyboard.manual) --&gt; speaker.playingHigh
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(led_apace.on and signals_received.r_Apace) --&gt; led_apace.off
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(!ledOn[LED_APACE] and signals_received.r_Apace) --&gt; led_apace.turnOn
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(ledOn[LED_APACE] and signals_received.r_Apace) --&gt; led_apace.turnOff
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(!ledOn[LED_VPACE] and signals_received.r_Vpace) --&gt; led_vpace.turnOn
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(ledOn[LED_VPACE] and signals_received.r_Vpace) --&gt; led_vpace.turnOff
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(!ledOn[LED_AGET] and signals_received.r_Aget) --&gt; led_aget.turnOn
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(ledOn[LED_AGET] and signals_received.r_Aget) --&gt; led_aget.turnOff
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(ledOn[LED_VGET] and signals_received.r_Vget) --&gt; led_vget.turnOff
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (obs_interval == 1000 imply obs_interval == 100)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (obs_interval == 100 imply obs_interval == 1000)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(pvarp.PVARP and (signals_received.r_Aget or signals_received.r_Apace)) --&gt; (pvarp.t &lt;= TPVARP and not signals_received.r_Vpace) or pvarp.t &gt; TPVARP
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(vrp.VRP and signals_received.r_Vget) --&gt; (vrp.t &lt;= TVRP and not vrp.inter) or vrp.t &gt; TVRP
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (H_led_HVpace.off and H_signals_received.r_Vsignal) imply H_led_HVpace.on
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (H_led_HVpace.on and H_signals_received.r_Vsignal) imply H_led_HVpace.off
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (H_led_HApace.on and H_signals_received.r_Asignal) imply H_led_HApace.off
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (H_led_HApace.off and H_signals_received.r_Asignal) imply H_led_HApace.on
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (H_led_Vpace.on and signals_received.r_Vpace) imply H_led_Vpace.off
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (H_led_Vpace.off and signals_received.r_Vpace) imply H_led_Vpace.on
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (H_led_Apace.on and signals_received.r_Apace) imply H_led_Apace.off
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>(H_led_HVpace.off and H_signals_received.r_Vsignal) --&gt; H_led_HVpace.on
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; (H_led_Apace.off and signals_received.r_Apace) imply H_led_Apace.on
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not deadlock
+			</formula>
+			<comment>
+			</comment>
+		</query>
 	</queries>
 </nta>
