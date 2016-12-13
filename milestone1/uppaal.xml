@@ -1480,6 +1480,7 @@ clock testClock;</declaration>
 	<template>
 		<name>H_LED_Apace_CTRL</name>
 		<location id="id74" x="-488" y="120">
+			<name x="-510" y="136">flip_led</name>
 			<committed/>
 		</location>
 		<location id="id75" x="-488" y="-32">
@@ -1488,21 +1489,22 @@ clock testClock;</declaration>
 		<transition>
 			<source ref="id74"/>
 			<target ref="id75"/>
-			<label kind="synchronisation" x="-440" y="56">LED_heart_toggle[H_LED_APACE]!</label>
-			<nail x="-440" y="96"/>
-			<nail x="-440" y="24"/>
+			<label kind="synchronisation" x="-425" y="42">LED_heart_toggle[H_LED_APACE]!</label>
+			<nail x="-442" y="77"/>
+			<nail x="-442" y="17"/>
 		</transition>
 		<transition>
 			<source ref="id75"/>
 			<target ref="id74"/>
-			<label kind="synchronisation" x="-592" y="64">Apace?</label>
-			<nail x="-544" y="32"/>
-			<nail x="-544" y="96"/>
+			<label kind="synchronisation" x="-586" y="51">Apace?</label>
+			<nail x="-535" y="17"/>
+			<nail x="-535" y="85"/>
 		</transition>
 	</template>
 	<template>
 		<name>H_LED_Vpace_CTRL</name>
 		<location id="id76" x="8" y="48">
+			<name x="-17" y="68">flip_led</name>
 			<committed/>
 		</location>
 		<location id="id77" x="8" y="-112">
@@ -1511,21 +1513,22 @@ clock testClock;</declaration>
 		<transition>
 			<source ref="id76"/>
 			<target ref="id77"/>
-			<label kind="synchronisation" x="80" y="-16">LED_heart_toggle[H_LED_VPACE]!</label>
-			<nail x="72" y="24"/>
-			<nail x="72" y="-64"/>
+			<label kind="synchronisation" x="68" y="-42">LED_heart_toggle[H_LED_VPACE]!</label>
+			<nail x="59" y="8"/>
+			<nail x="59" y="-76"/>
 		</transition>
 		<transition>
 			<source ref="id77"/>
 			<target ref="id76"/>
-			<label kind="synchronisation" x="-112" y="-24">Vpace?</label>
-			<nail x="-56" y="-64"/>
-			<nail x="-56" y="24"/>
+			<label kind="synchronisation" x="-102" y="-42">Vpace?</label>
+			<nail x="-42" y="-68"/>
+			<nail x="-42" y="8"/>
 		</transition>
 	</template>
 	<template>
 		<name>H_LED_Apace_heart_CTRL</name>
 		<location id="id78" x="0" y="144">
+			<name x="-25" y="161">flip_led</name>
 			<committed/>
 		</location>
 		<location id="id79" x="0" y="0">
@@ -1549,24 +1552,25 @@ clock testClock;</declaration>
 	<template>
 		<name>H_LED_Vpace_heart_CTRL</name>
 		<location id="id80" x="8" y="152">
+			<name x="-17" y="170">flip_led</name>
 			<committed/>
 		</location>
-		<location id="id81" x="0" y="0">
+		<location id="id81" x="8" y="0">
 		</location>
 		<init ref="id81"/>
 		<transition>
 			<source ref="id80"/>
 			<target ref="id81"/>
-			<label kind="synchronisation" x="64" y="128">LED_heart_toggle[H_LED_VPACE_HEART]!</label>
-			<nail x="96" y="112"/>
-			<nail x="96" y="40"/>
+			<label kind="synchronisation" x="68" y="68">LED_heart_toggle[H_LED_VPACE_HEART]!</label>
+			<nail x="59" y="119"/>
+			<nail x="59" y="34"/>
 		</transition>
 		<transition>
 			<source ref="id81"/>
 			<target ref="id80"/>
-			<label kind="synchronisation" x="-144" y="72">Vsignal?</label>
-			<nail x="-72" y="48"/>
-			<nail x="-72" y="120"/>
+			<label kind="synchronisation" x="-110" y="68">Vsignal?</label>
+			<nail x="-42" y="42"/>
+			<nail x="-42" y="110"/>
 		</transition>
 	</template>
 	<system>// Pacemaker
