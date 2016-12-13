@@ -139,4 +139,29 @@ A<> (H_led_Apace.off and signals_received.r_Apace) imply H_led_Apace.on
 /*
 
 */
+(generator.waiting and H_signals_received.r_Vsignal) --> generator.gotV
+
+/*
+
+*/
+(generator.waiting and H_signals_received.r_Apace) --> generator.gotA
+
+/*
+
+*/
+(generator.waiting and H_signals_received.r_Vpace) --> generator.gotV
+
+/*
+
+*/
+(responder.Manual_V)  --> generator.gotV
+
+/*
+
+*/
+(responder.Manual_V)  --> generator.gotV
+
+/*
+
+*/
 A[] not deadlock
